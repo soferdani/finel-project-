@@ -3,23 +3,32 @@ import { useHistory } from "react-router-dom";
 import { Button, Grid, InputAdornment, InputBase, makeStyles, Paper, TextField, Typography } from '@material-ui/core'
 import EmailIcon from '@material-ui/icons/Email'
 import LockIcon from '@material-ui/icons/Lock'
+import { Auth } from 'aws-amplify'
 import Axios from "axios";
 import ErrorNotice from "../misc/ErrorNotice";
 import logo from '../../HatchfulExport-All/logo_transparent.png'
 
 const useStyles = makeStyles({
-    paper:{
-        width: '100%'
+    paperCard:{
+        width: '100%',
+        padding: '20px',
+        paddingBottom: '0px'
     },
     logo:{
         height: '200px'
     },
-    inputBox: {
+    inputContainer: {
         marginTop: '20px',
-        marginBottom: '20px'
+        marginBottom: '40px'
     },
-    iconBox: {
-        backgroundColor: '#e76f51',
+    inputPaper: {
+        padding: '2px 4px',
+        display: 'flex',
+        alignItems: 'center'
+    },
+    icon: {
+        padding: '3px',
+        marginRight: '10px'
     }
 })
 
@@ -27,81 +36,70 @@ export default function Login() {
 
     const classes = useStyles()
 
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState();
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [error, setError] = useState()
 
-    const history = useHistory();
+    const history = useHistory()
 
     const submit = async (e) => {
         try {
-            const loginUser = { email, password };
-            const loginRes = await Axios.post(
-                "http://localhost:3001/user/login",
-                loginUser
-            )
 
-        localStorage.setItem("auth-token", loginRes.data.token)
+        const loginRes = await Auth.signIn(email, password)
+
+        // localStorage.setItem("auth-token", loginRes.data.token)
     
         history.push("/home");
         } catch (err) {
-            err.response.data.msg && setError(err.response.data.msg);
+            err.message && setError(err.message)
         }
     }
+ 
 
     return (
-        <Grid item xs={12} md={4} container justify='center' align='center'>
-            <Paper elevation={3} className={classes.paper}>
-                <Grid item xs={12} container direction='column'>
-                    <Grid item xs={12}>
-                        <img src={logo} alt='logo' className={classes.logo}/>
-                        <Typography variant="h5">
-                            Login
-                        </Typography>
-                        {error && (
-                            <ErrorNotice message={error} clearError={() => setError(undefined)} />
-                        )}
-                        
-                        <Grid item xs={7} className={classes.inputBox}>
-                            <Paper > 
-                                <EmailIcon />
-                                <InputBase
-                                    className={classes.margin}
-                                    fullWidth
-                                    id="input-with-icon-textfield"
-                                    placeholder="Email"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                /> 
-                            </Paper> 
-                        </Grid>
-
-                        <Grid item xs={7} container direction='row' className={classes.inputBox}>
-                            <Grid 
-                                item 
-                                xs={2} 
-                                container 
-                                justify='center' 
-                                alignItems='center'
-                                className={classes.iconBox}
-                            >
-                                <LockIcon />
-                            </Grid>
-                            <Grid item xs={10}>
-                                <InputBase
-                                    fullWidth
-                                    className={classes.margin}
-                                    id="input-with-icon-textfield"
-                                    placeholder="Password"
-                                    type='password'
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                /> 
-                            </Grid>
-                        </Grid>
+        <Grid item xs={12} md={4} container >
+            <Paper elevation={3} className={classes.paperCard}>
+                <Grid item xs={12} container justify='center' alignItems='center' direction='column'>
+                    <img src={logo} alt='logo' className={classes.logo}/>
+                    <Typography variant="h5">
+                        Login
+                    </Typography>
+                    {error && (
+                        <ErrorNotice message={error} clearError={() => setError(undefined)} />
+                    )}
+                    
+                    <Grid item xs={8} className={classes.inputContainer}>
+                        <Paper component="form" className={classes.inputPaper} > 
+                            <EmailIcon className={classes.icon} />
+                            <InputBase
+                                className={classes.margin}
+                                fullWidth
+                                id="input-with-icon-textfield"
+                                placeholder="Email"
+                                type='email'
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                            /> 
+                        </Paper> 
                     </Grid>
-                    <Button onClick={submit} variant='contained'>LOGIN</Button>
+
+                    <Grid item xs={8} className={classes.inputContainer}>
+                        <Paper component="form" className={classes.inputPaper} > 
+                            <LockIcon className={classes.icon} />
+                            <InputBase
+                                className={classes.margin}
+                                fullWidth
+                                id="input-with-icon-textfield"
+                                placeholder="Password"
+                                type='password'
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                            /> 
+                        </Paper> 
+                    </Grid>
+
                 </Grid>
+                <Button onClick={submit} variant='contained'>LOGIN</Button>
             </Paper>
         </Grid>
     )

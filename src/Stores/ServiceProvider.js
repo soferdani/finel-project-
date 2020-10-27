@@ -1,23 +1,17 @@
-import { makeObservable, observable } from 'mobx'
+import { 
+    makeObservable, 
+    observable, 
+    action, 
+    computed 
+} from 'mobx'
+import User from './User'
 
-export default class ServiceProvider {
-    constructor(serviceProvider) {
-        this.id = serviceProvider.id
-        this.img = serviceProvider.img
-        this.firstName = serviceProvider.firstName
-        this.lastName = serviceProvider.lastName
-        this.email = serviceProvider.email
-        this.phone = serviceProvider.phone
-        this.dateJoin = serviceProvider.dateJoin
-        this.properties = []
+export default class ServiceProvider extends User {
+    constructor() {
+
+        super()
+
         makeObservable(this, {
-            id: observable,
-            img: observable,
-            firstName: observable,
-            lastName: observable,
-            email: observable,
-            phone: observable,
-            dateJoin: observable,
         })
     }
 }

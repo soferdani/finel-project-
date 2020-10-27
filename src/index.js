@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'mobx-react'
 import App from './App';
-import AuthConfig from '../config/AuthConfig';
+import AuthConfig from './config/AuthConfig';
 import { Amplify } from 'aws-amplify';
 import reportWebVitals from './reportWebVitals';
 import Manager from './Stores/Manager';
@@ -19,8 +19,8 @@ Amplify.configure({
   },
 });
 
-const manager = new Manager();
-const serviceProvider = new ServiceProvider();
+const manager = new Manager()
+const serviceProvider = new ServiceProvider()
 
 const stores = { manager, serviceProvider }
 
