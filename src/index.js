@@ -14,7 +14,7 @@ const stores = { manager, serviceProvider }
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider stores={...stores}>
+    <Provider {...stores}>
       <App />
     </Provider>
   </React.StrictMode>,
