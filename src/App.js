@@ -9,7 +9,7 @@ import Login from './components/auth/Login';
 function App() {
 
   return (
-    <Grid container justify='center' align='center'>
+    <Grid >
       <Router>
         <Route exact path='/'>
           <Redirect to='/login' />
