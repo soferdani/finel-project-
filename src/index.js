@@ -17,7 +17,7 @@ Amplify.configure({
     identityPoolId: AuthConfig.cognito.IDENTITY_POOL_ID,
     userPoolWebClientId: AuthConfig.cognito.APP_CLIENT_ID
   },
-});
+})
 
 const manager = new Manager()
 const serviceProvider = new ServiceProvider()

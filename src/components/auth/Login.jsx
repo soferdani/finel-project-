@@ -13,15 +13,15 @@ const useStyles = makeStyles({
         width: '100%'
     },
     logo:{
-        height: '200px'
+        height: '250px'
     },
     title:{
         fontFamily: "'Montserrat', sans-serif",
-        marginBottom: '20px'
+        marginBottom: '25px'
     },
     inputContainer: {
-        marginTop: '20px',
-        marginBottom: '40px'
+        marginTop: '25px',
+        marginBottom: '45px'
     },
     inputPaper: {
         padding: '2px 4px',
@@ -34,9 +34,10 @@ const useStyles = makeStyles({
     },
     button: {
         width: '100%',
-        backgroundColor: '#264653',
+        backgroundColor: '#023047',
         color: 'white',
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        marginTop: '35px'
     }
 })
 
@@ -52,12 +53,9 @@ export default function Login() {
 
     const submit = async (e) => {
         try {
-
-        const loginRes = await Auth.signIn(email, password)
-
-        // localStorage.setItem("auth-token", loginRes.data.token)
-    
-        history.push("/home");
+            const loginRes = await Auth.signIn(email, password)
+            
+            history.push("/home");
         } catch (err) {
             err.message && setError(err.message)
         }
@@ -66,7 +64,7 @@ export default function Login() {
 
     return (
         <div id='login-card'>
-            <Grid item xs={12} md={3} container>
+            <Grid item xs={12} md={4} container className={classes.paperLoginContainer}>
                 <Paper elevation={3} className={classes.paperCard}>
                     <Grid item xs={12} container justify='center' alignItems='center' direction='column'>
                         <img src={logo} alt='logo' className={classes.logo}/>
@@ -77,7 +75,7 @@ export default function Login() {
                             <ErrorNotice message={error} clearError={() => setError(undefined)} />
                         )}
                         
-                        <Grid item xs={8} className={classes.inputContainer}>
+                        <Grid item xs={10} className={classes.inputContainer}>
                             <Paper component="form" className={classes.inputPaper} > 
                                 <EmailIcon className={classes.icon} />
                                 <InputBase
@@ -92,7 +90,7 @@ export default function Login() {
                             </Paper> 
                         </Grid>
 
-                        <Grid item xs={8} className={classes.inputContainer}>
+                        <Grid item xs={10} className={classes.inputContainer}>
                             <Paper component="form" className={classes.inputPaper} > 
                                 <LockIcon className={classes.icon} />
                                 <InputBase
