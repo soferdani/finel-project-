@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { Button, Grid, InputBase, makeStyles, Paper, Typography } from '@material-ui/core'
 import EmailIcon from '@material-ui/icons/Email'
 import LockIcon from '@material-ui/icons/Lock'
@@ -41,21 +41,24 @@ const useStyles = makeStyles({
     }
 })
 
-export default function Login() {
+export default function Login(props) {
 
     const classes = useStyles()
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [error, setError] = useState()
+    const [isLoading, setIsLoading] = useState(false)
 
     const history = useHistory()
 
     const submit = async (e) => {
+        setIsLoading(true)
+
         try {
             const loginRes = await Auth.signIn(email, password)
-            
-            history.push("/home");
+            props.userHasAuthenticated(true)
+            history.push("/home")
         } catch (err) {
             err.message && setError(err.message)
         }
@@ -63,7 +66,7 @@ export default function Login() {
  
 
     return (
-        <div id='login-card'>
+        <div id='login-signup-card'>
             <Grid item xs={12} md={4} container className={classes.paperLoginContainer}>
                 <Paper elevation={3} className={classes.paperCard}>
                     <Grid item xs={12} container justify='center' alignItems='center' direction='column'>
@@ -74,7 +77,6 @@ export default function Login() {
                         {error && (
                             <ErrorNotice message={error} clearError={() => setError(undefined)} />
                         )}
-                        
                         <Grid item xs={10} className={classes.inputContainer}>
                             <Paper component="form" className={classes.inputPaper} > 
                                 <EmailIcon className={classes.icon} />
@@ -106,6 +108,9 @@ export default function Login() {
                         </Grid>
 
                     </Grid>
+                    <Typography variant='subtitle1'>
+                        Not a user? <Link to='/signup'>Sign Up</Link>
+                    </Typography>
                     <Button 
                         onClick={submit} 
                         variant='contained' 
