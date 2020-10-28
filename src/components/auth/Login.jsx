@@ -4,9 +4,9 @@ import { Button, Grid, InputBase, makeStyles, Paper, Typography } from '@materia
 import EmailIcon from '@material-ui/icons/Email'
 import LockIcon from '@material-ui/icons/Lock'
 import { Auth } from 'aws-amplify'
-import Axios from "axios";
-import ErrorNotice from "../misc/ErrorNotice";
+import ErrorNotice from "../misc/ErrorNotice"
 import logo from '../../HatchfulExport-All/logo_transparent.png'
+import { inject, observer } from "mobx-react"
 
 const useStyles = makeStyles({
     paperCard:{
@@ -41,7 +41,9 @@ const useStyles = makeStyles({
     }
 })
 
-export default function Login(props) {
+const Login = inject('user')(observer((props) => {
+
+    const {user} = props
 
     const classes = useStyles()
 
@@ -56,8 +58,8 @@ export default function Login(props) {
         setIsLoading(true)
 
         try {
-            const loginRes = await Auth.signIn(email, password)
-            props.userHasAuthenticated(true)
+            await Auth.signIn(email, password)
+            user.userHasAuthenticated(email, true)
             history.push("/home")
         } catch (err) {
             err.message && setError(err.message)
@@ -122,4 +124,6 @@ export default function Login(props) {
             </Grid>
         </div>
     )
-}
+}))
+
+export default Login

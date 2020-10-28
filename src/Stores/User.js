@@ -4,14 +4,14 @@ import {
     action,
     computed
 } from 'mobx';
-import { Property, Todo } from '../Stores'
-import { UserService as userService } from '../Services/UserService'
-const UserService = userService()
+import Todo from '../Stores/Todo'
+import Property from '../Stores/Property'
+import UserService  from '../Services/UserService'
 
 export default class User {
 
     constructor() {
-        this.isAuth = false
+        this.isAuthenticated = false
         this.id = ''
         this.img = ''
         this.firstName = ''
@@ -23,6 +23,7 @@ export default class User {
         this.properties = []
 
         makeObservable(this, {
+            isAuthenticated: observable,
             id: observable,
             img: observable,
             firstName: observable,
@@ -31,8 +32,8 @@ export default class User {
             phone: observable,
             dateJoin: observable,
             properties: observable,
-            userIsAuth: action,
-            loadUserDitails: action,
+            userHasAuthenticated: action,
+            loadUserDetails: action,
             loadUserProperties: action,
             loadProperteisTodos: action,
             addNewProperty: action,
@@ -46,21 +47,21 @@ export default class User {
         })
     };
 
-    userIsAuth = async (email, bool) => {
+    userHasAuthenticated = async (email = undefined, bool) => {
         try {
-            this.isAuth = bool
-            if (this.isAuth) {
-                await this.loadUserDitails(email)
+            this.isAuthenticated = bool
+            if (this.isAuthenticated && email) {
+                await this.loadUserDetails(email)
                 await this.loadUserProperties()
                 await this.loadProperteisTodos()
             }
         } catch (error) {
             console.log(error);
         }
-    };
+    }
 
-    loadUserDitails = async (email) => {
-        const user = await UserService.getUserDitails(email)
+    loadUserDetails = async (email) => {
+        const user = await UserService().getUserDetails(email)
         this.id = user.id
         this.img = user.img
         this.firstName = user.firstName
@@ -71,7 +72,7 @@ export default class User {
     };
 
     loadUserProperties = async () => {
-        const userProperties = await UserService.getUserProperties(this.id)
+        const userProperties = await UserService().getUserProperties(this.id)
         userProperties.forEach(p => {
             this.properties.push(new Property(p))
         })
@@ -80,7 +81,7 @@ export default class User {
 
     loadProperteisTodos = async () => {
         for (let property of this.properties) {
-            let todoList = await UserService.getPropertyTodo(property.id)
+            let todoList = await UserService().getPropertyTodo(property.id)
             todoList.forEach(todo => {
                 property.todoList.push(new Todo(todo))
             })
@@ -90,7 +91,7 @@ export default class User {
     addNewProperty = async (property) => {
         if (this.type === 1) {
             const propertyDetails = { manager: this.id, ...property }
-            await UserService.addNewProperty(propertyDetails)
+            await UserService().addNewProperty(propertyDetails)
             this.properties.push(new Property(property))
         }
         else {
@@ -103,7 +104,7 @@ export default class User {
             const property = this.properties.find(p => p.id === propertyId)
             property.todoList.push(new Todo(todoDetails))
             const todo = { property: property.id, ...todoDetails }
-            await UserService.addNewTodo(todo)
+            await UserService().addNewTodo(todo)
         }
         else {
             console.log('You dont have prommision');
@@ -111,7 +112,7 @@ export default class User {
     };
 
     updateUserDetails = async (userDetails) => {
-        await updateDetails(this.id, userDetails);
+        await UserService().updateDetails(this.id, userDetails);
         for (let prop in userDetails) {
             this[prop] = userDetails[prop]
         }
@@ -120,7 +121,7 @@ export default class User {
     updatePropertyDetails = async (propertyId, updateDetails) => {
         if (this.type === 1) {
             const property = this.properties.find(p => p.id === propertyId)
-            await UserService.updateProperty(property.id, updateDetails)
+            await UserService().updateProperty(property.id, updateDetails)
             for (let prop in updateDetails) {
                 property[prop] = updateDetails[prop]
             }

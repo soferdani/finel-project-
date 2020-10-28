@@ -9,12 +9,11 @@ import Container from './components/Layout/Container';
 import Signup from './components/auth/Signup';
 import { inject, observer } from 'mobx-react';
 
-const App = inject('user')(observer(() => {
+const App = inject('user')(observer((props) => {
 
-  const history = useHistory()
+  const { user } = props
 
-  const [isAuthenticating, setIsAuthenticating] = useState(true)
-  const [isAuthenticated, userHasAuthenticated] = useState(false)
+  const [IsAuthenticating, setIsAuthenticating] = useState(true)
 
   useEffect(() => {
     onLoad();
@@ -22,8 +21,8 @@ const App = inject('user')(observer(() => {
 
   const onLoad = async () => {
     try {
-      await Auth.currentSession()
-      userHasAuthenticated(true)
+      const session = await Auth.currentSession()
+      user.userHasAuthenticated(session.idToken.payload.email, true)
     }
     catch(e) {
       if (e !== 'No current user') {
@@ -36,21 +35,20 @@ const App = inject('user')(observer(() => {
 
   const handleLogout = async () => {
     await Auth.signOut()
-    userHasAuthenticated(false)
+    user.userHasAuthenticated(false)
     return <Redirect to='/login' />
   }
 
   return (
     <Grid >
       <Router>
-        {isAuthenticated === true
+        {user.isAuthenticated === true
           ?   <Redirect from='/' to='/home' />
           :   <Redirect from='/' to='/login' />}
         <Route 
           path='/login' 
           exact render={({ match }) => 
             <Login 
-              userHasAuthenticated={userHasAuthenticated}
               match={match} 
             />
           }
@@ -59,7 +57,6 @@ const App = inject('user')(observer(() => {
           path='/signup' 
           exact render={({ match }) => 
             <Signup 
-              userHasAuthenticated={userHasAuthenticated}
               match={match} 
             />
           }

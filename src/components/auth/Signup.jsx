@@ -1,12 +1,15 @@
 import { Button, Grid, MenuItem, TextField, Typography } from '@material-ui/core';
 import { Auth } from 'aws-amplify';
+import { inject, observer } from 'mobx-react';
 import React, { useState } from 'react'
 import { useHistory } from "react-router-dom"
 import ErrorNotice from "../misc/ErrorNotice";
 
-export default function Signup(props) {
+const Signup = inject('user')(observer((props) => {
 
     const types = ['Manager', 'Electricity', 'Plumbing', 'Pool']
+
+    const { user } = props
 
     const [fields, setFields] = useState({
         firstName: "",
@@ -22,14 +25,14 @@ export default function Signup(props) {
     const history = useHistory()
     const [error, setError] = useState()
     const [newUser, setNewUser] = useState(null)
-    const { userHasAuthenticated } = props
     const [isLoading, setIsLoading] = useState(false)
 
     const validateForm = () => {
         return (
           fields.email.length > 0 &&
           fields.password.length > 0 &&
-          fields.password === fields.confirmPassword
+          fields.password === fields.confirmPassword &&
+          fields.userType !== ""
         )
     }
 
@@ -59,7 +62,7 @@ export default function Signup(props) {
         try {
             await Auth.confirmSignUp(fields.email, fields.confirmationCode)
             await Auth.signIn(fields.email, fields.password)
-            userHasAuthenticated(true)
+            user.userHasAuthenticated(fields.email, true)
             history.push("/home")
         } catch (err) {
             err.message && setError(err.message)
@@ -200,4 +203,6 @@ export default function Signup(props) {
         </div>
       )
 
-}
+}))
+
+export default Signup
