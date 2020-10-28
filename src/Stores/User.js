@@ -2,11 +2,10 @@ import {
     makeObservable,
     observable,
     action,
-    computed
 } from 'mobx';
 import Todo from '../Stores/Todo'
 import Property from '../Stores/Property'
-import UserService  from '../Services/UserService'
+import UserService from '../Services/UserService'
 
 export default class User {
 
@@ -55,6 +54,18 @@ export default class User {
                 await this.loadUserProperties()
                 await this.loadProperteisTodos()
             }
+            else {
+                this.isAuthenticated = false
+                this.id = ''
+                this.img = ''
+                this.firstName = ''
+                this.lastName = ''
+                this.email = ''
+                this.phone = ''
+                this.dateJoin = ''
+                this.type = null
+                this.properties = []
+            }
         } catch (error) {
             console.log(error);
         }
@@ -69,19 +80,21 @@ export default class User {
         this.email = user.email
         this.phone = user.phone
         this.dateJoin = user.dateJoin
+        this.type = user.type
     };
 
     loadUserProperties = async () => {
         const userProperties = await UserService().getUserProperties(this.id)
+        console.log(userProperties)
         userProperties.forEach(p => {
             this.properties.push(new Property(p))
         })
-
     };
 
     loadProperteisTodos = async () => {
         for (let property of this.properties) {
             let todoList = await UserService().getPropertyTodo(property.id)
+            console.log(todoList);
             todoList.forEach(todo => {
                 property.todoList.push(new Todo(todo))
             })

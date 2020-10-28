@@ -7,13 +7,13 @@ const UserService = function () {
         return user.data
     }
 
-    const getUserProperties = async (userId) => {
-        const userProperties = await axios.get(`http://localhost:3001/properties/${userId}`)
+    const getUserProperties = async (id) => {
+        const userProperties = await axios.get(`http://localhost:3001/properties/${id}`)
         return userProperties.data
     }
 
-    const getPropertyTodo = async (propertyId) => {
-        const todoList = await axios.get(`http://localhost:3001/todo/${propertyId}`)
+    const getPropertyTodo = async (id) => {
+        const todoList = await axios.get(`http://localhost:3001/todos/${id}`)
         return todoList.data
     }
 
