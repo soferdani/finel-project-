@@ -5,7 +5,7 @@ export default class Todo {
         this.id = todo.id
         this.type = todo.type
         this.task = todo.task
-        this.isComplet = todo.isComplet
+        this.isComplete = todo.isComplete
         
         makeObservable(this, {
             id: observable,
