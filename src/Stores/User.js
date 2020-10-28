@@ -50,8 +50,7 @@ export default class User {
         try {
             this.isAuth = bool
             if (this.isAuth) {
-                const userData = await UserService.getUserDitails(email)
-                this.loadUser(userData)
+                await this.loadUserDitails(email)
                 await this.loadUserProperties()
                 await this.loadProperteisTodos()
             }
@@ -60,7 +59,8 @@ export default class User {
         }
     };
 
-    loadUserDitails = async (user) => {
+    loadUserDitails = async (email) => {
+        const user = await UserService.getUserDitails(email)
         this.id = user.id
         this.img = user.img
         this.firstName = user.firstName
