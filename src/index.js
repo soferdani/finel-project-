@@ -4,9 +4,8 @@ import { Provider } from 'mobx-react'
 import App from './App';
 import AuthConfig from './config/AuthConfig';
 import { Amplify } from 'aws-amplify';
+import User from './Stores/User'
 import reportWebVitals from './reportWebVitals';
-import Manager from './Stores/Manager';
-import ServiceProvider from './Stores/ServiceProvider';
 import './index.css';
 
 Amplify.configure({
@@ -19,14 +18,11 @@ Amplify.configure({
   },
 })
 
-const manager = new Manager()
-const serviceProvider = new ServiceProvider()
-
-const stores = { manager, serviceProvider }
+const user = new User()
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider {...stores}>
+    <Provider user={user}>
       <App />
     </Provider>
   </React.StrictMode>,
