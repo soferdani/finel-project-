@@ -14,7 +14,7 @@ const Container = inject('user')(observer((props) => {
     async function handleLogout() {
         await Auth.signOut()
         user.userHasAuthenticated(false)
-        history.push('/')
+        history.push('/login')
     }
 
     return (

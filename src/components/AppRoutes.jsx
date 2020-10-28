@@ -11,11 +11,10 @@ const Routes = inject('user')(observer((props) => {
 
     return (
         <Router>
-            <Route exact path='/'>
-                {user.isAuthenticated === true
+            {user.isAuthenticated === true
                 ?   <Redirect from='/' to='/home' />
-                :   <Redirect from='/' to='/login' />}
-            </Route>
+                :   <Redirect from='/' to='/login' />
+            }
             <Route 
             path='/login' 
             exact render={({ match }) => 
