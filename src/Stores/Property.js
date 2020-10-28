@@ -6,15 +6,15 @@ export default class Property {
         this.img = property.img
         this.addres = property.addres
         this.roomNum = property.roomNum
-        this.bathroom = property.bathroom
-        this.maxGustes = property.maxGustes
+        this.bathroom = property.bathrooms
+        this.maxGustes = property.maxGuestes
         this.pool = property.pool
         this.ac = property.ac
         this.wifi = property.wifi
-        this.pool = property.pool
         this.kitchen = property.kitchen
         this.owner = property.owner
         this.todoList = []
+        this.serviceWorkers = []
         
         makeObservable(this, {
             id: observable,
@@ -28,7 +28,8 @@ export default class Property {
             wifi: observable,
             pool: observable,
             kitchen: observable,
-            owner: observable
+            owner: observable,
+            serviceWorkers: observable
         })
     }
 }

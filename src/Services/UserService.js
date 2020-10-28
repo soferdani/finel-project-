@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const UserService = function () {
 
-    const getUserDitails = async function (email) {
+    const getUserDetails = async function (email) {
         const user = await axios.get(`http://localhost:3001/user/${email}`)
         return user.data
     }
@@ -57,7 +57,7 @@ const UserService = function () {
         return todo.data
     }
 
-    return { getUserDitails, getUserProperties, getPropertyTodo, addNewProperty, addNewTodo, updateUserDetails, updateProperty, updateTodoDetails, updateTodoStatus, deleteProperty, deleteTodo }
+    return { getUserDetails, getUserProperties, getPropertyTodo, addNewProperty, addNewTodo, updateUserDetails, updateProperty, updateTodoDetails, updateTodoStatus, deleteProperty, deleteTodo }
 }
 
 export default UserService;
