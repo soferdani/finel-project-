@@ -6,7 +6,7 @@ const Home = inject('user')(observer((props) => {
 
     return (
         <Grid>
-
+            
         </Grid>
     )
 
