@@ -1,3 +1,4 @@
+import { Grid } from '@material-ui/core'
 import { Auth } from 'aws-amplify'
 import { inject, observer } from 'mobx-react'
 import React from 'react'
@@ -18,10 +19,10 @@ const Container = inject('user')(observer((props) => {
     }
 
     return (
-        <div>
+        <Grid item xs={12} container>
             <Menu handleLogout={handleLogout} />
             <Home />
-        </div>
+        </Grid>
     )
 
 }))

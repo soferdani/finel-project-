@@ -55,6 +55,7 @@ export default class User {
                 await this.loadUserDetails(email)
                 await this.loadUserProperties()
                 await this.loadProperteisTodos()
+                console.log(this)
             }
             else {
                 this.isAuthenticated = false

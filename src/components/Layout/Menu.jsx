@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
   logo: {
     height: '45px',
     [theme.breakpoints.up('sm')]: {
-      height: '70px',
+      height: '60px',
     },
   },
   drawer: {
