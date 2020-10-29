@@ -17,6 +17,16 @@ const UserService = function () {
         return todoList.data
     }
 
+    const getServiceWorkers = async (id) => {
+        const serviceWorkers = await axios.get(`http://localhost:3001/service/${id}`)
+        return serviceWorkers.data
+    }
+
+    const getBooking = async (id) => {
+        const booking = await axios.get(`http://localhost:3001/booking-all/${id}`)
+        return booking.data
+    }
+
     const addNewProperty = async (propertyDetails) => {
         const newProperty = await axios.post(`http://localhost:3001/property`, propertyDetails)
         return newProperty.data
@@ -25,6 +35,16 @@ const UserService = function () {
     const addNewTodo = async (todo) => {
         const newTodo = await axios.post('http://localhost:3001/property', todo)
         return newTodo.data
+    }
+
+    const addNewServiceWorker = async (serviceWorker) => {
+        const newServiceWorker = await axios.post('http://localhost:3001/service-create', serviceWorker)
+        return newServiceWorker.data
+    }
+
+    const addNewBooking = async (booking) => {
+        const id = await axios.post('http://localhost:3001/booking', booking)
+        return id.data
     }
 
     const updateUserDetails = async (userId, userNewDetails) => {
@@ -37,7 +57,12 @@ const UserService = function () {
         return updatedProperty.data
     }
 
-    const updateTodoDetails = async (todoId, todoDetails) => {
+    const updateTodoDetails = async (bookingId, bookingDetails) => {
+        const booking = await axios.put(`http://localhost:3001/booking/${bookingId}`, bookingDetails)
+        return booking.data
+    }
+
+    const updateBookingDetails = async (todoId, todoDetails) => {
         const todo = await axios.put(`http://localhost:3001/todo/${todoId}`, todoDetails)
         return todo.data
     }
@@ -57,7 +82,35 @@ const UserService = function () {
         return todo.data
     }
 
-    return { getUserDetails, getUserProperties, getPropertyTodo, addNewProperty, addNewTodo, updateUserDetails, updateProperty, updateTodoDetails, updateTodoStatus, deleteProperty, deleteTodo }
+    const deleteServiceWorkers = async (propertyId, ServiceWorkerId) => {
+        const deleted = await axios.delete(`http://localhost:3001/service/${propertyId}/${ServiceWorkerId}`)
+        return deleted.data
+    }
+
+    const deleteBooking = async (bookingId) => {
+        const deleted = await axios.delete(`http://localhost:3001/booking-delete/${bookingId}`)
+        return deleted.data
+    }
+
+    return { getUserDetails,
+        getUserProperties,
+        getPropertyTodo,
+        getServiceWorkers,
+        getBooking,
+        addNewProperty,
+        addNewTodo,
+        addNewServiceWorker,
+        addNewBooking,
+        updateUserDetails,
+        updateProperty,
+        updateTodoDetails,
+        updateTodoStatus,
+        updateBookingDetails,
+        deleteProperty,
+        deleteTodo,
+        deleteServiceWorkers,
+        deleteBooking
+     }
 }
 
 export default UserService;

@@ -6,12 +6,14 @@ export default class Todo {
         this.type = todo.type
         this.task = todo.task
         this.isComplete = todo.isComplete
-        
+        this.img = todo.img
+
         makeObservable(this, {
             id: observable,
             type: observable,
             task: observable,
             isComplet: observable,
+            img: observable,
         })
     }
 }
