@@ -4,6 +4,8 @@ import React from 'react'
 
 const Home = inject('user')(observer((props) => {
 
+    const { user } = props
+    
     return (
         <Grid>
             

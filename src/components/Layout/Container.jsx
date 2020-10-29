@@ -3,7 +3,7 @@ import { inject, observer } from 'mobx-react'
 import React from 'react'
 import { useHistory } from 'react-router-dom'
 import Home from '../Home/Home'
-import Menu from '../Home/Menu'
+import Menu from './Menu'
 
 const Container = inject('user')(observer((props) => {
 
@@ -21,8 +21,6 @@ const Container = inject('user')(observer((props) => {
         <div>
             <Menu handleLogout={handleLogout} />
             <Home />
-            {/* <Button onClick={props.handleLogout}>LOGOUT</Button>
-            <h1>HELLOOOOO</h1> */}
         </div>
     )
 
