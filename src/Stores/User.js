@@ -5,6 +5,8 @@ import {
 } from 'mobx';
 import Todo from '../Stores/Todo'
 import Property from '../Stores/Property'
+import ServiceWorkers from '../Stores/ServiceWorkers'
+import Booking from '../Stores/Booking'
 import UserService from '../Services/UserService'
 
 export default class User {
@@ -94,9 +96,26 @@ export default class User {
     loadProperteisTodos = async () => {
         for (let property of this.properties) {
             let todoList = await UserService().getPropertyTodo(property.id)
-            console.log(todoList);
             todoList.forEach(todo => {
                 property.todoList.push(new Todo(todo))
+            })
+        }
+    };
+
+    loadProperteisService = async () => {
+        for (let property of this.properties) {
+            let serviceList = await UserService().getServiceWorkers(property.id)
+            serviceList.forEach(servicer => {
+                property.serviceWorkers.push(new ServiceWorkers(servicer))
+            })
+        }
+    };
+
+    loadProperteisBooking = async () => {
+        for (let property of this.properties) {
+            let bookingList = await UserService().getBooking(property.id)
+            bookingList.forEach(booking => {
+                property.booking.push(new Booking(booking))
             })
         }
     };
@@ -115,9 +134,33 @@ export default class User {
     addNewTodo = async (propertyId, todoDetails) => {
         if (this.type === 1) {
             const property = this.properties.find(p => p.id === propertyId)
-            property.todoList.push(new Todo(todoDetails))
             const todo = { property: property.id, ...todoDetails }
-            await UserService().addNewTodo(todo)
+            todo.id = await UserService().addNewTodo(todo)
+            property.todoList.push(new Todo(todo))
+        }
+        else {
+            console.log('You dont have prommision');
+        }
+    };
+
+    addNewServiceWorkers = async (propertyId, servicerDetails) => {
+        if (this.type === 1) {
+            const property = this.properties.find(p => p.id === propertyId)
+            const serviceWorker = { property: property.id, ...servicerDetails }
+            serviceWorker.id = await UserService().addNewServiceWorker(serviceWorker)
+            property.serviceWorkers.push(new ServiceWorkers(servicerDetails))
+        }
+        else {
+            console.log('You dont have prommision');
+        }
+    };
+
+    addNewBooking = async (propertyId, bookingDetails) => {
+        if (this.type === 1) {
+            const property = this.properties.find(p => p.id === propertyId)
+            const newBooking = { property: property.id, ...bookingDetails }
+            newBooking.id = await UserService().addNewBooking(newBooking)
+            property.serviceWorkers.push(new Booking(newBooking))
         }
         else {
             console.log('You dont have prommision');
@@ -162,6 +205,17 @@ export default class User {
         await UserService.updateTodoStatus(todo.id, todoStatus)
     };
 
+    updateBooking = async (propertyId, bookingId, bookingDetails) => {
+        const property = this.properties.find(p => p.id === propertyId)
+        const booking = property.booking.find(b => b.id === bookingId)
+        if (this.type === 1) {
+            await UserService.updateBookingDetails(bookingId, bookingDetails)
+            for (let b in bookingDetails) {
+                booking[b] = bookingDetails[td]
+            }
+        }
+    };
+
     deleteProperty = async (propertyId) => {
         if (this.type === 1) {
             const propertyIndex = this.properties.findIndex(p => p.id === propertyId)
@@ -178,7 +232,30 @@ export default class User {
             const property = this.properties.find(p => p.id === propertyId)
             const todoIndex = property.todoList.findIndex(td => td.id === todoId)
             property.todoList.splice(todoIndex, 1)
-            await UserService.deleteTodo(todoId);
+            await UserService().deleteTodo(todoId);
+        }
+        else {
+            console.log('You dont have prommision');
+        }
+    };
+
+    deleteServiceWorker = async (propertyId, ServiceWorkerId) => {
+        if (this.type === 1) {
+            await UserService().deleteServiceWorkers(propertyId, ServiceWorkerId);
+            const property = this.properties.find(p => p.id === propertyId)
+            const serviceWorkerIndex = property.serviceWorkers.findIndex(sw => sw.id === ServiceWorkerId)
+            property.serviceWorkers.splice(serviceWorkerIndex, 1)
+        }
+        else {
+            console.log('You dont have prommision');
+        }
+    };
+    deleteBooking = async (propertyId, BookingId) => {
+        if (this.type === 1) {
+            await UserService().deleteBooking(BookingId);
+            const property = this.properties.find(p => p.id === propertyId)
+            const bookingIndex = property.booking.findIndex(b=> b.id === BookingId)
+            property.booking.splice(bookingIndex, 1)
         }
         else {
             console.log('You dont have prommision');
