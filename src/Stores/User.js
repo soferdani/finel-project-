@@ -210,7 +210,7 @@ export default class User {
         if (this.type === 1) {
             await UserService.updateBookingDetails(bookingId, bookingDetails)
             for (let b in bookingDetails) {
-                booking[b] = bookingDetails[td]
+                booking[b] = bookingDetails[b]
             }
         }
     };
