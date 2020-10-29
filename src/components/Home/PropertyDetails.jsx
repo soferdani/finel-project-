@@ -8,20 +8,31 @@ import {
     CardMedia, 
     Button,
     Typography, 
-    Grid
+    Grid,
+    CardHeader,
+    Divider
 } from '@material-ui/core'
 import { inject, observer } from 'mobx-react'
 
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    marginBottom: '30px',
+    height: '100%',
+    width: '100%',
     [theme.breakpoints.up('sm')]: {
         marginLeft: 40
     },
+    padding: '20px'
   },
   img: {
-      height: '60%'
+      width: '400px',
+      height: '350px',
+      borderRadius: '5px',
+      boxShadow: '0px 0px 3px black',
+      marginRight: '30px' 
+  },
+  cardDetails: {
+    marginTop: '30px'
   }
 }))
 
@@ -29,34 +40,34 @@ const PropertyDetails = inject('user')(observer((props) => {
     
     const classes = useStyles()
 
-    const { user, property } = props
+    const { user, propertyId } = props
 
+    const property = user.properties.find(p => p.id === parseInt(propertyId))
 
     return (
         <Grid item xs={12} container >
             <Card className={classes.root}>
-                <CardActionArea>
-                    <CardMedia
-                        component="img"
-                        alt="Contemplative Reptile"
-                        className={classes.img}
-                        image={property.img}
-                        title="Contemplative Reptile"
-                    />
-                    <CardContent>
-                        <Typography 
-                            gutterBottom 
-                            variant="h5" 
-                            component="h2"
-                            className={classes.cardTitle}
-                        >
-                            Property Name
-                        </Typography>
-                        <Typography variant="body2" color="textSecondary" component="p">
-                            {property.address}
-                        </Typography>
-                    </CardContent>
-                </CardActionArea>
+                <CardContent>
+                    <Typography variant='h3'>
+                        Property Name
+                    </Typography>
+                    <CardHeader subheader={property.address} />
+                    <Divider />
+                    <Grid item xs={12} container direction='row' className={classes.cardDetails}>
+                        {/* <CardMedia
+                            component="img"
+                            alt="Contemplative Reptile"
+                            className={classes.img}
+                            image={property.img}
+                            title="Contemplative Reptile"
+                        /> 
+                        <Grid>
+                            <Typography variant='subtitle1'>
+                                Owner
+                            </Typography>
+                        </Grid>  */}
+                    </Grid>
+                </CardContent> 
             </Card>
         </Grid>
     )
