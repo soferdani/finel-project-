@@ -16,12 +16,12 @@ const Routes = inject('user')(observer((props) => {
                 :   <Redirect from='/' to='/login' />
             }
             <Route 
-            path='/login' 
-            exact render={({ match }) => 
-                <Login 
-                match={match} 
-                />
-            }
+                path='/login' 
+                exact render={({ match }) => 
+                    <Login 
+                        match={match} 
+                    />
+                }
             />
             <Route 
             path='/signup' 
