@@ -1,7 +1,9 @@
 import { Grid, makeStyles } from '@material-ui/core'
 import { inject, observer } from 'mobx-react'
 import React from 'react'
-import Property from './property'
+import { useHistory, BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
+import Properties from './Properties'
+
 
 const useStyles = makeStyles((theme) => ({
     homeContainer: {
@@ -27,9 +29,23 @@ const Home = inject('user')(observer((props) => {
             container 
             className={classes.homeContainer} 
         >
-            {user.properties.map(p => 
-                <Property property={p} /> )}
             
+            <Route 
+                path='/home/properties' 
+                exact render={({ match }) => 
+                    <Properties
+                        match={match} 
+                    />
+                }
+            />
+            <Route 
+                path='/home/properties/:propertyId' 
+                exact render={({ match }) => 
+                    <Properties 
+                        match={match} 
+                    />
+                }
+            />
         </Grid>
     )
 

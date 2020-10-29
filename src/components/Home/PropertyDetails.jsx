@@ -20,45 +20,46 @@ const useStyles = makeStyles((theme) => ({
         marginLeft: 40
     },
   },
+  img: {
+      height: '60%'
+  }
 }))
 
-const Property = inject('user')(observer((props) => {  
+const PropertyDetails = inject('user')(observer((props) => {  
     
     const classes = useStyles()
 
-    const { property } = props
+    const { user, property } = props
+
 
     return (
-        <Grid item xs={12} md={4} container >
+        <Grid item xs={12} container >
             <Card className={classes.root}>
                 <CardActionArea>
                     <CardMedia
                         component="img"
                         alt="Contemplative Reptile"
-                        height="180"
+                        className={classes.img}
                         image={property.img}
                         title="Contemplative Reptile"
                     />
                     <CardContent>
-                    <Typography gutterBottom variant="h5" component="h2">
-                        Property Name
-                    </Typography>
-                    <Typography variant="body2" color="textSecondary" component="p">
-                        {property.address}
-                    </Typography>
+                        <Typography 
+                            gutterBottom 
+                            variant="h5" 
+                            component="h2"
+                            className={classes.cardTitle}
+                        >
+                            Property Name
+                        </Typography>
+                        <Typography variant="body2" color="textSecondary" component="p">
+                            {property.address}
+                        </Typography>
                     </CardContent>
                 </CardActionArea>
-                <CardActions>
-                    <Button size="small" color="primary">
-                    Share
-                    </Button>
-                    <Button size="small" color="primary">
-                    Learn More
-                    </Button>
-                </CardActions>
             </Card>
         </Grid>
     )
 }))
 
-export default Property
+export default PropertyDetails
