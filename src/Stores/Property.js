@@ -4,10 +4,10 @@ export default class Property {
     constructor(property) {
         this.id = property.id
         this.img = property.img
-        this.addres = property.addres
+        this.address = property.adress
         this.roomNum = property.roomNum
         this.bathrooms = property.bathrooms
-        this.maxGustes = property.maxGuestes
+        this.maxGuestes = property.max_gusts
         this.pool = property.pool
         this.ac = property.ac
         this.wifi = property.wifi
@@ -24,10 +24,10 @@ export default class Property {
         makeObservable(this, {
             id: observable,
             img: observable,
-            addres: observable,
+            address: observable,
             roomNum: observable,
             bathrooms: observable,
-            maxGustes: observable,
+            maxGuestes: observable,
             pool: observable,
             ac: observable,
             wifi: observable,
