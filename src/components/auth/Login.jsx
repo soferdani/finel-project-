@@ -5,7 +5,7 @@ import EmailIcon from '@material-ui/icons/Email'
 import LockIcon from '@material-ui/icons/Lock'
 import { Auth } from 'aws-amplify'
 import ErrorNotice from "../misc/ErrorNotice"
-import logo from '../../HatchfulExport-All/logo.png'
+import logo from '../../HatchfulExport-All/logo_transparent2.png'
 import { inject, observer } from "mobx-react"
 
 const useStyles = makeStyles({

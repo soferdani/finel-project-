@@ -85,7 +85,6 @@ export default class User {
 
     loadUserProperties = async () => {
         const userProperties = await UserService().getUserProperties(this.id)
-        console.log(userProperties)
         userProperties.forEach(p => {
             this.properties.push(new Property(p))
         })
@@ -94,7 +93,6 @@ export default class User {
     loadProperteisTodos = async () => {
         for (let property of this.properties) {
             let todoList = await UserService().getPropertyTodo(property.id)
-            console.log(todoList);
             todoList.forEach(todo => {
                 property.todoList.push(new Todo(todo))
             })

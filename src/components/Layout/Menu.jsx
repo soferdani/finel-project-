@@ -27,7 +27,7 @@ import {
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { Link } from 'react-router-dom'
 import { inject, observer } from 'mobx-react'
-import logo from '../../HatchfulExport-All/logo_transparent.png'
+import logo from '../../HatchfulExport-All/logo_transparent_white.png'
 
 const drawerWidth = 240;
 
@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
-    backgroundColor: '#219ebc'
+    backgroundColor: '#023047'
   },
   menuButton: {
     marginRight: theme.spacing(2),
