@@ -14,7 +14,8 @@ import {
     Toolbar, 
     Typography,
     Grid,
-    Paper
+    Paper,
+    Avatar
 } from '@material-ui/core'
 import {
     Home as HomeIcon,
@@ -29,14 +30,17 @@ import { Link } from 'react-router-dom'
 import { inject, observer } from 'mobx-react'
 import logo from '../../HatchfulExport-All/logo_transparent_white.png'
 
-const drawerWidth = 240;
+const drawerWidth = 200;
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
   },
   logo: {
-    height: '70px'
+    height: '45px',
+    [theme.breakpoints.up('sm')]: {
+      height: '70px',
+    },
   },
   drawer: {
     width: drawerWidth,
@@ -45,6 +49,7 @@ const useStyles = makeStyles((theme) => ({
   tool: {
     display: 'flex',
     justifyContent: 'space-between',
+    alignContent: 'center',
     paddingTop: '5px',
     paddingBottom: '5px'
   },
@@ -53,7 +58,10 @@ const useStyles = makeStyles((theme) => ({
     color: 'inherit'
   },
   appBar: {
-    zIndex: theme.zIndex.drawer + 1,
+    [theme.breakpoints.up('sm')]: {
+      width: `calc(100% - ${drawerWidth}px)`,
+      marginLeft: drawerWidth,
+    },
     backgroundColor: '#023047'
   },
   menuButton: {
@@ -62,18 +70,26 @@ const useStyles = makeStyles((theme) => ({
       display: 'none',
     },
   },
-  toolbar: theme.mixins.toolbar,
+  appBarContainer: {
+    marginBottom: '60px'
+  },
   drawerPaper: {
     width: drawerWidth,
-    paddingTop: '10px'
   },
   mainAppBar: {
-      display: 'flex',
-      justifyContent: 'space-between',
+      display: 'grid',
+      gridTemplateColumns: '1fr 4fr',
+      alignItems: 'center',
       width: '100%'
   },
   welcoming: {
-      marginTop: '40px'
+      fontFamily: "'Montserrat', sans-serif",
+      justifySelf: 'end',
+      alignSelf: 'end'
+  },
+  small: {
+    width: theme.spacing(3),
+    height: theme.spacing(3),
   }
 }))
 
@@ -92,6 +108,16 @@ const Menu = inject('user')(observer((props) => {
     <div>
         <div className={classes.toolbar} />
         <List>
+            <ListItem button key='img'>
+              <ListItemIcon>
+                <Avatar 
+                  alt="user-avatar" 
+                  src='https://storage.jewheart.com/content/users/avatars/2928/avatar_2928_500.jpg?1480517568' 
+                  className={classes.small}
+                /> 
+              </ListItemIcon>
+              <ListItemText primary='Profile'/>
+            </ListItem>
             <Link to='/home' className={classes.link}>
                 <ListItem button key='Home'>
                     <ListItemIcon>
@@ -140,25 +166,27 @@ const Menu = inject('user')(observer((props) => {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar position="fixed" className={classes.appBar}>
-        <Toolbar className={classes.tool}>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            className={classes.menuButton}
-          >
-            <MenuIcon />
-          </IconButton>
-          <div className={classes.mainAppBar}>
-            <img src={logo} className={classes.logo}/>
-            <Typography variant="h6" noWrap className={classes.welcoming}>
-                {`Welcome, ${user.firstName}`}
-            </Typography>
-          </div>
-        </Toolbar>
-      </AppBar>
+      <Grid className={classes.appBarContainer} container>
+        <AppBar position="fixed" className={classes.appBar}>
+          <Toolbar className={classes.tool}>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              edge="start"
+              onClick={handleDrawerToggle}
+              className={classes.menuButton}
+            >
+              <MenuIcon />
+            </IconButton>
+            <div className={classes.mainAppBar}>
+              <img src={logo} className={classes.logo}/>
+              <Typography variant="h6" noWrap className={classes.welcoming}>
+                  {`Welcome, ${user.firstName}`}
+              </Typography>
+            </div>
+          </Toolbar>
+        </AppBar>
+      </Grid>
       <nav className={classes.drawer} aria-label="mailbox folders">
         <Hidden smUp implementation="css">
           <Drawer
