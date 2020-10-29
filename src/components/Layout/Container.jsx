@@ -1,9 +1,10 @@
 import { Auth } from 'aws-amplify'
 import { inject, observer } from 'mobx-react'
 import React from 'react'
-import { useHistory } from 'react-router-dom'
+import { BrowserRouter as Router, Route, useHistory } from 'react-router-dom'
 import Home from '../Home/Home'
 import Menu from './Menu'
+import Calendar from '../Calendar/Calendar'
 
 const Container = inject('user')(observer((props) => {
 
@@ -18,10 +19,13 @@ const Container = inject('user')(observer((props) => {
     }
 
     return (
-        <div>
-            <Menu handleLogout={handleLogout} />
-            <Home />
-        </div>
+        <Router>
+            <div>
+                <Menu handleLogout={handleLogout} />
+                <Route path='/home' exact render={() => <Home />} />
+                <Route path='/calendar' exact render={() => <Calendar />} />
+            </div>
+        </Router>
     )
 
 }))

@@ -15,27 +15,27 @@ const Routes = inject('user')(observer((props) => {
                 ?   <Redirect from='/' to='/home' />
                 :   <Redirect from='/' to='/login' />
             }
-            <Route 
-            path='/login' 
-            exact render={({ match }) => 
-                <Login 
-                match={match} 
+            <Route
+            path='/login'
+            exact render={({ match }) =>
+                <Login
+                match={match}
                 />
             }
             />
-            <Route 
-            path='/signup' 
-            exact render={({ match }) => 
+            <Route
+            path='/signup'
+            exact render={({ match }) =>
                 <Signup
-                match={match} 
+                match={match}
                 />
             }
             />
-            <Route 
-                path='/home' 
-                exact render={({ match }) => 
-                <Container 
-                    match={match} 
+            <Route
+                path='/home'
+                exact render={({ match }) =>
+                <Container
+                    match={match}
                 />
                 }
             />
