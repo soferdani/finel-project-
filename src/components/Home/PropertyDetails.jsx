@@ -25,6 +25,7 @@ import moment from 'moment'
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
+    paddingTop: '5px',
     [theme.breakpoints.up('sm')]: {
         marginLeft: 40
     }
@@ -92,13 +93,13 @@ const PropertyDetails = inject('user')(observer((props) => {
 
 
     return (
-        <Grid item xs={12} container >
+        <Grid item xs={12} container>
             <Card className={classes.root}>
                 <CardContent>
                     <Grid item xs={12} container direction='row' className={classes.cardHead} alignItems='flex-end'> 
                         <Grid item xs={7}>
                             <Typography variant='h5'>
-                                Property Name
+                                {property.name}
                             </Typography>
                             <Typography variant='body2'>
                                 {property.address}
