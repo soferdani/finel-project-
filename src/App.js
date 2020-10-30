@@ -11,6 +11,7 @@ const App = inject('user')(observer((props) => {
 
   const [IsAuthenticating, setIsAuthenticating] = useState(true)
 
+
   useEffect(() => {
     onLoad();
   }, [])
@@ -29,10 +30,8 @@ const App = inject('user')(observer((props) => {
     await setIsAuthenticating(false)
   }
 
-  
-
   return (
-    <Grid container >
+    <Grid item xs={12} container >
       <Routes />
     </Grid>
   )

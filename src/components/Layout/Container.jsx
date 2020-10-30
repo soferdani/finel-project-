@@ -2,24 +2,24 @@ import { Grid, makeStyles } from '@material-ui/core'
 import { Auth } from 'aws-amplify'
 import { inject, observer } from 'mobx-react'
 import React, { Fragment } from 'react'
-import { useHistory, BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
+import { useHistory, BrowserRouter as Router, Route, Redirect, IndexRoute } from 'react-router-dom'
 import Calendar from '../calender/Calendar'
 import Properties from '../Home/Properties'
 import Menu from './Menu'
+<<<<<<< HEAD
 import Profile from '../settings/Profile'
+=======
+import Profile from '../profile/Profile'
+>>>>>>> 34ed1310c1f52c6855c44fcd95b0dfeb5f17ba5e
 
 const useStyles = makeStyles((theme) => ({
     homeContainer: {
-        height: '100%',
         padding: '20px',
         [theme.breakpoints.up('sm')]: {
             marginLeft: 160,
             paddingTop: '40px',
             padding: '30px',
         },
-    },
-    container: {
-        height: '91vh'
     }
 }))
 
@@ -38,47 +38,56 @@ const Container = inject('user')(observer((props) => {
     }
 
     return (
-        <Router>
-       
-            <Grid item xs={12} container className={classes.container}>
+        <Router>  
+            <Grid item xs={12} container className={classes.container} alignItems='flex-start'>
                 <Menu handleLogout={handleLogout} />
-                <Redirect from='/home' to='/home/properties' />
+                <Redirect from='/home' to='/home/properties'/>
                 <Grid 
                     item 
                     xs={12} 
-                    container 
                     className={classes.homeContainer} 
-                >
-                    <Route 
-                        path='/home/properties' 
-                        exact render={({ match }) => 
-                            <Properties 
-                                match={match} 
-                            />
-                        }
-                    />
-                    <Route 
-                        path='/home/properties/:propertyId' 
-                        exact render={({ match }) => 
-                            <Properties 
-                                match={match} 
-                            />
-                        }
-                    />
-                    <Route 
-                    path='/calendar' 
-                    exact render={({ match }) => 
-                        <Calendar 
-                            match={match} 
-                        />
-                    }
-                />
-                  
-                  <Route 
-                    path='/profile'
-                    exact render={() => <Profile />} />
-                </Grid>
+                    container
 
+                >
+                    <Route
+                        path='/home/properties'
+                        exact render={({ match }) =>
+                            <Properties
+                                match={match}
+                            />
+                        }
+                    />
+                    <Route
+                        path='/home/properties/:propertyId'
+                        exact render={({ match }) =>
+                            <Properties
+                                match={match}
+                            />
+                        }
+                    />
+
+                    <Route 
+                        path='/calendar' 
+                        exact render={({ match }) => 
+                            <Calendar 
+                                match={match} 
+                            />
+                        }
+                    />
+                    <Route 
+                        path='/profile'
+                        exact render={() => 
+                            <Profile />
+                        } 
+                    />
+                    <Route 
+                        path='/serviceproviders'
+                        exact render={() => 
+                            <Profile />
+                        } 
+                    />
+
+                </Grid>
             </Grid>
         </Router>
     )
