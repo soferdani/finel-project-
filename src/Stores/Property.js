@@ -13,16 +13,16 @@ export default class Property {
         this.wifi = property.wifi
         this.kitchen = property.kitchen
         this.owner = {
-            id: property.owner, 
-            name: property.name, 
-            phone: property.phone, 
-            country: property.country, 
+            id: property.owner,
+            name: property.name,
+            phone: property.phone,
+            country: property.country,
             email: property.email
         }
         this.todoList = []
         this.serviceWorkers = []
         this.booking = []
-        
+
         makeObservable(this, {
             id: observable,
             img: observable,
@@ -35,11 +35,7 @@ export default class Property {
             wifi: observable,
             pool: observable,
             kitchen: observable,
-            ownerId: observable,
-            ownerName: observable,
-            ownerPhone: observable,
-            ownerCountry: observable,
-            ownerEmail: observable,
+            owner: observable,
             serviceWorkers: observable,
             booking: observable
         })

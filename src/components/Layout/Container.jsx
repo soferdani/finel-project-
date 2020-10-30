@@ -6,8 +6,7 @@ import { useHistory, BrowserRouter as Router, Route, Redirect } from 'react-rout
 import Calendar from '../calender/Calendar'
 import Properties from '../Home/Properties'
 import Menu from './Menu'
-import Calendar from '../Calendar/Calendar'
-import Profile from '../settings/Profile'
+import Profile from '../profile/Profile'
 
 const useStyles = makeStyles((theme) => ({
     homeContainer: {
@@ -40,42 +39,42 @@ const Container = inject('user')(observer((props) => {
 
     return (
         <Router>
-       
+
             <Grid item xs={12} container className={classes.container}>
                 <Menu handleLogout={handleLogout} />
                 <Redirect from='/home' to='/home/properties' />
-                <Grid 
-                    item 
-                    xs={12} 
-                    container 
-                    className={classes.homeContainer} 
+                <Grid
+                    item
+                    xs={12}
+                    container
+                    className={classes.homeContainer}
                 >
-                    <Route 
-                        path='/home/properties' 
-                        exact render={({ match }) => 
-                            <Properties 
-                                match={match} 
+                    <Route
+                        path='/home/properties'
+                        exact render={({ match }) =>
+                            <Properties
+                                match={match}
                             />
                         }
                     />
-                    <Route 
-                        path='/home/properties/:propertyId' 
-                        exact render={({ match }) => 
-                            <Properties 
-                                match={match} 
+                    <Route
+                        path='/home/properties/:propertyId'
+                        exact render={({ match }) =>
+                            <Properties
+                                match={match}
                             />
                         }
                     />
-                    <Route 
-                    path='/calendar' 
-                    exact render={({ match }) => 
-                        <Calendar 
-                            match={match} 
+                    <Route
+                    path='/calendar'
+                    exact render={({ match }) =>
+                        <Calendar
+                            match={match}
                         />
                     }
                 />
-                  
-                  <Route 
+
+                  <Route
                     path='/profile'
                     exact render={() => <Profile />} />
                 </Grid>
