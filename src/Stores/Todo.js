@@ -3,11 +3,11 @@ import { makeObservable, observable } from 'mobx'
 export default class Todo {
     constructor(todo) {
         this.id = todo.t_id
-        this.type = todo.type_name
+        this.type = todo.type
         this.task = todo.task
-        this.isComplete = todo.is_complete
+        this.complete = todo.complete
         this.img = todo.img
-        this.date = todo.create_date
+        this.date = todo.date
 
         makeObservable(this, {
             id: observable,

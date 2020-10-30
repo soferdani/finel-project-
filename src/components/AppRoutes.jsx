@@ -1,5 +1,5 @@
 import { inject, observer } from 'mobx-react'
-import React from 'react'
+import React, { Fragment } from 'react'
 import { BrowserRouter as Router, Redirect, Route, useLocation } from 'react-router-dom'
 import Login from './auth/Login'
 import Signup from './auth/Signup'
@@ -9,10 +9,12 @@ const Routes = inject('user')(observer((props) => {
 
     const { user } = props
 
+
+
     return (
         <Router>
             {user.isAuthenticated === true
-                ?   <Redirect from='/' to='/home' />
+                ?   <Redirect from='/' to='/home'/>
                 :   <Redirect from='/' to='/login' />
             }
             <Route 
@@ -38,7 +40,8 @@ const Routes = inject('user')(observer((props) => {
                     match={match}
                 />
                 }
-            />
+            >
+            </Route>
         </Router>
     )
 }))
