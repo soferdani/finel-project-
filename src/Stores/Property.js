@@ -12,11 +12,13 @@ export default class Property {
         this.ac = property.ac
         this.wifi = property.wifi
         this.kitchen = property.kitchen
-        this.ownerId = property.owner
-        this.ownerName = property.name
-        this.ownerPhone = property.phone
-        this.ownerCountry = property.country
-        this.ownerEmail = property.email
+        this.owner = {
+            id: property.owner, 
+            name: property.name, 
+            phone: property.phone, 
+            country: property.country, 
+            email: property.email
+        }
         this.todoList = []
         this.serviceWorkers = []
         this.booking = []

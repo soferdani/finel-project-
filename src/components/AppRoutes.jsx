@@ -24,12 +24,12 @@ const Routes = inject('user')(observer((props) => {
                 }
             />
             <Route 
-            path='/signup' 
-            exact render={({ match }) => 
-                <Signup
-                match={match} 
-                />
-            }
+                path='/signup' 
+                exact render={({ match }) => 
+                    <Signup
+                    match={match} 
+                    />
+                }
             />
             <Route 
                 path='/home' 
