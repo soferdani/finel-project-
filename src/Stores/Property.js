@@ -3,18 +3,19 @@ import { makeObservable, observable } from 'mobx'
 export default class Property {
     constructor(property) {
         this.id = property.id
+        this.name = property.propertyName
         this.img = property.img
-        this.address = property.adress
-        this.roomNum = property.roomNum
+        this.address = property.address
+        this.rooms = property.rooms
         this.bathrooms = property.bathrooms
-        this.maxGuestes = property.max_gusts
+        this.guests = property.guests
         this.pool = property.pool
         this.ac = property.ac
         this.wifi = property.wifi
         this.kitchen = property.kitchen
         this.owner = {
-            id: property.owner, 
-            name: property.name, 
+            id: property.ownerId, 
+            name: property.OwnerName, 
             phone: property.phone, 
             country: property.country, 
             email: property.email
@@ -25,21 +26,18 @@ export default class Property {
         
         makeObservable(this, {
             id: observable,
+            name: observable,
             img: observable,
             address: observable,
-            roomNum: observable,
+            rooms: observable,
             bathrooms: observable,
-            maxGuestes: observable,
+            guests: observable,
             pool: observable,
             ac: observable,
             wifi: observable,
             pool: observable,
             kitchen: observable,
-            ownerId: observable,
-            ownerName: observable,
-            ownerPhone: observable,
-            ownerCountry: observable,
-            ownerEmail: observable,
+            owner: observable,
             serviceWorkers: observable,
             booking: observable
         })

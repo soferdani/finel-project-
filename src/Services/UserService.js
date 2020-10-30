@@ -23,8 +23,7 @@ const UserService = function () {
     }
 
     const getBooking = async (id) => {
-        const booking = await axios.get(`http://localhost:3001/booking-all/${id}`)
-        // console.log(booking);
+        const booking = await axios.get(`http://localhost:3001/booking/${id}`)
         return booking.data
     }
 
@@ -58,12 +57,12 @@ const UserService = function () {
         return updatedProperty.data
     }
 
-    const updateTodoDetails = async (bookingId, bookingDetails) => {
+    const updateBookingDetails = async (bookingId, bookingDetails) => {
         const booking = await axios.put(`http://localhost:3001/booking/${bookingId}`, bookingDetails)
         return booking.data
     }
 
-    const updateBookingDetails = async (todoId, todoDetails) => {
+    const updateTodoDetails = async (todoId, todoDetails) => {
         const todo = await axios.put(`http://localhost:3001/todo/${todoId}`, todoDetails)
         return todo.data
     }
@@ -89,7 +88,7 @@ const UserService = function () {
     }
 
     const deleteBooking = async (bookingId) => {
-        const deleted = await axios.delete(`http://localhost:3001/booking-delete/${bookingId}`)
+        const deleted = await axios.delete(`http://localhost:3001/booking/${bookingId}`)
         return deleted.data
     }
 
