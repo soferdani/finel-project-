@@ -17,6 +17,7 @@ import { Link } from 'react-router-dom'
 const useStyles = makeStyles((theme) => ({
   root: {
     marginBottom: '30px',
+    maxHeight: '100%',
     [theme.breakpoints.up('sm')]: {
         marginLeft: 40
     },
@@ -25,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
     textDecoration: 'none'
   },
   cardTitle: {
-      marginBottom: '30px'
+      marginBottom: '10px'
   }
 }))
 
@@ -37,7 +38,7 @@ const PropertyCard = inject('user')(observer((props) => {
 
     return (
         <Grid item xs={12} md={4} container >
-            <Link to={`/home/properties/${property.id}`} className={classes.link}>
+            <Link to={`/home/properties/${property.id}`} className={classes.link}> 
                 <Card className={classes.root}>
                     <CardActionArea>
                         <CardMedia

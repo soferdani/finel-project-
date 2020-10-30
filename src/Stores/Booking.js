@@ -5,14 +5,14 @@ export default class Booking {
         this.id = booking.id
         this.startDate = booking.startDate
         this.endDate = booking.endDate
-        this.gusts = booking.gusts
+        this.guests = booking.guests
         this.channel = booking.channel
         this.nights = booking.nights
         this.firstName = booking.firstName
         this.lastName = booking.lastName
-        this.img = booking.photo
-        // this.phone = booking.phone
-        // this.emali = booking.email
+        this.img = booking.img
+        this.phone = booking.phone
+        this.emali = booking.email
 
         makeObservable(this, {
             id: observable,

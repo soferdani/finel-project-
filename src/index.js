@@ -7,6 +7,7 @@ import { Amplify } from 'aws-amplify';
 import User from './Stores/User'
 import reportWebVitals from './reportWebVitals';
 import './index.css';
+import { Router } from '@material-ui/icons';
 
 Amplify.configure({
   Auth: {
@@ -23,7 +24,7 @@ const user = new User()
 ReactDOM.render(
   <React.StrictMode>
     <Provider user={user}>
-      <App />
+        <App /> 
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')
