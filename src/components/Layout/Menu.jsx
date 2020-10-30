@@ -112,13 +112,13 @@ const Menu = inject('user')(observer((props) => {
               <ListItemIcon>
                 <Avatar 
                   alt="user-avatar" 
-                  src='https://storage.jewheart.com/content/users/avatars/2928/avatar_2928_500.jpg?1480517568' 
+                  src={user.img} 
                   className={classes.small}
                 /> 
               </ListItemIcon>
               <ListItemText primary='Profile'/>
             </ListItem>
-            <Link to='/home' className={classes.link}>
+            <Link to='/home/properties' className={classes.link}>
                 <ListItem button key='Home'>
                     <ListItemIcon>
                         <HomeIcon />
