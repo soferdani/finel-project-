@@ -1,17 +1,17 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import {
-    CssBaseline, 
-    Divider, 
-    Drawer, 
-    Hidden, 
-    IconButton, 
-    AppBar, 
-    List, 
-    ListItem, 
-    ListItemIcon, 
-    ListItemText, 
-    Toolbar, 
+    CssBaseline,
+    Divider,
+    Drawer,
+    Hidden,
+    IconButton,
+    AppBar,
+    List,
+    ListItem,
+    ListItemIcon,
+    ListItemText,
+    Toolbar,
     Typography,
     Grid,
     Paper,
@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
   logo: {
     height: '45px',
     [theme.breakpoints.up('sm')]: {
-      height: '70px',
+      height: '60px',
     },
   },
   drawer: {
@@ -108,16 +108,18 @@ const Menu = inject('user')(observer((props) => {
     <div>
         <div className={classes.toolbar} />
         <List>
-            <ListItem button key='img'>
-              <ListItemIcon>
-                <Avatar 
-                  alt="user-avatar" 
-                  src='https://storage.jewheart.com/content/users/avatars/2928/avatar_2928_500.jpg?1480517568' 
-                  className={classes.small}
-                /> 
-              </ListItemIcon>
-              <ListItemText primary='Profile'/>
-            </ListItem>
+        <Link to='/profile' className={classes.link}>
+          <ListItem button key='img'>
+            <ListItemIcon>
+              <Avatar
+                alt="user-avatar"
+                src={user.img}
+                className={classes.small}
+              />
+            </ListItemIcon>
+            <ListItemText primary='Profile' />
+          </ListItem>
+        </Link>
             <Link to='/home' className={classes.link}>
                 <ListItem button key='Home'>
                     <ListItemIcon>
@@ -199,7 +201,7 @@ const Menu = inject('user')(observer((props) => {
               paper: classes.drawerPaper,
             }}
             ModalProps={{
-              keepMounted: true, 
+              keepMounted: true,
             }}
           >
             {drawer}

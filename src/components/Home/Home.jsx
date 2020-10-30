@@ -3,12 +3,16 @@ import { inject, observer } from 'mobx-react'
 import React from 'react'
 import Property from './property'
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
     homeContainer: {
-        marginLeft: 200,
-        padding: '40px'
-    }
-})
+        padding: '20px',
+        [theme.breakpoints.up('sm')]: {
+            marginLeft: 160,
+            paddingTop: '40px',
+            padding: '30px',
+        },
+      },
+}))
 
 const Home = inject('user')(observer((props) => {
 
@@ -17,8 +21,15 @@ const Home = inject('user')(observer((props) => {
     const classes = useStyles()
 
     return (
-        <Grid className={classes.homeContainer}>
-            <Property />
+        <Grid 
+            item 
+            xs={12} 
+            container 
+            className={classes.homeContainer} 
+        >
+            {user.properties.map(p => 
+                <Property property={p} /> )}
+            
         </Grid>
     )
 

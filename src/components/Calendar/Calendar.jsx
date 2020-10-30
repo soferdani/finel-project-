@@ -33,20 +33,9 @@ const Calendar = inject('user')(observer((props) => {
                 nights: {b.nights}
                 startDate: {b.startDate}</p>)
                 })}
-                {/* <Demo /> */}
         </Grid>
     )
 
 }))
-{/* <p>
-                    channel: {b.channel}
-                    endDate: {b.endDate}
-                    firstName: {b.firstName}
-                    gusts: {b.gusts}
-                    id: {b.id}
-                    img: {b.img}
-                    lastName: {b.lastName}
-                    nights: {b.nights}
-                    startDate: {b.startDate}
-                </p> */}
+
 export default Calendar
