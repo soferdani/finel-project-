@@ -6,7 +6,6 @@ import { useHistory, BrowserRouter as Router, Route, Redirect } from 'react-rout
 import Calendar from '../calender/Calendar'
 import Properties from '../Home/Properties'
 import Menu from './Menu'
-import Calendar from '../Calendar/Calendar'
 import Profile from '../settings/Profile'
 
 const useStyles = makeStyles((theme) => ({

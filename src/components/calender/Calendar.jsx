@@ -5,6 +5,8 @@ import React, { useEffect } from 'react'
 import Paper from '@material-ui/core/Paper';
 import { ViewState } from '@devexpress/dx-react-scheduler';
 import { Scheduler, MonthView, Appointments } from '@devexpress/dx-react-scheduler-material-ui';
+import moment from 'moment'
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -122,25 +124,30 @@ const appointments = [
   },
 ];
 
+let today = moment().format("YYYY-MM-DD");
+
 const currentDate = '2018-07-17'
 
+
+
+
 const Calendar = inject('user')(observer((props) => {
-  const classes = useStyles()
   
+  const classes = useStyles()
   const { user } = props
   useEffect(() => {
     user.loadProperteisBooking()
   }, [])
-  console.log(user.properties[0]);
   
 
+  console.log(user.properties[0].booking);
 
   return (
     <Grid item 
     xs={12} 
       container className={classes.calendarContainer}>
       
-      {/* {user.properties.map(p => {
+      {user.properties.map(p => {
         return p.booking.map(b => <p>channel: {b.channel}
           endDate: {b.endDate}
           firstName: {b.firstName}
@@ -150,7 +157,7 @@ const Calendar = inject('user')(observer((props) => {
           lastName: {b.lastName}
           nights: {b.nights}
           startDate: {b.startDate}</p>)
-      })} */}
+      })}
       <Paper>
         <Scheduler
           data={appointments}
