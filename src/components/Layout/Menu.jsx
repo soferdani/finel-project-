@@ -120,7 +120,7 @@ const Menu = inject('user')(observer((props) => {
             <ListItemText primary='Profile' />
           </ListItem>
         </Link>
-            <Link to='/home' className={classes.link}>
+            <Link to='/home/properties' className={classes.link}>
                 <ListItem button key='Home'>
                     <ListItemIcon>
                         <HomeIcon />
