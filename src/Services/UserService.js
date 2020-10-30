@@ -24,6 +24,7 @@ const UserService = function () {
 
     const getBooking = async (id) => {
         const booking = await axios.get(`http://localhost:3001/booking-all/${id}`)
+        // console.log(booking);
         return booking.data
     }
 

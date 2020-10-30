@@ -126,7 +126,7 @@ const Menu = inject('user')(observer((props) => {
                     <ListItemText primary='Home'/>
                 </ListItem>
             </Link>
-            <Link to='/calendar' className={classes.link}>
+            <Link to='/home/calendar' className={classes.link}>
                 <ListItem button key='Calendar'>
                     <ListItemIcon>
                         <EventIcon />

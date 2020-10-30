@@ -3,6 +3,7 @@ import { Auth } from 'aws-amplify'
 import { inject, observer } from 'mobx-react'
 import React, { Fragment } from 'react'
 import { useHistory, BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
+import Calendar from '../calender/Calendar'
 import Home from '../Home/Home'
 import Properties from '../Home/Properties'
 import Menu from './Menu'
@@ -21,7 +22,7 @@ const Container = inject('user')(observer((props) => {
     }
 
     return (
-        <Fragment>
+        <Router>
             <Grid item xs={12} container>
                 <Menu handleLogout={handleLogout} />
                 <Route 
@@ -32,8 +33,16 @@ const Container = inject('user')(observer((props) => {
                         />
                     }
                 />
+                <Route 
+                    path='/home/calendar' 
+                    exact render={({ match }) => 
+                        <Calendar 
+                            match={match} 
+                        />
+                    }
+                />
             </Grid>
-        </Fragment>
+        </Router>
     )
 
 }))

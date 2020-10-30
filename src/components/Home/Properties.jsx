@@ -31,7 +31,7 @@ const Properties = inject('user')(observer((props) => {
     const classes = useStyles()
 
     const { user, match } = props
-    console.log(user)
+    // console.log(user)
 
     const { propertyId } = match.params
 
