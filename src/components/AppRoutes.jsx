@@ -1,6 +1,6 @@
 import { inject, observer } from 'mobx-react'
 import React from 'react'
-import { BrowserRouter as Router, Redirect, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Redirect, Route, useLocation } from 'react-router-dom'
 import Login from './auth/Login'
 import Signup from './auth/Signup'
 import Container from './Layout/Container'
@@ -24,18 +24,18 @@ const Routes = inject('user')(observer((props) => {
                 }
             />
             <Route 
-            path='/signup' 
-            exact render={({ match }) => 
-                <Signup
-                match={match} 
-                />
-            }
-            />
-            <Route 
-                path='/home' 
+                path='/signup' 
                 exact render={({ match }) => 
-                <Container 
+                    <Signup
                     match={match} 
+                    />
+                }
+            />
+            <Route
+                path='/home'
+                exact render={({ match }) =>
+                <Container
+                    match={match}
                 />
                 }
             />

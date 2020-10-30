@@ -32,7 +32,7 @@ const App = inject('user')(observer((props) => {
   
 
   return (
-    <Grid container>
+    <Grid container >
       <Routes />
     </Grid>
   )

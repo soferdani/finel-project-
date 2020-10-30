@@ -37,7 +37,7 @@ const PropertyCard = inject('user')(observer((props) => {
 
     return (
         <Grid item xs={12} md={4} container >
-            <Link to={`/home/property/${property.id}`} className={classes.link}>
+            <Link to={`/home/properties/${property.id}`} className={classes.link}>
                 <Card className={classes.root}>
                     <CardActionArea>
                         <CardMedia
