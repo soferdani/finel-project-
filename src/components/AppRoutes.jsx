@@ -31,11 +31,11 @@ const Routes = inject('user')(observer((props) => {
                     />
                 }
             />
-            <Route 
-                path='/home' 
-                exact render={({ match }) => 
-                <Container 
-                    match={match} 
+            <Route
+                path='/home'
+                exact render={({ match }) =>
+                <Container
+                    match={match}
                 />
                 }
             />

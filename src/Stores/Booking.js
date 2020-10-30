@@ -11,8 +11,8 @@ export default class Booking {
         this.firstName = booking.firstName
         this.lastName = booking.lastName
         this.img = booking.photo
-        this.phone = booking.phone
-        this.emali = booking.email
+        // this.phone = booking.phone
+        // this.emali = booking.email
 
         makeObservable(this, {
             id: observable,
@@ -24,8 +24,8 @@ export default class Booking {
             firstName: observable,
             lastName: observable,
             img: observable,
-            phone: observable,
-            email: observable
+            // phone: observable,
+            // email: observable
         })
     }
 }

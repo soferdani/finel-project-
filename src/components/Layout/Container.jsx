@@ -5,6 +5,8 @@ import React, { Fragment } from 'react'
 import { BrowserRouter as Router, Route, Redirect, useHistory } from 'react-router-dom'
 import Properties from '../Home/Properties'
 import Menu from './Menu'
+import Calendar from '../Calendar/Calendar'
+import Profile from '../settings/Profile'
 
 const useStyles = makeStyles((theme) => ({
     homeContainer: {
@@ -62,6 +64,10 @@ const Container = inject('user')(observer((props) => {
                             />
                         }
                     />
+                  
+                  <Route 
+                    path='/profile'
+                    exact render={() => <Profile />} />
                 </Grid>
             </Grid>
         </Router>
