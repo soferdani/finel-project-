@@ -23,7 +23,8 @@ import {
     Menu as MenuIcon,
     TrendingUp as TrendingUpIcon,
     ExitToApp as ExitToAppIcon,
-    Settings as SettingsIcon
+    Settings as SettingsIcon,
+    Group as GroupIcon
 } from '@material-ui/icons'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { Link } from 'react-router-dom'
@@ -134,6 +135,14 @@ const Menu = inject('user')(observer((props) => {
                         <EventIcon />
                     </ListItemIcon>
                     <ListItemText primary='Calendar'/>
+                </ListItem>
+            </Link>
+            <Link to='/serviceproviders' className={classes.link}>
+                <ListItem button key='Service-Providers'>
+                    <ListItemIcon>
+                        <GroupIcon />
+                    </ListItemIcon>
+                    <ListItemText primary='Service Providers'/>
                 </ListItem>
             </Link>
             <Link to='/charts' className={classes.link}>

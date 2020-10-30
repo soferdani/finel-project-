@@ -76,6 +76,12 @@ const Container = inject('user')(observer((props) => {
                             <Profile />
                         } 
                     />
+                    <Route 
+                        path='/serviceproviders'
+                        exact render={() => 
+                            <Profile />
+                        } 
+                    />
 
                 </Grid>
             </Grid>

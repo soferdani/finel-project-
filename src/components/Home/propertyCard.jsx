@@ -55,7 +55,7 @@ const PropertyCard = inject('user')(observer((props) => {
                                 component="h2"
                                 className={classes.cardTitle}
                             >
-                                Property Name
+                                {property.name}
                             </Typography>
                             <Typography variant="body2" color="textSecondary" component="p">
                                 {property.address}
