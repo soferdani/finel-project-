@@ -42,7 +42,7 @@ const Profile = inject('user')(observer((props) => {
         setFields({ ...fields, [event.target.name]: event.target.value })
     }
 
-    async function handleSubmit() {
+    async function handleSubmit(fields) {
         console.log(fields);
     }
 

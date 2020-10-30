@@ -11,19 +11,16 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 const NameForm = inject('user')(observer((props) => {
     const { user } = props
-    const [fields, setFields] = useState({
-        firstName: user.firstName,
-        lastName: user.lastName
-    })
+    const [fields, setFields] = useState([])
 
 
     const handleClose = () => {
         props.setOpen(false);
     };
-    
+
     const handleSubmit = () => {
         handleClose()
-        props.handleSubmit();
+        props.handleSubmit(fields);
     };
 
     const genenrateFields = () => {
@@ -42,6 +39,7 @@ const NameForm = inject('user')(observer((props) => {
                     onChange={props.handleFieldChange}
                 />
             )
+            // setFields(...fields, f.name)
         }
         return fieldsArray
     }
