@@ -2,7 +2,8 @@ import { Grid, makeStyles } from '@material-ui/core'
 import { Auth } from 'aws-amplify'
 import { inject, observer } from 'mobx-react'
 import React, { Fragment } from 'react'
-import { BrowserRouter as Router, Route, Redirect, useHistory } from 'react-router-dom'
+import { useHistory, BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
+import Calendar from '../calender/Calendar'
 import Properties from '../Home/Properties'
 import Menu from './Menu'
 import Calendar from '../Calendar/Calendar'
@@ -39,6 +40,7 @@ const Container = inject('user')(observer((props) => {
 
     return (
         <Router>
+       
             <Grid item xs={12} container className={classes.container}>
                 <Menu handleLogout={handleLogout} />
                 <Redirect from='/home' to='/home/properties' />
@@ -64,11 +66,20 @@ const Container = inject('user')(observer((props) => {
                             />
                         }
                     />
+                    <Route 
+                    path='/calendar' 
+                    exact render={({ match }) => 
+                        <Calendar 
+                            match={match} 
+                        />
+                    }
+                />
                   
                   <Route 
                     path='/profile'
                     exact render={() => <Profile />} />
                 </Grid>
+
             </Grid>
         </Router>
     )

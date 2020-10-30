@@ -19,6 +19,7 @@ const Properties = inject('user')(observer((props) => {
 
     const { user, match } = props
 
+
     // const history = useHistory()
     // console.log(history)
 
