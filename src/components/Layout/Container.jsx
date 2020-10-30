@@ -6,7 +6,7 @@ import { useHistory, BrowserRouter as Router, Route, Redirect, IndexRoute } from
 import Calendar from '../calender/Calendar'
 import Properties from '../Home/Properties'
 import Menu from './Menu'
-import Profile from '../settings/Profile'
+import Profile from '../profile/Profile'
 
 const useStyles = makeStyles((theme) => ({
     homeContainer: {
@@ -43,23 +43,25 @@ const Container = inject('user')(observer((props) => {
                     xs={12} 
                     className={classes.homeContainer} 
                     container
+
                 >
-                    <Route 
-                        path='/home/properties' 
-                        exact render={({ match }) => 
-                            <Properties 
-                                match={match} 
+                    <Route
+                        path='/home/properties'
+                        exact render={({ match }) =>
+                            <Properties
+                                match={match}
                             />
                         }
                     />
-                    <Route 
-                        path='/home/properties/:propertyId' 
-                        exact render={({ match }) => 
-                            <Properties 
-                                match={match} 
+                    <Route
+                        path='/home/properties/:propertyId'
+                        exact render={({ match }) =>
+                            <Properties
+                                match={match}
                             />
                         }
                     />
+
                     <Route 
                         path='/calendar' 
                         exact render={({ match }) => 
@@ -74,6 +76,7 @@ const Container = inject('user')(observer((props) => {
                             <Profile />
                         } 
                     />
+
                 </Grid>
             </Grid>
         </Router>

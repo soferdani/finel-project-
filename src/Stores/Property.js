@@ -23,7 +23,7 @@ export default class Property {
         this.todoList = []
         this.serviceWorkers = []
         this.booking = []
-        
+
         makeObservable(this, {
             id: observable,
             name: observable,
