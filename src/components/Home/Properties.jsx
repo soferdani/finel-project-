@@ -1,27 +1,11 @@
 import React, { Fragment } from 'react'
-import { makeStyles } from '@material-ui/core/styles'
-import { 
-    Card, 
-    CardActionArea, 
-    CardActions, 
-    CardContent, 
-    CardMedia, 
-    Button,
-    Typography, 
-    Grid
-} from '@material-ui/core'
 import { inject, observer } from 'mobx-react'
 import PropertyCard from './propertyCard'
-import PropertyDetails from './PropertyDetails'
-import { useHistory } from 'react-router-dom'
+import PropertyDetails from './PropertyDetails/PropertyDetails'
 
 const Properties = inject('user')(observer((props) => {  
 
     const { user, match } = props
-
-
-    // const history = useHistory()
-    // console.log(history)
 
     const { propertyId } = match.params
 

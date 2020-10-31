@@ -5,8 +5,8 @@ import NameForm from './NameForm'
 
 const useStyles = makeStyles({
     profileContainer: {
-        marginLeft: 200,
-        padding: '40px'
+        marginLeft: 50,
+        padding: '10px'
     }
 })
 
@@ -47,7 +47,7 @@ const Profile = inject('user')(observer((props) => {
     }
 
     return (
-        <Grid className={classes.profileContainer}>
+        <Grid item xs={12} className={classes.profileContainer}>
             Details:
             <List component="nav" className={classes.root} aria-label="mailbox folders">
                     <ListItem button  onClick={handleClickName}>
