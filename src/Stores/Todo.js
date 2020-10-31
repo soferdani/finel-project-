@@ -13,7 +13,7 @@ export default class Todo {
             id: observable,
             type: observable,
             task: observable,
-            isComplete: observable,
+            complete: observable,
             img: observable,
         })
     }
