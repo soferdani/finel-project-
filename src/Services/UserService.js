@@ -33,7 +33,7 @@ const UserService = function () {
     }
 
     const addNewTodo = async (todo) => {
-        const newTodo = await axios.post('http://localhost:3001/property', todo)
+        const newTodo = await axios.post('http://localhost:3001/todo', todo)
         return newTodo.data
     }
 
@@ -68,7 +68,7 @@ const UserService = function () {
     }
 
     const updateTodoStatus = async (todoId, status) => {
-        const todo = await axios.put(`http://localhost:3001/todo/${todoId}`, status )
+        const todo = await axios.put(`http://localhost:3001/todo/${todoId}`, {status: status} )
         return todo.data
     }
 

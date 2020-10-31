@@ -5,7 +5,7 @@ export default class Todo {
         this.id = todo.t_id
         this.type = todo.type
         this.task = todo.task
-        this.complete = todo.complete
+        this.complete = todo.complete ? true : false
         this.img = todo.img
         this.date = todo.date
 
