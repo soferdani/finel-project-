@@ -11,10 +11,10 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 const NameForm = inject('user')(observer((props) => {
     const { user } = props
-    const [fields, setFields] = useState([])
-
+    const fields = []
 
     const handleClose = () => {
+        props.zeroFields()
         props.setOpen(false);
     };
 
@@ -22,6 +22,10 @@ const NameForm = inject('user')(observer((props) => {
         handleClose()
         props.handleSubmit(fields);
     };
+
+    const validateForm = () => {
+        return props.fields.some(f => user[f.name] !== f.value && f.value.length > 0)
+    }
 
     const genenrateFields = () => {
         const fieldsArray = []
@@ -31,7 +35,7 @@ const NameForm = inject('user')(observer((props) => {
                     autoFocus
                     margin="dense"
                     name={f.name}
-                    key={f.id}
+                    key={f.name}
                     label={f.label}
                     type={f.type}
                     fullWidth
@@ -39,28 +43,31 @@ const NameForm = inject('user')(observer((props) => {
                     onChange={props.handleFieldChange}
                 />
             )
-            // setFields(...fields, f.name)
+            fields.push(f.name)
         }
         return fieldsArray
     }
 
     return (
-    <div>
-    <Dialog open={props.open} onClose={handleClose} aria-labelledby="form-dialog-title">
-      <DialogTitle id="form-dialog-title">Update Personal Details</DialogTitle>
-      <DialogContent>
-        {genenrateFields()}
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose} color="primary">
-          Cancel
+        <div>
+            <Dialog open={props.open} onClose={handleClose} aria-labelledby="form-dialog-title">
+                <DialogTitle id="form-dialog-title">Update Personal Details</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        Please enter full exact details to this site so we can ensure you get the best service.
+                    </DialogContentText>
+                    {genenrateFields()}
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose} color="primary">
+                        Cancel
         </Button>
-        <Button onClick={handleSubmit} color="primary">
-          Save Changes
+                    <Button onClick={handleSubmit} color="primary" disabled={!validateForm()}>
+                        Save Changes
         </Button>
-      </DialogActions>
-    </Dialog>
-  </div>
+                </DialogActions>
+            </Dialog>
+        </div>
     )
 
 }))
