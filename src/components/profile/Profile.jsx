@@ -12,8 +12,7 @@ const useStyles = makeStyles((theme) => ({
         maxWidth: '100%',
         [theme.breakpoints.up('sm')]: {
             marginLeft: 200,
-            maxWidth: '70%',
-            // padding: '40px'
+            maxWidth: '70%'
         }
     },
     fields: {
@@ -130,6 +129,7 @@ const Profile = inject('user')(observer((props) => {
 
             </List>
             </Grid>
+
             {genrateForm(openName, setOpenName, [
                 { name: "firstName", label: 'First Name', type: "name", value: fields.firstName },
                 { name: "lastName", label: 'Last Name', type: "name", value: fields.lastName }
@@ -149,10 +149,12 @@ const Profile = inject('user')(observer((props) => {
                 { name: "confirmPassword", label: 'Confirm Password', type: "password", value: fields.confirmPassword }
             ])}
 
-            <UpdateImg
-                value={fields.img}
-                handleSubmit={handleSubmit}
-                handleFieldChange={handleFieldChange} />
+            <Grid item>
+                <UpdateImg
+                    value={fields.img}
+                    handleSubmit={handleSubmit}
+                    handleFieldChange={handleFieldChange} />
+            </Grid>
 
             <Snackbar open={alert} autoHideDuration={6000} onClose={() => setAlert(false)}>
                 <Alert onClose={() => setAlert(false)} severity="success">
