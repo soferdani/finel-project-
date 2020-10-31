@@ -39,7 +39,8 @@ export default class Property {
             kitchen: observable,
             owner: observable,
             serviceWorkers: observable,
-            booking: observable
+            booking: observable,
+            todoList: observable
         })
     }
 }

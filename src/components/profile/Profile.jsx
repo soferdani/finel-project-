@@ -126,7 +126,6 @@ const Profile = inject('user')(observer((props) => {
                 <DetailField
                     type='User Type'
                     value={user.type} />
-
             </List>
             </Grid>
 

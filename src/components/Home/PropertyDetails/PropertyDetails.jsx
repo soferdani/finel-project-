@@ -1,5 +1,5 @@
-import React from 'react'
-import { makeStyles } from '@material-ui/core/styles'
+import React, { useState } from 'react'
+import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { 
     Card, 
     CardActionArea, 
@@ -10,17 +10,14 @@ import {
     Typography, 
     Grid,
     CardHeader,
-    Divider
+    Divider,
+    AppBar,
+    Tabs,
+    Tab
 } from '@material-ui/core'
 import { inject, observer } from 'mobx-react'
-import Paper from '@material-ui/core/Paper';
-import {
-  Scheduler,
-  WeekView,
-  Appointments,
-} from '@devexpress/dx-react-scheduler-material-ui'
-import moment from 'moment'
-
+import ToDos from './ToDos/ToDos';
+import PropertyCalendar from './PropertyCalendar';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -61,35 +58,22 @@ const PropertyDetails = inject('user')(observer((props) => {
 
     const property = user.properties.find(p => p.id === parseInt(propertyId))
 
-    const currentDate = moment()
-    let date = currentDate.date()
+    const [value, setValue] = useState(0);
 
-    const makeTodayAppointment = (startDate, endDate) => {
-        const days = moment(startDate).diff(endDate, 'days');
-        const nextStartDate = moment(startDate)
-            .year(currentDate.year())
-            .month(currentDate.month())
-            .date(date);
-        const nextEndDate = moment(endDate)
-            .year(currentDate.year())
-            .month(currentDate.month())
-            .date(date + days)
-
+    function a11yProps(index) {
         return {
-            startDate: nextStartDate.toDate(),
-            endDate: nextEndDate.toDate(),
+          id: `full-width-tab-${index}`,
+          'aria-controls': `full-width-tabpanel-${index}`,
         }
     }
 
-    const bookingData = property.booking.map(({ startDate, endDate, ...restArgs }) => {
-        const result = {
-          ...makeTodayAppointment(startDate, endDate),
-          ...restArgs,
-        }
-        date += 1;
-        if (date > 31) date = 1
-            return result
-    })
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    }
+
+    const handleChangeIndex = (index) => {
+        setValue(index);
+    }
 
 
     return (
@@ -116,30 +100,21 @@ const PropertyDetails = inject('user')(observer((props) => {
                         </Grid>
                     </ Grid>
                     <Divider />
-                    <Grid item xs={12} className={classes.cardDetails}>
-                        <Typography variant='h6'>
-                            Weekly Schedule
-                        </Typography>
-                        <Paper className={classes.calendarContainer}>
-                            <Scheduler
-                                data={bookingData}
-                                className={classes.calendar}
-                                height='100%'
-                            >
-                            <WeekView
-                                startDayHour={9}
-                                endDayHour={19}
-                            />
-                            <Appointments />
-                            </Scheduler>
-                        </Paper>
-                    </Grid>
-                    <Grid item xs={12} className={classes.cardDetails}>
-                        <Typography variant='h6'>
-                            Open tasks
-                        </Typography>
-
-                    </Grid>
+                    <Tabs
+                        value={value}
+                        onChange={handleChange}
+                        indicatorColor="primary"
+                        textColor="primary"
+                        variant="fullWidth"
+                        aria-label="full width tabs example"
+                    >
+                        <Tab label="Details" {...a11yProps(0)} />
+                        <Tab label="Calendar" {...a11yProps(1)} />
+                        <Tab label="To Dos" {...a11yProps(2)} />
+                        <Tab label="Service Providers" {...a11yProps(3)} />
+                    </Tabs>
+                    <PropertyCalendar value={value} bookings={property.booking}/>
+                    <ToDos value={value} toDos={property.todoList} property={property.id} />
                     <Grid item xs={12} className={classes.cardDetails}>
                         <Typography variant='h6'>
                             Service providers
