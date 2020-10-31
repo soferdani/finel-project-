@@ -1,14 +1,25 @@
-import { Grid, List, ListItem, Divider, ListItemText, makeStyles } from '@material-ui/core'
+import { Grid, List, ListItem, Divider, ListItemText, TextField, makeStyles, Snackbar, Typography } from '@material-ui/core'
+import { Alert } from '@material-ui/lab';
 import { inject, observer } from 'mobx-react'
 import React, { useState, useEffect } from 'react'
-import NameForm from './NameForm'
+import UpdateUserForm from './UpdateUserForm'
+import UpdateImg from './UpdateImg'
+import DetailField from './DetailField'
+import moment from 'moment'
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
     profileContainer: {
-        marginLeft: 200,
-        padding: '40px'
+        maxWidth: '100%',
+        [theme.breakpoints.up('sm')]: {
+            marginLeft: 200,
+            maxWidth: '70%',
+            // padding: '40px'
+        }
+    },
+    fields: {
+        width: '100%'
     }
-})
+}))
 
 const Profile = inject('user')(observer((props) => {
     const { user } = props
@@ -18,89 +29,136 @@ const Profile = inject('user')(observer((props) => {
         email: user.email,
         phone: user.phone,
         userType: user.userType,
+        img: '',
+        lastPassword: '',
         password: '',
         confirmPassword: ''
     })
-
+    const classes = useStyles()
     const [openName, setOpenName] = useState(false);
     const [openEmail, setOpenEmail] = useState(false);
     const [openPhone, setOpenPhone] = useState(false);
+    const [openPassword, setOpenPassword] = useState(false);
+    const [alert, setAlert] = useState(false);
 
     const handleClickName = () => {
         setOpenName(true);
     };
+
     const handleClickEmail = () => {
         setOpenEmail(true);
     };
+
     const handleClickPhone = () => {
         setOpenPhone(true);
     };
 
-    const classes = useStyles()
+    const handleClickPassword = () => {
+        setOpenPassword(true);
+    };
 
-    async function handleFieldChange(event) {
+    const genrateForm = (open, setOpen, fields) => {
+        return <UpdateUserForm
+            open={open}
+            setOpen={setOpen}
+            fields={fields}
+            handleFieldChange={handleFieldChange}
+            handleSubmit={handleSubmit}
+            zeroFields={zeroFields} />
+    };
+
+    function handleFieldChange(event) {
         setFields({ ...fields, [event.target.name]: event.target.value })
     }
 
-    async function handleSubmit(fields) {
-        console.log(fields);
+    function zeroFields() {
+        setFields({
+            ...fields,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            phone: user.phone
+        })
+    }
+
+    async function handleSubmit(fieldsToUpdate) {
+        const newData = {}
+        fieldsToUpdate.forEach(f => {
+            const key = f === "firstName" ? 'first_name' : f === "lastName" ? 'last_name' : f
+            newData[key] = fields[f]
+        })
+        await user.updateUserDetails(newData);
+        setAlert(true)
     }
 
     return (
-        <Grid className={classes.profileContainer}>
-            Details:
-            <List component="nav" className={classes.root} aria-label="mailbox folders">
-                    <ListItem button  onClick={handleClickName}>
-                        <ListItemText primary="Name" />
-                        <ListItemText primary={user.firstName + " " + user.lastName} />
-                    </ListItem>
-                    <NameForm
-                    open={openName}
-                    setOpen={setOpenName}
-                    fields={[
-                        {name: "firstName", label:'First Name', type:"name", value: fields.firstName},
-                        {name: "lastName", label:'Last Name', type:"name", value: fields.lastName}
-                        ]}
-                        handleFieldChange={handleFieldChange}
-                        handleSubmit={handleSubmit}/>
-                <Divider />
-                <ListItem button onClick={handleClickEmail} divider>
-                    <ListItemText primary="Email" />
-                    <ListItemText primary={user.email} />
-                </ListItem>
-                <NameForm
-                    open={openEmail}
-                    setOpen={setOpenEmail}
-                    fields={[
-                        {name: "email", label:'Email', type:"email", value: fields.email}
-                        ]}
-                        handleFieldChange={handleFieldChange}
-                        handleSubmit={handleSubmit}/>
-                <ListItem button onClick={handleClickPhone}>
-                    <ListItemText primary="Phone" />
-                    <ListItemText primary={user.phone} />
-                </ListItem>
-                <NameForm
-                    open={openPhone}
-                    setOpen={setOpenPhone}
-                    fields={[
-                        {name: "phone", label:'Phone', type:"phone", value: fields.phone}
-                        ]}
-                        handleFieldChange={handleFieldChange}
-                        handleSubmit={handleSubmit}/>
-                <Divider light />
-                <ListItem>
-                    <ListItemText primary="Join Date" />
-                    <ListItemText primary={user.dateJoin} />
-                </ListItem>
-                <Divider light />
-                <ListItem>
-                    <ListItemText primary="User Type" />
-                    <ListItemText primary={user.type} />
-                </ListItem>
+        <Grid className={classes.profileContainer} item xs={12} container>
+            <Typography variant='h5'>
+                Details
+            </Typography>
+
+            <Grid item xs={12} container>
+            <List component="nav" className={classes.fields}>
+
+                <DetailField
+                    type='Name'
+                    value={user.firstName + " " + user.lastName}
+                    handleClick={handleClickName} />
+
+                <DetailField
+                    type='Email'
+                    value={user.email}
+                    handleClick={handleClickEmail} />
+
+                <DetailField
+                    type='Phone'
+                    value={user.phone}
+                    handleClick={handleClickPhone} />
+
+                <DetailField
+                    type='Password'
+                    value='Change password'
+                    handleClick={handleClickPassword} />
+
+                <DetailField
+                    type='Join Date'
+                    value={moment(user.dateJoin).format('LLL')} />
+
+                <DetailField
+                    type='User Type'
+                    value={user.type} />
+
             </List>
-            <p>Image</p>
-            <p><img src={user.img} /> </p>
+            </Grid>
+            {genrateForm(openName, setOpenName, [
+                { name: "firstName", label: 'First Name', type: "name", value: fields.firstName },
+                { name: "lastName", label: 'Last Name', type: "name", value: fields.lastName }
+            ])}
+
+            {genrateForm(openEmail, setOpenEmail, [
+                { name: "email", label: 'Email', type: "email", value: fields.email }
+            ])}
+
+            {genrateForm(openPhone, setOpenPhone, [
+                { name: "phone", label: 'Phone', type: "phone", value: fields.phone }
+            ])}
+
+            {genrateForm(openPassword, setOpenPassword, [
+                { name: "lastPassword", label: 'Previous Password', type: "password", value: fields.lastPassword },
+                { name: "password", label: 'New Password', type: "password", value: fields.password },
+                { name: "confirmPassword", label: 'Confirm Password', type: "password", value: fields.confirmPassword }
+            ])}
+
+            <UpdateImg
+                value={fields.img}
+                handleSubmit={handleSubmit}
+                handleFieldChange={handleFieldChange} />
+
+            <Snackbar open={alert} autoHideDuration={6000} onClose={() => setAlert(false)}>
+                <Alert onClose={() => setAlert(false)} severity="success">
+                    The details changed successfuly!
+                </Alert>
+            </Snackbar>
         </Grid>
     )
 

@@ -169,9 +169,10 @@ export default class User {
     };
 
     updateUserDetails = async (userDetails) => {
-        await UserService().updateDetails(this.id, userDetails);
+        await UserService().updateUserDetails(this.id, userDetails);
         for (let prop in userDetails) {
-            this[prop] = userDetails[prop]
+            const key = prop === 'first_name' ? "firstName" : prop === 'last_name' ? "lastName" : prop
+            this[key] = userDetails[prop]
         }
     };
 

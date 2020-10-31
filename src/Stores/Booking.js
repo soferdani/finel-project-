@@ -18,7 +18,7 @@ export default class Booking {
             id: observable,
             startDate: observable,
             endDate: observable,
-            gusts: observable,
+            guests: observable,
             channel: observable,
             nights: observable,
             firstName: observable,
