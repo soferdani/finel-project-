@@ -9,10 +9,10 @@ const DetailField = inject('user')(observer((props) => {
     return (
         <Grid item xs={12}>
             <ListItem button onClick={handleClick} divider>
-                <Grid item xs={9}>
+                <Grid item item xs={5} sm={9}>
                     <ListItemText primary={type} />
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item item xs={7} sm={3}>
                     <ListItemText primary={value} />
                 </Grid>
             </ListItem>
