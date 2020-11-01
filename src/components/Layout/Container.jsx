@@ -6,11 +6,9 @@ import { useHistory, BrowserRouter as Router, Route, Redirect, IndexRoute } from
 import Calendar from '../calender/Calendar'
 import Properties from '../Home/Properties'
 import Menu from './Menu'
-<<<<<<< HEAD
-import Profile from '../settings/Profile'
-=======
+
 import Profile from '../profile/Profile'
->>>>>>> 34ed1310c1f52c6855c44fcd95b0dfeb5f17ba5e
+import ServiceProvMain from '../serviceProviders/serviceProvMain'
 
 const useStyles = makeStyles((theme) => ({
     homeContainer: {
@@ -83,7 +81,7 @@ const Container = inject('user')(observer((props) => {
                     <Route 
                         path='/serviceproviders'
                         exact render={() => 
-                            <Profile />
+                            <ServiceProvMain />
                         } 
                     />
 
