@@ -1,13 +1,13 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import { 
-    Card, 
-    CardActionArea, 
-    CardActions, 
-    CardContent, 
-    CardMedia, 
+import {
+    Card,
+    CardActionArea,
+    CardActions,
+    CardContent,
+    CardMedia,
     Button,
-    Typography, 
+    Typography,
     Grid
 } from '@material-ui/core'
 import { inject, observer } from 'mobx-react'
@@ -30,15 +30,15 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-const PropertyCard = inject('user')(observer((props) => {  
-    
+const PropertyCard = inject('user')(observer((props) => {
+
     const classes = useStyles()
 
     const { property } = props
 
     return (
         <Grid item xs={12} md={4} container >
-            <Link to={`/home/properties/${property.id}`} className={classes.link}> 
+            <Link to={`/home/properties/${property.id}`} className={classes.link}>
                 <Card className={classes.root}>
                     <CardActionArea>
                         <CardMedia
@@ -49,9 +49,9 @@ const PropertyCard = inject('user')(observer((props) => {
                             title="Contemplative Reptile"
                         />
                         <CardContent>
-                            <Typography 
-                                gutterBottom 
-                                variant="h5" 
+                            <Typography
+                                gutterBottom
+                                variant="h5"
                                 component="h2"
                                 className={classes.cardTitle}
                             >
