@@ -13,6 +13,7 @@ import {
 } from '@devexpress/dx-react-scheduler-material-ui';
 
 
+
 const useStyles = makeStyles((theme) => ({
   calendarContainer: {
     [theme.breakpoints.up('sm')]: {
@@ -42,12 +43,12 @@ const Calendar = inject('user')(observer((props) => {
     setBooking(newBooking)
   }, [])
 
+  console.log(user.properties[0].booking);
 
   return (
     <Grid item
       xs={12}
       container className={classes.calendarContainer}>
-
       <Paper>
         <Scheduler
           data={booking}
