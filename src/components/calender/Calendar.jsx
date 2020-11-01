@@ -46,6 +46,7 @@ const Calendar = inject('user')(observer((props) => {
     setBooking(newBooking)
   }, [])
 
+  console.log(user.properties[0].booking);
 
   return (
     <Grid
@@ -63,6 +64,7 @@ const Calendar = inject('user')(observer((props) => {
   </Grid>
 
       <Paper className={classes.calendarContainer}>
+
         <Scheduler
           data={booking}
           height='100%'

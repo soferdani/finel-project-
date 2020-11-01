@@ -17,14 +17,34 @@ const UserService = function () {
         return todoList.data
     }
 
-    const getServiceWorkers = async (id) => {
-        const serviceWorkers = await axios.get(`http://localhost:3001/service/${id}`)
+    const getUserTypes = async (id) => {
+        let userTypes
+        if(id) {
+            userTypes = await axios.get(`http://localhost:3001/usertype/${id}`)
+        } else {
+            userTypes = await axios.get(`http://localhost:3001/usertype`)
+        }
+        return userTypes.data
+    }
+
+    const getUserServiceProviders = async (managerId) => {
+        const serviceWorkers = await axios.get(`http://localhost:3001/useremployee/${managerId}`)
+        return serviceWorkers.data
+    }
+
+    const getPropertyServiceProviders = async (propertyId) => {
+        const serviceWorkers = await axios.get(`http://localhost:3001/service/${propertyId}`)
         return serviceWorkers.data
     }
 
     const getBooking = async (id) => {
         const booking = await axios.get(`http://localhost:3001/booking/${id}`)
         return booking.data
+    }
+
+    const addNewUserType = async (type) => {
+        const newType = await axios.get(`http://localhost:3001/usertype`, { type })
+        return newType
     }
 
     const addNewProperty = async (propertyDetails) => {
@@ -37,9 +57,15 @@ const UserService = function () {
         return newTodo.data
     }
 
-    const addNewServiceWorker = async (serviceWorker) => {
-        const newServiceWorker = await axios.post('http://localhost:3001/service-create', serviceWorker)
+    const addNewServiceWorker = async (managerId, serviceWorker) => {
+        const newServiceWorker = await axios.post('http://localhost:3001/user', serviceWorker)
+        await axios.post('http://localhost:3001/useremployee', { managerId, employeeId: newServiceWorker.id})
         return newServiceWorker.data
+    }
+
+    const addPropertyServiceWorker = async (propertyId, employeeId) => {
+        const PropertyUser = await axios.post('http://localhost:3001/service-create', {user: employeeId, property: propertyId})
+        return PropertyUser.data
     }
 
     const addNewBooking = async (booking) => {
@@ -87,6 +113,11 @@ const UserService = function () {
         return deleted.data
     }
 
+    const deleteServiceWorkerFromUser = async (managerId, ServiceWorkerId) => {
+        const deleted = await axios.delete(`http://localhost:3001/useremployee`, {managerId, ServiceWorkerId})
+        return deleted.data
+    }
+
     const deleteBooking = async (bookingId) => {
         const deleted = await axios.delete(`http://localhost:3001/booking/${bookingId}`)
         return deleted.data
@@ -95,11 +126,15 @@ const UserService = function () {
     return { getUserDetails,
         getUserProperties,
         getPropertyTodo,
-        getServiceWorkers,
+        getPropertyServiceProviders,
+        getUserServiceProviders,
         getBooking,
+        getUserTypes,
+        addNewUserType,
         addNewProperty,
         addNewTodo,
         addNewServiceWorker,
+        addPropertyServiceWorker,
         addNewBooking,
         updateUserDetails,
         updateProperty,
@@ -109,6 +144,7 @@ const UserService = function () {
         deleteProperty,
         deleteTodo,
         deleteServiceWorkers,
+        deleteServiceWorkerFromUser,
         deleteBooking
      }
 }
