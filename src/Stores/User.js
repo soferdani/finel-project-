@@ -2,6 +2,7 @@ import {
     makeObservable,
     observable,
     action,
+    isAction,
 } from 'mobx';
 import Todo from '../Stores/Todo'
 import Property from '../Stores/Property'
@@ -22,6 +23,7 @@ export default class User {
         this.dateJoin = ''
         this.type = null
         this.properties = []
+        this.serviceWorkers = []
 
         makeObservable(this, {
             isAuthenticated: observable,
@@ -33,10 +35,15 @@ export default class User {
             phone: observable,
             dateJoin: observable,
             properties: observable,
+            serviceWorkers: observable,
             userHasAuthenticated: action,
             loadUserDetails: action,
             loadUserProperties: action,
             loadProperteisTodos: action,
+            loadPropertiesWorkers: action,
+            loadUserTypes: action,
+            loadUserServiceProviders: action,
+            addNewUserType: action,
             addNewProperty: action,
             addNewTodo: action,
             updateUserDetails: action,
@@ -44,16 +51,20 @@ export default class User {
             updateTodoDetails: action,
             updateTodoStatus: action,
             deleteProperty: action,
-            deleteTodo: action
+            deleteTodo: action,
+            deleteServiceWorkerFromProperty: action,
+            deleteServiceWorkerFromUser: action
         })
-    };
+    }
 
     userHasAuthenticated = async (email = undefined, bool) => {
         try {
             this.isAuthenticated = bool
             if (this.isAuthenticated && email) {
                 await this.loadUserDetails(email)
+                await this.loadUserServiceProviders()
                 await this.loadUserProperties()
+                await this.loadPropertiesWorkers()
                 await this.loadProperteisTodos()
                 await this.loadProperteisBooking()
             }
@@ -87,26 +98,29 @@ export default class User {
     };
 
     loadUserProperties = async () => {
+        this.properties = []
         const userProperties = await UserService().getUserProperties(this.id)
-        userProperties.forEach(p => {
-            this.properties.push(new Property(p))
-        })
+        for(let property of userProperties) {
+            this.properties.push(new Property(property))    
+        }
     };
+
+    loadPropertiesWorkers = async () => {
+        for(let property of this.properties) {
+            let serviceList = await UserService().getPropertyServiceProviders(property.id)
+            if(serviceList.length > 0) {
+                serviceList.forEach(servicer => {
+                    property.serviceWorkers.push(new ServiceWorkers(servicer))
+                })
+            }
+        }
+    }
 
     loadProperteisTodos = async () => {
         for (let property of this.properties) {
             let todoList = await UserService().getPropertyTodo(property.id)
             todoList.forEach(todo => {
                 property.todoList.push(new Todo(todo))
-            })
-        }
-    };
-
-    loadProperteisService = async () => {
-        for (let property of this.properties) {
-            let serviceList = await UserService().getServiceWorkers(property.id)
-            serviceList.forEach(servicer => {
-                property.serviceWorkers.push(new ServiceWorkers(servicer))
             })
         }
     };
@@ -118,6 +132,24 @@ export default class User {
                 property.booking.push(new Booking(booking))
             })
         }
+    };
+
+    loadUserServiceProviders = async () => {
+        const allEmployees = await UserService().getUserServiceProviders(this.id)
+        for(let employee of allEmployees) {
+            const serviceWorker = new ServiceWorkers(employee)
+            this.serviceWorkers.push(serviceWorker)
+        }
+    };
+
+    loadUserTypes = async (id = undefined) => {
+        const allTypes = await UserService().getUserTypes(id)
+        return allTypes
+    };
+
+    addNewUserType = async (type) => {
+        const newType = await UserService().addNewUserType(type)
+        return newType
     };
 
     addNewProperty = async (property) => {
@@ -132,7 +164,7 @@ export default class User {
     };
 
     addNewTodo = async (propertyId, todoDetails) => {
-        if (this.type === 'manager') {
+        if (this.type === 'Manager') {
             const property = this.properties.find(p => p.id === propertyId)
             const todo = { property: propertyId, img: '', ...todoDetails }
             todo.id = await UserService().addNewTodo(todo)
@@ -143,17 +175,19 @@ export default class User {
         }
     };
 
-    addNewServiceWorkers = async (propertyId, servicerDetails) => {
-        if (this.type === 1) {
-            const property = this.properties.find(p => p.id === propertyId)
-            const serviceWorker = { property: property.id, ...servicerDetails }
-            serviceWorker.id = await UserService().addNewServiceWorker(serviceWorker)
-            property.serviceWorkers.push(new ServiceWorkers(servicerDetails))
+    addNewManagerEmployee = async (servicerDetails) => {
+        if (this.type === 'Manager') {
+            const serviceWorker = await UserService().addNewServiceWorker(servicerDetails)
+            this.serviceWorkers.push(new ServiceWorkers(serviceWorker))
         }
         else {
             console.log('You dont have prommision');
         }
     };
+
+    addNewServiceProperty = async (propertyId, employeeId) => {
+        await UserService().addPropertyServiceWorker(propertyId, employeeId)
+    }
 
     addNewBooking = async (propertyId, bookingDetails) => {
         if (this.type === 1) {
@@ -240,7 +274,7 @@ export default class User {
         }
     };
 
-    deleteServiceWorker = async (propertyId, ServiceWorkerId) => {
+    deleteServiceWorkerFromProperty = async (propertyId, ServiceWorkerId) => {
         if (this.type === 'manager') {
             await UserService().deleteServiceWorkers(propertyId, ServiceWorkerId);
             const property = this.properties.find(p => p.id === propertyId)
@@ -251,6 +285,22 @@ export default class User {
             console.log('You dont have prommision');
         }
     };
+
+    deleteServiceWorkerFromUser = async (ServiceWorkerId) => {
+        if (this.type === 'manager') {
+            for(let property of this.properties) {
+                const serviceWorker = property.serviceWorkers.findIndex(sw => sw.id === ServiceWorkerId)
+                if(serviceWorker >= 0) {
+                    alert('This servive worker is connected to one of your properties. You must detlete it first.')
+                }
+            }
+            await UserService().deleteServiceWorkerFromUser(this.id, ServiceWorkerId)
+        }
+        else {
+            console.log('You dont have prommision');
+        }
+    };
+
     deleteBooking = async (propertyId, BookingId) => {
         if (this.type === 1) {
             await UserService().deleteBooking(BookingId);
