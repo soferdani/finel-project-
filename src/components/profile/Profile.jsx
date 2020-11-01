@@ -27,7 +27,7 @@ const Profile = inject('user')(observer((props) => {
         lastName: user.lastName,
         email: user.email,
         phone: user.phone,
-        userType: user.userType,
+        userType: user.type.type,
         img: '',
         lastPassword: '',
         password: '',
@@ -125,7 +125,7 @@ const Profile = inject('user')(observer((props) => {
 
                 <DetailField
                     type='User Type'
-                    value={user.type} />
+                    value={user.type.type} />
             </List>
             </Grid>
 
