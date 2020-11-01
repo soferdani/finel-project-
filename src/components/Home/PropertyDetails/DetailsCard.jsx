@@ -6,24 +6,38 @@ import {
     Close as CloseIcon
 } from '@material-ui/icons'
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
+    detailsContainer: {
+        padding: '5px',
+        [theme.breakpoints.up('sm')]: {
+            padding: '30px'
+        }
+    },
     cardTitle: {
         fontWeight: 'bold'
     },
     title: {
-        marginBottom: '15px',
-        marginTop: '10px',
-        fontWeight: 'bold'
+        marginBottom: '5px',
+        fontWeight: 'bold',
+        [theme.breakpoints.up('sm')]: {
+            marginBottom: '15px',
+            marginTop: '10px',
+            fontWeight: 'bold',
+        }
     },
     details: {
-        marginBottom: '10px',
-        height: 30
+        marginBottom: '5px',
+        height: 20,
+        [theme.breakpoints.up('sm')]: {
+            marginBottom: '10px',
+            height: 30,
+        }
     },
     detail: {
         marginLeft: '5px',
         color: '#878787'
     }
-})
+}))
 
 const DetailsCard = inject('user')(observer((props) => {  
 
@@ -36,8 +50,8 @@ const DetailsCard = inject('user')(observer((props) => {
             <Typography variant='h6' className={classes.cardTitle}>
                 Details
             </Typography>
-            <Grid item xs={12} container direction='row' >
-                <Grid item xs={6} >
+            <Grid item xs={12} container direction='row' className={classes.detailsContainer}>
+                <Grid item xs={5} >
                     <Typography variant='subtitle1' className={classes.title}>
                         Property
                     </Typography>
@@ -78,7 +92,7 @@ const DetailsCard = inject('user')(observer((props) => {
                         </Typography>
                     </Grid>
                 </Grid>
-                <Grid item xs={6} >
+                <Grid item xs={7} >
                     <Typography variant='subtitle1' className={classes.title}>
                         Owner
                     </Typography>
@@ -87,12 +101,12 @@ const DetailsCard = inject('user')(observer((props) => {
                         <Typography variant='body2' className={classes.detail}>{property.owner.name}</Typography>
                     </Grid>
                     <Grid item xs={12} container direction='row' className={classes.details}>
-                        <Typography variant='subtitle2'>Phone:</Typography>
-                        <Typography variant='body2' className={classes.detail}>{property.owner.phone}</Typography>
-                    </Grid>
-                    <Grid item xs={12} container direction='row' className={classes.details}>
                         <Typography variant='subtitle2'>Email:</Typography>
                         <Typography variant='body2' className={classes.detail}>{property.owner.email}</Typography>
+                    </Grid>
+                    <Grid item xs={12} container direction='row' className={classes.details}>
+                        <Typography variant='subtitle2'>Phone:</Typography>
+                        <Typography variant='body2' className={classes.detail}>{property.owner.phone}</Typography>
                     </Grid>
                     <Grid item xs={12} container direction='row' className={classes.details}>
                         <Typography variant='subtitle2'>Country:</Typography>

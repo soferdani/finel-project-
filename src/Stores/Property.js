@@ -15,7 +15,7 @@ export default class Property {
         this.kitchen = property.kitchen
         this.owner = {
             id: property.ownerId, 
-            name: property.OwnerName, 
+            name: property.ownerName, 
             phone: property.phone, 
             country: property.country, 
             email: property.email

@@ -132,7 +132,7 @@ const PropertyDetails = inject('user')(observer((props) => {
                         xs={12} 
                         className={classes.cardDetails}
                     >
-                        <PropertyServiceProviders />
+                        <PropertyServiceProviders serviceProviders={property.serviceWorkers}/>
                     </Grid>   
                         
                 </CardContent> 
