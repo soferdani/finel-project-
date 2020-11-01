@@ -84,7 +84,16 @@ export default function Form(props) {
                 value={fields.userType}
                 onChange={handleFieldChange}
                 helperText="Please select your type"
-                >
+                SelectProps={{
+                    MenuProps: {
+                      anchorOrigin: {
+                        vertical: "bottom",
+                        horizontal: "left"
+                      },
+                      getContentAnchorEl: null
+                    }
+                  }}
+            >
                 {types.map((option) => (
                     <MenuItem key={option} value={option}>
                     {option}
@@ -96,7 +105,6 @@ export default function Form(props) {
                     disabled={!validateForm()}
                     type='submit'
                 />
-
             </form>
         </Grid>
     )

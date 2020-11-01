@@ -55,6 +55,7 @@ export default class User {
                 await this.loadUserDetails(email)
                 await this.loadUserProperties()
                 await this.loadProperteisTodos()
+                await this.loadProperteisBooking()
             }
             else {
                 this.isAuthenticated = false
@@ -113,9 +114,7 @@ export default class User {
     loadProperteisBooking = async () => {
         for (let property of this.properties) {
             let bookingList = await UserService().getBooking(property.id)
-            // console.log(bookingList);
             bookingList.forEach(booking => {
-                // console.log(booking);
                 property.booking.push(new Booking(booking))
             })
         }
@@ -133,9 +132,9 @@ export default class User {
     };
 
     addNewTodo = async (propertyId, todoDetails) => {
-        if (this.type === 1) {
+        if (this.type === 'manager') {
             const property = this.properties.find(p => p.id === propertyId)
-            const todo = { property: property.id, ...todoDetails }
+            const todo = { property: propertyId, img: '', ...todoDetails }
             todo.id = await UserService().addNewTodo(todo)
             property.todoList.push(new Todo(todo))
         }
@@ -169,9 +168,10 @@ export default class User {
     };
 
     updateUserDetails = async (userDetails) => {
-        await UserService().updateDetails(this.id, userDetails);
+        await UserService().updateUserDetails(this.id, userDetails);
         for (let prop in userDetails) {
-            this[prop] = userDetails[prop]
+            const key = prop === 'first_name' ? "firstName" : prop === 'last_name' ? "lastName" : prop
+            this[key] = userDetails[prop]
         }
     };
 
@@ -199,11 +199,11 @@ export default class User {
         }
     };
 
-    updateTodoStatus = async (propertyId, todoId, todoStatus) => {
+    updateTodoStatus = async (propertyId, todoId) => {
         const property = this.properties.find(p => p.id === propertyId)
         const todo = property.todoList.find(td => td.id === todoId)
-        todo.isComplete = todoStatus
-        await UserService.updateTodoStatus(todo.id, todoStatus)
+        todo.complete = !todo.complete
+        await UserService().updateTodoStatus(todo.id, todo.complete)
     };
 
     updateBooking = async (propertyId, bookingId, bookingDetails) => {
@@ -229,7 +229,7 @@ export default class User {
     };
 
     deleteTodo = async (propertyId, todoId) => {
-        if (this.type === 1) {
+        if (this.type === 'manager') {
             const property = this.properties.find(p => p.id === propertyId)
             const todoIndex = property.todoList.findIndex(td => td.id === todoId)
             property.todoList.splice(todoIndex, 1)
@@ -241,7 +241,7 @@ export default class User {
     };
 
     deleteServiceWorker = async (propertyId, ServiceWorkerId) => {
-        if (this.type === 1) {
+        if (this.type === 'manager') {
             await UserService().deleteServiceWorkers(propertyId, ServiceWorkerId);
             const property = this.properties.find(p => p.id === propertyId)
             const serviceWorkerIndex = property.serviceWorkers.findIndex(sw => sw.id === ServiceWorkerId)
