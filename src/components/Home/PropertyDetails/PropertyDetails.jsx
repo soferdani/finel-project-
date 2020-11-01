@@ -1,53 +1,47 @@
 import React, { useState } from 'react'
-import { makeStyles, useTheme } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles'
 import { 
     Card, 
-    CardActionArea, 
-    CardActions, 
     CardContent, 
     CardMedia, 
-    Button,
     Typography, 
     Grid,
-    CardHeader,
     Divider,
-    AppBar,
     Tabs,
     Tab
 } from '@material-ui/core'
 import { inject, observer } from 'mobx-react'
 import ToDos from './ToDos/ToDos';
-import PropertyCalendar from './PropertyCalendar';
+import PropertyCalendar from './PropertyCalendar'
+import DetailsCard from './DetailsCard'
+import PropertyServiceProviders from './PropertyServiceProviders'
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    width: '100%',
-    paddingTop: '5px',
-    [theme.breakpoints.up('sm')]: {
-        marginLeft: 40
+    detailsContainer: {
+        height: '82vh'
+    },
+    root: {
+        width: '100%',
+        paddingTop: '5px',
+        [theme.breakpoints.up('sm')]: {
+            marginLeft: 40
+        },
+        height: '100%'
+    },
+    cardHead: {
+        marginBottom: '10px',
+        display: 'flex',
+        justifyContent: 'space-between'
+    },
+    img: {
+        height: '100px',
+        width: '150px',
+        borderRadius: '5px',
+        boxShadow: '0px 0px 3px black'
+    },
+    cardDetails: {
+        marginTop: '15px'
     }
-  },
-  cardHead: {
-    marginBottom: '10px',
-    display: 'flex',
-    justifyContent: 'space-between'
-  },
-  img: {
-      height: '100px',
-      width: '150px',
-      borderRadius: '5px',
-      boxShadow: '0px 0px 3px black'
-  },
-  cardDetails: {
-    marginTop: '15px'
-  },
-  calendarContainer:{
-    maxWidth: '100%',
-    height:350,
-    [theme.breakpoints.up('sm')]: {
-        height: 400
-    }
-  }
 }))
 
 const PropertyDetails = inject('user')(observer((props) => {  
@@ -71,13 +65,8 @@ const PropertyDetails = inject('user')(observer((props) => {
         setValue(newValue);
     }
 
-    const handleChangeIndex = (index) => {
-        setValue(index);
-    }
-
-
     return (
-        <Grid item xs={12} container>
+        <Grid item xs={12} container className={classes.detailsContainer}>
             <Card className={classes.root}>
                 <CardContent>
                     <Grid item xs={12} container direction='row' className={classes.cardHead} alignItems='flex-end'> 
@@ -113,14 +102,39 @@ const PropertyDetails = inject('user')(observer((props) => {
                         <Tab label="To Dos" {...a11yProps(2)} />
                         <Tab label="Service Providers" {...a11yProps(3)} />
                     </Tabs>
-                    <PropertyCalendar value={value} bookings={property.booking}/>
-                    <ToDos value={value} toDos={property.todoList} property={property.id} />
-                    <Grid item xs={12} className={classes.cardDetails}>
-                        <Typography variant='h6'>
-                            Service providers
-                        </Typography>
-                        
+                    <Grid 
+                        hidden={value !== 0}
+                        item 
+                        xs={12} 
+                        className={classes.cardDetails}
+                    >
+                        <DetailsCard property={property} />
                     </Grid>
+                    <Grid 
+                        hidden={value !== 1}
+                        item 
+                        xs={12} 
+                        className={classes.cardDetails}
+                    >
+                        <PropertyCalendar value={value} bookings={property.booking}/>
+                    </Grid>
+                    <Grid 
+                        hidden={value !== 2}
+                        item 
+                        xs={12} 
+                        className={classes.cardDetails}
+                    >
+                        <ToDos toDos={property.todoList} property={property.id} />
+                    </Grid>
+                    <Grid 
+                        hidden={value !== 3}
+                        item 
+                        xs={12} 
+                        className={classes.cardDetails}
+                    >
+                        <PropertyServiceProviders />
+                    </Grid>   
+                        
                 </CardContent> 
             </Card>
         </Grid>

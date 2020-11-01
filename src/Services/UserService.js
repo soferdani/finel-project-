@@ -17,14 +17,29 @@ const UserService = function () {
         return todoList.data
     }
 
-    const getServiceWorkers = async (id) => {
-        const serviceWorkers = await axios.get(`http://localhost:3001/service/${id}`)
+    const getUserTypes = async () => {
+        let userTypes
+        if(id) {
+            userTypes = await axios.get(`http://localhost:3001/usertype/${id}`)
+        } else {
+            userTypes = await axios.get(`http://localhost:3001/usertype`)
+        }
+        return userTypes.data
+    }
+
+    const getServiceWorkers = async (id = undefined) => {
+        const serviceWorkers = await axios.get(`http://localhost:3001/useremployee/${id}`)
         return serviceWorkers.data
     }
 
     const getBooking = async (id) => {
         const booking = await axios.get(`http://localhost:3001/booking/${id}`)
         return booking.data
+    }
+
+    const addNewUserType = async (type) => {
+        const newType = await axios.get(`http://localhost:3001/usertype`, { type })
+        return newType
     }
 
     const addNewProperty = async (propertyDetails) => {
@@ -97,6 +112,8 @@ const UserService = function () {
         getPropertyTodo,
         getServiceWorkers,
         getBooking,
+        getUserTypes,
+        addNewUserType,
         addNewProperty,
         addNewTodo,
         addNewServiceWorker,

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { Fragment, useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { 
     Typography, 
@@ -44,7 +44,7 @@ const ToDos = inject('user')(observer((props) => {
     }
 
     return (
-        <Grid item xs={12} className={classes.cardDetails} hidden={value !== 2}>
+        <Fragment>
             <Grid item xs={12} container direction='row' >
                <Typography variant='h6'>
                     Open tasks 
@@ -57,7 +57,7 @@ const ToDos = inject('user')(observer((props) => {
                 handleClose={handleClose}
                 handleSubmitTodo={handleSubmitTodo}
             />
-        </Grid>
+        </Fragment>
     )
 }))
 

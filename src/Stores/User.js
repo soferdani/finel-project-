@@ -37,6 +37,8 @@ export default class User {
             loadUserDetails: action,
             loadUserProperties: action,
             loadProperteisTodos: action,
+            getAllUserTypes: action,
+            addNewUserType: action,
             addNewProperty: action,
             addNewTodo: action,
             updateUserDetails: action,
@@ -46,7 +48,7 @@ export default class User {
             deleteProperty: action,
             deleteTodo: action
         })
-    };
+    }
 
     userHasAuthenticated = async (email = undefined, bool) => {
         try {
@@ -87,6 +89,7 @@ export default class User {
     };
 
     loadUserProperties = async () => {
+        this.properties = []
         const userProperties = await UserService().getUserProperties(this.id)
         userProperties.forEach(p => {
             this.properties.push(new Property(p))
@@ -121,6 +124,16 @@ export default class User {
             })
         }
     };
+
+    getAllUserTypes = async () => {
+        const allTypes = await UserService().getUserTypes()
+        return allTypes
+    }
+
+    addNewUserType = async (type) => {
+        const newType = await UserService().addNewUserType(type)
+        return newType
+    }
 
     addNewProperty = async (property) => {
         if (this.type === 1) {

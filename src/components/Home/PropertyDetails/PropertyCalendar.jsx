@@ -1,7 +1,7 @@
 
 import { Grid, makeStyles, Paper, Typography } from '@material-ui/core'
 import { inject, observer } from 'mobx-react'
-import React from 'react'
+import React, { Fragment } from 'react'
 import moment from 'moment'
 import {
     Scheduler,
@@ -10,9 +10,6 @@ import {
   } from '@devexpress/dx-react-scheduler-material-ui'
 
 const useStyles = makeStyles((theme) => ({
-    cardDetails: {
-      marginTop: '15px'
-    },
     calendarContainer:{
       maxWidth: '100%',
       height:350,
@@ -57,14 +54,8 @@ const PropertyCalendar = inject('user')(observer((props) => {
         }
     }
 
-    return (
-        
-        <Grid 
-            hidden={value !== 1}
-            item 
-            xs={12} 
-            className={classes.cardDetails}
-        >
+    return ( 
+        <Fragment>
             <Typography variant='h6'>
                 Weekly Schedule
             </Typography>
@@ -80,7 +71,7 @@ const PropertyCalendar = inject('user')(observer((props) => {
                     <Appointments />
                 </Scheduler>
             </Paper>
-        </Grid>
+        </Fragment>
     )
 }))
 
