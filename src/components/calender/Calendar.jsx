@@ -46,8 +46,6 @@ const Calendar = inject('user')(observer((props) => {
     setBooking(newBooking)
   }, [])
 
-  console.log(user.properties[0].booking);
-
   return (
     <Grid
       item
@@ -55,6 +53,7 @@ const Calendar = inject('user')(observer((props) => {
       className={classes.cardDetails}>
 
       <Grid
+        container
         item
         xs={12}
         justify="center">
@@ -74,7 +73,7 @@ const Calendar = inject('user')(observer((props) => {
           />
           <MonthView />
           <Toolbar />
-          <DateNavigator onClick={() => console.log('hello')} />
+          <DateNavigator />
           <TodayButton />
           <Appointments />
         </Scheduler>

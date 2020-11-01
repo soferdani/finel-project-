@@ -67,6 +67,7 @@ export default class User {
                 await this.loadPropertiesWorkers()
                 await this.loadProperteisTodos()
                 await this.loadProperteisBooking()
+                console.log(this);
             }
             else {
                 this.isAuthenticated = false
@@ -94,14 +95,17 @@ export default class User {
         this.email = user.email
         this.phone = user.phone
         this.dateJoin = user.dateJoin
-        this.type = user.type
+        this.type = {
+           type: user.type,
+            id: user.typeId
+        }
     };
 
     loadUserProperties = async () => {
         this.properties = []
         const userProperties = await UserService().getUserProperties(this.id)
         for(let property of userProperties) {
-            this.properties.push(new Property(property))    
+            this.properties.push(new Property(property))
         }
     };
 
