@@ -1,4 +1,4 @@
-import { Grid, makeStyles } from '@material-ui/core'
+import { Grid, makeStyles, Typography } from '@material-ui/core'
 import { inject, observer } from 'mobx-react'
 import React, { useEffect, useState } from 'react'
 import Paper from '@material-ui/core/Paper';
@@ -12,15 +12,18 @@ import {
   TodayButton,
 } from '@devexpress/dx-react-scheduler-material-ui';
 
-
-
 const useStyles = makeStyles((theme) => ({
+  cardDetails: {
+    marginTop: '15px'
+  },
   calendarContainer: {
+    maxWidth: '90%',
+    height: '100%',
     [theme.breakpoints.up('sm')]: {
       marginLeft: 100,
-      paddingTop: '40px',
-      padding: '30px',
-    },
+      maxWidth: '90%',
+      height: 600
+    }
   }
 }))
 
@@ -46,24 +49,37 @@ const Calendar = inject('user')(observer((props) => {
   console.log(user.properties[0].booking);
 
   return (
-    <Grid item
+    <Grid
+      item
       xs={12}
-      container className={classes.calendarContainer}>
-      <Paper>
+      className={classes.cardDetails}>
+
+      <Grid
+        item
+        xs={12}
+        justify="center">
+        `<Typography variant='h5'>
+          All properties Schedule
+  `     </Typography>`
+  </Grid>
+
+      <Paper className={classes.calendarContainer}>
+
         <Scheduler
           data={booking}
+          height='100%'
         >
           <ViewState
             defaultCurrentDate={Date.now()}
           />
           <MonthView />
           <Toolbar />
-          <DateNavigator onClick={()=> console.log('hello')} />
+          <DateNavigator onClick={() => console.log('hello')} />
           <TodayButton />
           <Appointments />
         </Scheduler>
       </Paper>
-    </Grid>
+    </Grid >
   )
 }))
 export default Calendar
