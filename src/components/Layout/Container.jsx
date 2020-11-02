@@ -6,7 +6,9 @@ import { useHistory, BrowserRouter as Router, Route, Redirect, IndexRoute } from
 import Calendar from '../calender/Calendar'
 import Properties from '../Home/Properties'
 import Menu from './Menu'
+
 import Profile from '../profile/Profile'
+import ServiceProvMain from '../serviceProviders/serviceProvMain'
 
 const useStyles = makeStyles((theme) => ({
     homeContainer: {
@@ -30,18 +32,19 @@ const Container = inject('user')(observer((props) => {
     async function handleLogout() {
         await Auth.signOut()
         user.userHasAuthenticated(false)
+        localStorage.clear()
         history.push('/login')
     }
 
     return (
-        <Router>  
+        <Router>
             <Grid item xs={12} container className={classes.container} alignItems='flex-start'>
                 <Menu handleLogout={handleLogout} />
-                <Redirect from='/home' to='/home/properties'/>
-                <Grid 
-                    item 
-                    xs={12} 
-                    className={classes.homeContainer} 
+                <Redirect to={localStorage.currentRoute}/>
+                <Grid
+                    item
+                    xs={12}
+                    className={classes.homeContainer}
                     container
 
                 >
@@ -62,24 +65,24 @@ const Container = inject('user')(observer((props) => {
                         }
                     />
 
-                    <Route 
-                        path='/calendar' 
-                        exact render={({ match }) => 
-                            <Calendar 
-                                match={match} 
+                    <Route
+                        path='/calendar'
+                        exact render={({ match }) =>
+                            <Calendar
+                                match={match}
                             />
                         }
                     />
-                    <Route 
+                    <Route
                         path='/profile'
-                        exact render={() => 
+                        exact render={() =>
                             <Profile />
-                        } 
+                        }
                     />
-                    <Route 
+                    <Route
                         path='/serviceproviders'
                         exact render={() => 
-                            <Profile />
+                            <ServiceProvMain />
                         } 
                     />
 

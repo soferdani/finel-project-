@@ -109,7 +109,9 @@ const Menu = inject('user')(observer((props) => {
     <div>
         <div className={classes.toolbar} />
         <List>
-        <Link to='/profile' className={classes.link}>
+        <Link to='/profile'
+        onClick={() => localStorage.setItem('currentRoute', '/profile')}
+        className={classes.link}>
           <ListItem button key='img'>
             <ListItemIcon>
               <Avatar
@@ -121,7 +123,9 @@ const Menu = inject('user')(observer((props) => {
             <ListItemText primary='Profile' />
           </ListItem>
         </Link>
-            <Link to='/home/properties' className={classes.link}>
+            <Link to='/home/properties'
+            onClick={() => localStorage.setItem('currentRoute', '/home/properties')}
+            className={classes.link}>
                 <ListItem button key='Home'>
                     <ListItemIcon>
                         <HomeIcon />
@@ -129,7 +133,9 @@ const Menu = inject('user')(observer((props) => {
                     <ListItemText primary='Home'/>
                 </ListItem>
             </Link>
-            <Link to='/calendar' className={classes.link}>
+            <Link to='/calendar'
+            onClick={() => localStorage.setItem('currentRoute', '/calendar')}
+            className={classes.link}>
                 <ListItem button key='Calendar'>
                     <ListItemIcon>
                         <EventIcon />
@@ -137,7 +143,9 @@ const Menu = inject('user')(observer((props) => {
                     <ListItemText primary='Calendar'/>
                 </ListItem>
             </Link>
-            <Link to='/serviceproviders' className={classes.link}>
+            <Link to='/serviceproviders'
+            onClick={() => localStorage.setItem('currentRoute', '/serviceproviders')}
+            className={classes.link}>
                 <ListItem button key='Service-Providers'>
                     <ListItemIcon>
                         <GroupIcon />
@@ -145,7 +153,9 @@ const Menu = inject('user')(observer((props) => {
                     <ListItemText primary='Service Providers'/>
                 </ListItem>
             </Link>
-            <Link to='/charts' className={classes.link}>
+            <Link to='/charts'
+            onClick={() => localStorage.setItem('currentRoute', '/charts')}
+            className={classes.link}>
                 <ListItem button key='Analytics'>
                     <ListItemIcon>
                         <TrendingUpIcon />

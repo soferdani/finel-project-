@@ -67,7 +67,8 @@ export default class User {
                 await this.loadUserProperties()
                 await this.loadPropertiesWorkers()
                 await this.loadProperteisTodos()
-                console.log(this)
+                await this.loadProperteisBooking()
+                console.log(this);
             }
             else {
                 this.isAuthenticated = false
@@ -105,7 +106,7 @@ export default class User {
         this.properties = []
         const userProperties = await UserService().getUserProperties(this.id)
         for(let property of userProperties) {
-            this.properties.push(new Property(property))    
+            this.properties.push(new Property(property))
         }
     };
 
@@ -132,9 +133,7 @@ export default class User {
     loadProperteisBooking = async () => {
         for (let property of this.properties) {
             let bookingList = await UserService().getBooking(property.id)
-            console.log(bookingList);
             bookingList.forEach(booking => {
-                console.log(booking);
                 property.booking.push(new Booking(booking))
             })
         }

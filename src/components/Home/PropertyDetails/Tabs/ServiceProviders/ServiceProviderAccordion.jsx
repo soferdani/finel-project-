@@ -5,7 +5,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 
 const useStyles = makeStyles((theme) => ({
     serviceProviderCard: {
-        backgroundColor: '#DFE8F2'
+        backgroundColor: '#8ecae6'
     },
     heading: {
         fontSize: theme.typography.pxToRem(15),
