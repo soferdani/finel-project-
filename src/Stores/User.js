@@ -200,7 +200,7 @@ export default class User {
 
     addNewBooking = async (bookingDetails) => {
         if (this.type.id === 1) {
-            const property = this.properties.find(p => p.id === bookingDetails.property)
+            const property = this.properties.find(p => p.name === bookingDetails.villa_name)
             bookingDetails.id = await UserService().addNewBooking(bookingDetails)
             property.booking.push(new Booking(bookingDetails))
             return bookingDetails.id
