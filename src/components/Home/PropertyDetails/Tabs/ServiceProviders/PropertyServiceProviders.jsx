@@ -1,9 +1,8 @@
 import { makeStyles, Typography, CssBaseline, Hidden, Grid, Button } from '@material-ui/core'
 import { inject, observer } from 'mobx-react'
 import React, { Fragment, useState } from 'react'
-import ServiceProvidersAccordion from './ServiceProviderAccordion'
-import ServiceProvidersTable from './ServiceProviderTable'
 import NewServiceProvider from './NewServiceProvider'
+import ServiceProvidersRow from './ServiceProviderRow'
 
 const useStyles = makeStyles((theme) => ({
     addButton: {
@@ -46,6 +45,10 @@ const PropertyServiceProviders = inject('user')(observer((props) => {
         handleClose()
     }
 
+    const handleDelete = async function(workerId) {
+        await user.deleteServiceWorkerFromProperty(property.id, workerId)
+    }
+
     const classes = useStyles()
 
     return (
@@ -58,10 +61,28 @@ const PropertyServiceProviders = inject('user')(observer((props) => {
             </Grid>
             <CssBaseline />
             <Hidden mdUp implementation="css">
-                <ServiceProvidersAccordion serviceProviders={serviceProviders} />
+                {serviceProviders
+                    .map(p => 
+                        <ServiceProvidersRow 
+                            key={p.id} 
+                            serviceProvider={p} 
+                            rowType={0}
+                            handleDelete={handleDelete}
+                        />
+                    )
+                } 
             </Hidden>
             <Hidden smDown implementation="css">
-                <ServiceProvidersTable serviceProviders={serviceProviders} />
+                {serviceProviders
+                    .map(p => 
+                        <ServiceProvidersRow 
+                            key={p.id} 
+                            serviceProvider={p} 
+                            rowType={1}
+                            handleDelete={handleDelete}
+                        />
+                    )
+                }
             </Hidden>
             <NewServiceProvider 
                 open={openNew} 

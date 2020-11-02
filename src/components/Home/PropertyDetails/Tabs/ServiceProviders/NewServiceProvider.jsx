@@ -21,6 +21,7 @@ const NewServiceProvider = inject('user')(observer((props) => {
     
     async function handleSubmitService() {
         props.handleSubmitService(input)
+        setInput('')
     }
 
     return (

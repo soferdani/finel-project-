@@ -67,7 +67,7 @@ export default class User {
                 await this.loadUserProperties()
                 await this.loadPropertiesWorkers()
                 await this.loadProperteisTodos()
-                await this.loadProperteisBooking()
+                // await this.loadProperteisBooking()
                 console.log(this);
             }
             else {
@@ -284,7 +284,7 @@ export default class User {
     };
 
     deleteServiceWorkerFromProperty = async (propertyId, ServiceWorkerId) => {
-        if (this.type === 'manager') {
+        if (this.type.id === 1) {
             await UserService().deleteServiceWorkers(propertyId, ServiceWorkerId);
             const property = this.properties.find(p => p.id === propertyId)
             const serviceWorkerIndex = property.serviceWorkers.findIndex(sw => sw.id === ServiceWorkerId)
