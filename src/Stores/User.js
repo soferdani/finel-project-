@@ -46,6 +46,7 @@ export default class User {
             addNewUserType: action,
             addNewProperty: action,
             addNewTodo: action,
+            addNewServiceProperty: action,
             updateUserDetails: action,
             updatePropertyDetails: action,
             updateTodoDetails: action,
@@ -94,7 +95,10 @@ export default class User {
         this.email = user.email
         this.phone = user.phone
         this.dateJoin = user.dateJoin
-        this.type = user.type
+        this.type = {
+            id: user.typeId, 
+            type: user.type
+        }
     };
 
     loadUserProperties = async () => {
@@ -137,6 +141,7 @@ export default class User {
     };
 
     loadUserServiceProviders = async () => {
+        this.serviceWorkers = []
         const allEmployees = await UserService().getUserServiceProviders(this.id)
         for(let employee of allEmployees) {
             const serviceWorker = new ServiceWorkers(employee)
@@ -189,6 +194,9 @@ export default class User {
 
     addNewServiceProperty = async (propertyId, employeeId) => {
         await UserService().addPropertyServiceWorker(propertyId, employeeId)
+        const serviceWorker = this.serviceWorkers.find(w => w.id === employeeId)
+        const property = this.properties.find(p => p.id === propertyId)
+        property.serviceWorkers.push(serviceWorker)
     }
 
     addNewBooking = async (propertyId, bookingDetails) => {

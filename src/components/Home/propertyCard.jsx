@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     marginBottom: '30px',
     maxHeight: '100%',
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up('md')]: {
         marginLeft: 40
     },
   },
