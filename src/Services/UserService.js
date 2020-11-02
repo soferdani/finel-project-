@@ -24,6 +24,7 @@ const UserService = function () {
         } else {
             userTypes = await axios.get(`http://localhost:3001/usertype`)
         }
+        // console.log(userTypes);
         return userTypes.data
     }
 
@@ -59,7 +60,7 @@ const UserService = function () {
 
     const addNewServiceWorker = async (managerId, serviceWorker) => {
         const newServiceWorker = await axios.post('http://localhost:3001/user', serviceWorker)
-        await axios.post('http://localhost:3001/useremployee', { managerId, employeeId: newServiceWorker.id})
+        await axios.post('http://localhost:3001/useremployee', { managerId, employeeId: newServiceWorker.data[0]})
         return newServiceWorker.data
     }
 

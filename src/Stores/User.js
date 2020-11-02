@@ -10,6 +10,8 @@ import ServiceWorkers from '../Stores/ServiceWorkers'
 import Booking from '../Stores/Booking'
 import UserService from '../Services/UserService'
 
+
+// idan
 export default class User {
 
     constructor() {
@@ -46,6 +48,7 @@ export default class User {
             addNewUserType: action,
             addNewProperty: action,
             addNewTodo: action,
+            addNewManagerEmployee: action,
             updateUserDetails: action,
             updatePropertyDetails: action,
             updateTodoDetails: action,
@@ -66,7 +69,7 @@ export default class User {
                 await this.loadUserProperties()
                 await this.loadPropertiesWorkers()
                 await this.loadProperteisTodos()
-                await this.loadProperteisBooking()
+                // await this.loadProperteisBooking()
                 console.log(this);
             }
             else {
@@ -148,6 +151,7 @@ export default class User {
 
     loadUserTypes = async (id = undefined) => {
         const allTypes = await UserService().getUserTypes(id)
+        // console.log(allTypes);
         return allTypes
     };
 
@@ -180,8 +184,10 @@ export default class User {
     };
 
     addNewManagerEmployee = async (servicerDetails) => {
-        if (this.type === 'Manager') {
-            const serviceWorker = await UserService().addNewServiceWorker(servicerDetails)
+        console.log(servicerDetails);
+        if (this.type.id === 1) {
+            const serviceWorker = await UserService().addNewServiceWorker(this.id ,servicerDetails)
+            console.log(serviceWorker);
             this.serviceWorkers.push(new ServiceWorkers(serviceWorker))
         }
         else {
