@@ -69,8 +69,7 @@ export default class User {
                 await this.loadUserProperties()
                 await this.loadPropertiesWorkers()
                 await this.loadProperteisTodos()
-                // await this.loadProperteisBooking()
-                console.log(this);
+                await this.loadProperteisBooking()
             }
             else {
                 this.isAuthenticated = false
@@ -199,12 +198,12 @@ export default class User {
         await UserService().addPropertyServiceWorker(propertyId, employeeId)
     }
 
-    addNewBooking = async (propertyId, bookingDetails) => {
-        if (this.type === 1) {
-            const property = this.properties.find(p => p.id === propertyId)
-            const newBooking = { property: property.id, ...bookingDetails }
-            newBooking.id = await UserService().addNewBooking(newBooking)
-            property.serviceWorkers.push(new Booking(newBooking))
+    addNewBooking = async (bookingDetails) => {
+        if (this.type.id === 1) {
+            const property = this.properties.find(p => p.id === bookingDetails.property)
+            bookingDetails.id = await UserService().addNewBooking(bookingDetails)
+            property.booking.push(new Booking(bookingDetails))
+            return bookingDetails.id
         }
         else {
             console.log('You dont have prommision');
@@ -250,13 +249,14 @@ export default class User {
         await UserService().updateTodoStatus(todo.id, todo.complete)
     };
 
-    updateBooking = async (propertyId, bookingId, bookingDetails) => {
-        const property = this.properties.find(p => p.id === propertyId)
-        const booking = property.booking.find(b => b.id === bookingId)
-        if (this.type === 1) {
-            await UserService.updateBookingDetails(bookingId, bookingDetails)
+    updateBooking = async ( bookingId, bookingDetails) => {
+        const booking = this.properties.find(p => p.booking.find(b => b.id === bookingId))
+        .booking.find(b => b.id === bookingId)
+        if (this.type.id === 1) {
+            await UserService().updateBookingDetails(bookingId, bookingDetails)
             for (let b in bookingDetails) {
-                booking[b] = bookingDetails[b]
+                const newKey = b === 'start_date' ? 'startDate' : b === "end_date" ? 'endDate' : b
+                booking[newKey] = bookingDetails[b]
             }
         }
     };
@@ -311,12 +311,13 @@ export default class User {
         }
     };
 
-    deleteBooking = async (propertyId, BookingId) => {
-        if (this.type === 1) {
+    deleteBooking = async (BookingId) => {
+        if (this.type.id === 1) {
             await UserService().deleteBooking(BookingId);
-            const property = this.properties.find(p => p.id === propertyId)
-            const bookingIndex = property.booking.findIndex(b=> b.id === BookingId)
-            property.booking.splice(bookingIndex, 1)
+            this.properties = this.properties.map(p=>{
+                p.booking = p.booking.filter(b => b.id !== BookingId)
+                return p
+            })
         }
         else {
             console.log('You dont have prommision');
