@@ -114,7 +114,7 @@ const NewToDo = inject('user')(observer((props) => {
                 >
                     {property
                         .serviceWorkers
-                            .filter(w => input.type && w.type.id === input.type)
+                            .filter(w => input.typeId && w.type.id === input.typeId)
                             .map((w) => (
                                 <MenuItem key={w.id} value={w.id}>
                                     {w.firstName} {w.lastName} - {w.type.type}

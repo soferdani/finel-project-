@@ -8,13 +8,15 @@ import {
     Grid,
     Divider,
     Tabs,
-    Tab
+    Tab,
+    Button
 } from '@material-ui/core'
 import { inject, observer } from 'mobx-react'
 import ToDos from './Tabs/ToDos/ToDos';
 import PropertyCalendar from './Tabs/PropertyCalendar'
-import DetailsCard from './Tabs/DetailsCard'
+import DetailsCard from './Tabs/Details/DetailsCard'
 import PropertyServiceProviders from './Tabs/ServiceProviders/PropertyServiceProviders'
+import { Redirect, useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -36,6 +38,10 @@ const useStyles = makeStyles((theme) => ({
         borderRadius: '5px',
         boxShadow: '0px 0px 3px black'
     },
+    deleteButton: {
+        color: '#fb8500',
+        fontSize: '0.7em'
+    },
     cardDetails: {
         marginTop: '15px'
     },
@@ -54,6 +60,8 @@ const PropertyDetails = inject('user')(observer((props) => {
 
     const [value, setValue] = useState(0);
 
+    const history = useHistory()
+
     function a11yProps(index) {
         return {
           id: `full-width-tab-${index}`,
@@ -63,6 +71,11 @@ const PropertyDetails = inject('user')(observer((props) => {
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
+    }
+
+    const handleDelete = () => {
+        user.deleteProperty(property.id)
+        history.push('/home/properties')
     }
 
     return (
@@ -77,6 +90,7 @@ const PropertyDetails = inject('user')(observer((props) => {
                             <Typography variant='body2'>
                                 {property.address}
                             </Typography>
+                            <Button className={classes.deleteButton} size='small' onClick={handleDelete}>DELETE PROPERTY</Button> 
                         </Grid> 
                         <Grid item xs={5} container justify='flex-end'>
                             <CardMedia
@@ -133,7 +147,7 @@ const PropertyDetails = inject('user')(observer((props) => {
                         className={classes.cardDetails}
                     >
                         <PropertyServiceProviders property={property}/>
-                    </Grid>                 
+                    </Grid>           
                 </CardContent> 
             </Card>
         </Grid>
