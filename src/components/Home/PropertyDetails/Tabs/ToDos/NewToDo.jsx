@@ -10,17 +10,22 @@ import { MenuItem } from '@material-ui/core'
 
 export default function NewToDo(props) {
 
-    const { open, handleClose } = props
+    const { open, handleClose, property } = props
 
     const types = ['Manager', 'Electricity', 'Plumbing', 'Pool']
 
     const [input, setInput] = useState({
         task: '',
-        type: ''
+        type: '',
+        serviceProvider: ''
     })
 
     async function handleInputChange(event) {
-        setInput({ ...input, [event.target.name]: event.target.value})
+        let value = event.target.value
+        if(event.target.name === 'serviceProvider') {
+            value = parseInt(value)
+        }
+        setInput({ ...input, [event.target.name]: value})
     }
     
     async function handleSubmitTodo() {
@@ -47,7 +52,7 @@ export default function NewToDo(props) {
                     fullWidth
                     onChange={handleInputChange}
                 />
-                 <TextField
+                <TextField
                     id="outlined-select-currency"
                     select
                     label="Select task's type"
@@ -66,12 +71,41 @@ export default function NewToDo(props) {
                         }
                     }}
                 >
-                {types.map((option) => (
-                    <MenuItem key={option} value={option}>
-                        {option}
-                    </MenuItem>
-                ))}
-            </TextField>
+                    {types.map((option) => (
+                        <MenuItem key={option} value={option}>
+                            {option}
+                        </MenuItem>
+                    ))}
+                </TextField>
+                <TextField
+                    id="outlined-select-currency"
+                    select
+                    label="Select an employee"
+                    name='serviceProvider'
+                    value={input.serviceProvider}
+                    onChange={handleInputChange}
+                    helperText="Please assign this task to one of the service providers"
+                    fullWidth
+                    SelectProps={{
+                        MenuProps: {
+                          anchorOrigin: {
+                            vertical: "bottom",
+                            horizontal: "left"
+                          },
+                          getContentAnchorEl: null
+                        }
+                    }}
+                >
+                    {property
+                        .serviceWorkers
+                            .filter(w => w.type.type.includes(input.type))
+                            .map((w) => (
+                                <MenuItem key={w.id} value={w.id}>
+                                    {w.firstName} {w.lastName} - {w.type.type}
+                                </MenuItem>
+                            ))
+                    }
+                </TextField>
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleClose} color="primary">

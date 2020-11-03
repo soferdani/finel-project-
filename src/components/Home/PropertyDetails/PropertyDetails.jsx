@@ -124,7 +124,7 @@ const PropertyDetails = inject('user')(observer((props) => {
                         xs={12} 
                         className={classes.cardDetails}
                     >
-                        <ToDos toDos={property.todoList} property={property.id} />
+                        <ToDos toDos={property.todoList} property={property} />
                     </Grid>
                     <Grid 
                         hidden={value !== 3}

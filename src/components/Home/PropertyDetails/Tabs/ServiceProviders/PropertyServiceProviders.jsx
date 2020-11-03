@@ -9,6 +9,13 @@ const useStyles = makeStyles((theme) => ({
         color: '#fb8500',
         marginLeft: '10px',
         fontSize: '0.7em'
+    },
+    tableCell: {
+        marginBottom: '5px',
+        marginTop: '10px'
+    },
+    tableTitles: {
+        fontWeight: 'bold'
     }
 }))
 
@@ -73,6 +80,41 @@ const PropertyServiceProviders = inject('user')(observer((props) => {
                 } 
             </Hidden>
             <Hidden smDown implementation="css">
+            <Grid 
+                    item 
+                    xs={12} 
+                    container 
+                    direction='row' 
+                    className={classes.tableCell}
+                    alignItems='center'
+                >
+                    <Grid item xs={1}></Grid>
+                    <Grid item xs={2}>
+                        <Typography variant='body1' className={classes.tableTitles}>
+                            First Name
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={2}>
+                        <Typography variant='body1' className={classes.tableTitles}>
+                            Last Name
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={2}>
+                        <Typography variant='body1' className={classes.tableTitles}>
+                            Type
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={3}>
+                        <Typography variant='body1' className={classes.tableTitles}>
+                            Email
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={2}>
+                        <Typography variant='body1' className={classes.tableTitles}>
+                            Phone
+                        </Typography>
+                    </Grid>
+                </Grid>
                 {serviceProviders
                     .map(p => 
                         <ServiceProvidersRow 

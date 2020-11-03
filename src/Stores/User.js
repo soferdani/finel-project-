@@ -170,9 +170,9 @@ export default class User {
     };
 
     addNewTodo = async (propertyId, todoDetails) => {
-        if (this.type === 'Manager') {
+        if (this.type.id === 1) {
             const property = this.properties.find(p => p.id === propertyId)
-            const todo = { property: propertyId, img: '', ...todoDetails }
+            const todo = { ...todoDetails, property: propertyId, img: '' }
             todo.id = await UserService().addNewTodo(todo)
             property.todoList.push(new Todo(todo))
         }
@@ -272,7 +272,7 @@ export default class User {
     };
 
     deleteTodo = async (propertyId, todoId) => {
-        if (this.type === 'manager') {
+        if (this.type.id === 1) {
             const property = this.properties.find(p => p.id === propertyId)
             const todoIndex = property.todoList.findIndex(td => td.id === todoId)
             property.todoList.splice(todoIndex, 1)

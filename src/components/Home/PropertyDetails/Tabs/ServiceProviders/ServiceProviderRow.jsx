@@ -20,9 +20,6 @@ const useStyles = makeStyles((theme) => ({
         marginTop: '10px',
         marginBottom: '5px'
     },
-    tableTitles: {
-        fontWeight: 'bold'
-    },
     tableCell: {
         marginBottom: '5px'
     }
