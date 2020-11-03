@@ -1,4 +1,4 @@
-import { Button, Divider, Grid, makeStyles, Typography } from '@material-ui/core'
+import { Button, Divider, Grid, makeStyles, Snackbar, Typography } from '@material-ui/core'
 import { inject, observer } from 'mobx-react'
 import React, { Fragment, useState } from 'react'
 import {
@@ -6,6 +6,7 @@ import {
     Close as CloseIcon
 } from '@material-ui/icons'
 import EditDetails from './EditDetails'
+import { Alert } from '@material-ui/lab'
 
 const useStyles = makeStyles((theme) => ({
     detailsContainer: {
@@ -54,6 +55,8 @@ const DetailsCard = inject('user')(observer((props) => {
 
     const [open, setOpen] = useState(false)
 
+    const [alert, setAlert] = useState(false)
+
     const handleOpenEdit = () => {
         setOpen(true)
     }
@@ -63,7 +66,9 @@ const DetailsCard = inject('user')(observer((props) => {
     }
 
     async function handleSubmitEdit(updatedDetails) {
-        user.updatePropertyDetails(property.id, updatedDetails)
+        await user.updatePropertyDetails(property.id, updatedDetails)
+        handleCloseEdit()
+        setAlert(true)
     }
 
     return (
@@ -145,6 +150,11 @@ const DetailsCard = inject('user')(observer((props) => {
                     </Grid>
                 </Grid>
             </Grid>
+            <Snackbar open={alert} autoHideDuration={6000} onClose={() => setAlert(false)}>
+                <Alert onClose={() => setAlert(false)} severity="info">
+                    Changes has been successfully added!
+                </Alert>
+            </Snackbar>
         </Fragment>
     )
 }))

@@ -1,4 +1,5 @@
-import { makeStyles, Typography, CssBaseline, Hidden, Grid, Button } from '@material-ui/core'
+import { makeStyles, Typography, CssBaseline, Hidden, Grid, Button, Snackbar } from '@material-ui/core'
+import { Alert } from '@material-ui/lab'
 import { inject, observer } from 'mobx-react'
 import React, { Fragment, useState } from 'react'
 import NewServiceProvider from './NewServiceProvider'
@@ -27,6 +28,8 @@ const PropertyServiceProviders = inject('user')(observer((props) => {
 
     const [openNew, setOpenNew] = useState(false)
 
+    const [alert, setAlert] = useState({add: false, delete: false})
+
     const findAvailableProviders = function() {
         const providers = []
         for(let worker of user.serviceWorkers) {
@@ -48,12 +51,14 @@ const PropertyServiceProviders = inject('user')(observer((props) => {
     }
 
     const handleSubmitService = async function(workerId) {
-        user.addNewServiceProperty(property.id, workerId)
+        await user.addNewServiceProperty(property.id, workerId)
         handleClose()
+        setAlert({...alert, add: true})
     }
 
     const handleDelete = async function(workerId) {
         await user.deleteServiceWorkerFromProperty(property.id, workerId)
+        setAlert({...alert, delete: true})
     }
 
     const classes = useStyles()
@@ -132,6 +137,16 @@ const PropertyServiceProviders = inject('user')(observer((props) => {
                 handleClose={handleClose}
                 handleSubmitService={handleSubmitService}
             />
+            <Snackbar open={alert.add} autoHideDuration={6000} onClose={() => setAlert({...alert, add: false})}>
+                <Alert onClose={() => setAlert({...alert, add: false})} severity="info">
+                    Service Provider has been successfully added!
+                </Alert>
+            </Snackbar>
+            <Snackbar open={alert.delete} autoHideDuration={6000} onClose={() => setAlert({...alert, delete: false})}>
+                <Alert onClose={() => setAlert({...alert, delete: false})} severity="info">
+                Service Provider has been successfully removed!
+                </Alert>
+            </Snackbar>
         </Fragment>
     )
 }))
