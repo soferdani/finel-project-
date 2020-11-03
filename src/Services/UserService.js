@@ -76,11 +76,7 @@ const UserService = function () {
     }
 
     const addPropertyServiceWorker = async (propertyId, employeeId) => {
-<<<<<<< HEAD
         const PropertyUser = await axios.post('http://localhost:3001/service', {user: employeeId, property: propertyId})
-=======
-        const PropertyUser = await axios.post('http://localhost:3001/service-create', { user: employeeId, property: propertyId })
->>>>>>> 1e7a19dfdb9dee9af2bf773a431064603f667cc1
         return PropertyUser.data
     }
 
