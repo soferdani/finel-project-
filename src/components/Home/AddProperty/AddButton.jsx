@@ -15,15 +15,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AddButtun() {
+export default function AddButtun(props) {
 
   const classes = useStyles();
 
+  const handleOpenAddDialog = () => {
+    props.handleOpenAddDialog()
+  }
+
   return (
-      <Tooltip title="Add Property" aria-label="Add Property">
-        <Fab color="secondary" className={classes.absolute}>
-          <AddIcon />
-        </Fab>
-      </Tooltip>
+    <Tooltip 
+      title="Add Property" 
+      aria-label="Add Property"
+      onClick={handleOpenAddDialog}>
+      <Fab color="secondary" className={classes.absolute}>
+        <AddIcon />
+      </Fab>
+    </Tooltip>
   );
 }

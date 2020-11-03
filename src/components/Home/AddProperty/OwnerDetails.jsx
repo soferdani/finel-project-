@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import Dialog from '@material-ui/core/Dialog'
@@ -9,18 +9,28 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 
 export const OwnerDetails = (props) => {
 
-    const { open, handleChange, handleAddOwnerDetails, handleCancelOwnerDialog } = props
+    const { open, handleChange, handleCloseDialog } = props
+    const [ownerDetails, setOwnerDetails] = useState({
+        name: '',
+        phone: '',
+        country: '',
+        email: ''
+    })
 
-    const handleOwnerChange = (e) => {
-        handleChange(e)
+    const handleOwnerChange = (event) => {
+        setOwnerDetails({ ...ownerDetails, [event.target.name]: event.target.value })
     }
 
     const addOwner = () => {
-        handleAddOwnerDetails()
+        handleChange(null,ownerDetails, true)
+        handleCloseDialog()
     }
 
     const closeOwnerDialog = () => {
-        handleCancelOwnerDialog()
+        for (let p in ownerDetails) {
+            ownerDetails[p] = ''
+        }
+        handleCloseDialog()
     }
 
     return (
@@ -37,7 +47,7 @@ export const OwnerDetails = (props) => {
                     multiline
                     rows={3}
                     variant="outlined"
-                    name="owner.name"
+                    name="name"
                     label="Owner Name"
                     type="text"
                     fullWidth
@@ -50,7 +60,7 @@ export const OwnerDetails = (props) => {
                     multiline
                     rows={3}
                     variant="outlined"
-                    name="owner.phone"
+                    name="phone"
                     label="Owner Phone Number"
                     type="text"
                     fullWidth
@@ -63,7 +73,7 @@ export const OwnerDetails = (props) => {
                     multiline
                     rows={3}
                     variant="outlined"
-                    name="owner.country"
+                    name="country"
                     label="Owner Country"
                     type="text"
                     fullWidth
@@ -76,7 +86,7 @@ export const OwnerDetails = (props) => {
                     multiline
                     rows={3}
                     variant="outlined"
-                    name="owner.email"
+                    name="email"
                     label="Owner Email"
                     type="text"
                     fullWidth

@@ -13,9 +13,9 @@ const Properties = inject('user')(observer((props) => {
     const [addDialogOpen, setAddDialogOpen] = useState(false)
 
     const handleOpenAddDialog = () => {
-        console.log('1111');
         setAddDialogOpen(true)
     }
+    
     const handleCloseAddDialog = () => {
         setAddDialogOpen(false)
     }
@@ -27,7 +27,7 @@ const Properties = inject('user')(observer((props) => {
                     ? <PropertyDetails propertyId={propertyId} />
                     : user.properties.map(p => <PropertyCard key={p.id} property={p} />)
             }
-            <AddButton onClick={handleOpenAddDialog} />
+            <AddButton handleOpenAddDialog={handleOpenAddDialog} />
             <AddProperty
                 open={addDialogOpen}
                 handleCloseAddDialog={handleCloseAddDialog}

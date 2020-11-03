@@ -9,7 +9,9 @@ import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import { makeStyles } from '@material-ui/core/styles';
 import { OwnerDetails } from './OwnerDetails';
-import { Checkbox } from '@material-ui/core';
+import { Checkbox, MenuItem } from '@material-ui/core';
+import { useEffect } from 'react';
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -22,18 +24,22 @@ const useStyles = makeStyles((theme) => ({
 const AddProperty = inject('user')(observer((props) => {
 
     const classes = useStyles();
-
+    const [ownersList, setOwnersList] = useState([])
     const { open, handleCloseAddDialog, user } = props
+    useEffect(() => {
+        const getOwnerList = async () => {
+           const dbList = await user.getOwnerList()
+           console.log(dbList);
+           setOwnersList(dbList)
+        }
+        getOwnerList()
+    }, [open])
     const [openOwnerDialog, setOpenOwnerDialog] = useState(false)
+    
     const [propertyDetails, setPropertyDitails] = useState({
         name: '',
         address: '',
-        owner: {
-            name: '',
-            phone: '',
-            country: '',
-            email: ''
-        },
+        owner: '',
         rooms: '',
         bathrooms: '',
         guests: '',
@@ -44,11 +50,20 @@ const AddProperty = inject('user')(observer((props) => {
     })
 
     const handleChange = event => {
-        console.log(event.target.name, event.target.value);
         setPropertyDitails({ ...propertyDetails, [event.target.name]: event.target.value })
     }
 
+    const handleChangeOwner =  (event,owner, fromOwnerDialog = false) => {
+        if (fromOwnerDialog) {
+            return setPropertyDitails({ ...propertyDetails, owner: owner })
+        }
+        const SelectedOwner = ownersList.find(o=> o.name === event.target.value)
+        setPropertyDitails({ ...propertyDetails, owner: SelectedOwner})
+    }
+
     const handleSubmitProperty = () => {
+        console.log(propertyDetails);
+        console.log(ownersList);
         user.addNewProperty(propertyDetails)
     }
 
@@ -56,19 +71,16 @@ const AddProperty = inject('user')(observer((props) => {
         setOpenOwnerDialog(true)
     }
 
-    const handleAddOwnerDetails = () => {
-        setOpenOwnerDialog(false)
-    }
-    const handleCancelOwnerDialog = () => {
-        for (let p in propertyDetails.owner) {
-            propertyDetails.owner[p] = ''
-        }
+    const handleCloseOwnerDialog = () => {
         setOpenOwnerDialog(false)
     }
 
     const handleClosePropertyDialog = () => {
+        console.log(propertyDetails);
         handleCloseAddDialog()
     }
+
+    console.log();
     return (
         <Dialog open={open} onClose={handleClosePropertyDialog} aria-labelledby="form-dialog-title">
             <DialogTitle id="form-dialog-title">Add Property</DialogTitle>
@@ -102,18 +114,39 @@ const AddProperty = inject('user')(observer((props) => {
                     fullWidth
                     onChange={handleChange}
                 />
+                <TextField
+                    id="outlined-select-currency"
+                    select
+                    label="Select Owner From Exsisting..."
+                    name='type'
+                    onChange={handleChangeOwner}
+                    fullWidth
+                    SelectProps={{
+                        MenuProps: {
+                            anchorOrigin: {
+                                vertical: "bottom",
+                                horizontal: "left"
+                            },
+                            getContentAnchorEl: null
+                        }
+                    }}>
+                    {ownersList.map(owner => (
+                        <MenuItem id={owner.id} value={owner.name}>
+                            {owner.name}
+                        </MenuItem>
+                    ))}
+                </TextField>
                 {openOwnerDialog ?
                     <OwnerDetails
                         open={openOwnerDialog}
-                        handleChange={handleChange}
-                        handleAddOwnerDetails={handleAddOwnerDetails}
-                        handleCancelOwnerDialog={handleCancelOwnerDialog}
+                        handleChange={handleChangeOwner}
+                        handleCloseDialog={handleCloseOwnerDialog}
                     /> :
                     <Button
                         variant="contained"
                         color="primary"
                         onClick={handleOpenOwnerDialog}>
-                        Add Owner
+                        Create New Owner
                     </Button>
                 }
                 <TextField
@@ -136,7 +169,7 @@ const AddProperty = inject('user')(observer((props) => {
                     multiline
                     rows={3}
                     variant="outlined"
-                    name="bathroom"
+                    name="bathrooms"
                     label="Bathroom Number"
                     type="number"
                     fullWidth
