@@ -9,7 +9,7 @@ import {
 const useStyles = makeStyles((theme) => ({
     detailsContainer: {
         padding: '5px',
-        [theme.breakpoints.up('sm')]: {
+        [theme.breakpoints.up('md')]: {
             padding: '30px'
         }
     },
@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     title: {
         marginBottom: '5px',
         fontWeight: 'bold',
-        [theme.breakpoints.up('sm')]: {
+        [theme.breakpoints.up('md')]: {
             marginBottom: '15px',
             marginTop: '10px',
             fontWeight: 'bold',
@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     details: {
         marginBottom: '5px',
         height: 20,
-        [theme.breakpoints.up('sm')]: {
+        [theme.breakpoints.up('md')]: {
             marginBottom: '10px',
             height: 30,
         }

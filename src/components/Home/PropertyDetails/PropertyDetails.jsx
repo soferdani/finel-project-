@@ -11,10 +11,10 @@ import {
     Tab
 } from '@material-ui/core'
 import { inject, observer } from 'mobx-react'
-import ToDos from './ToDos/ToDos';
-import PropertyCalendar from './PropertyCalendar'
-import DetailsCard from './DetailsCard'
-import PropertyServiceProviders from './PropertyServiceProviders'
+import ToDos from './Tabs/ToDos/ToDos';
+import PropertyCalendar from './Tabs/PropertyCalendar'
+import DetailsCard from './Tabs/DetailsCard'
+import PropertyServiceProviders from './Tabs/ServiceProviders/PropertyServiceProviders'
 
 const useStyles = makeStyles((theme) => ({
     detailsContainer: {
@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     root: {
         width: '100%',
         paddingTop: '5px',
-        [theme.breakpoints.up('sm')]: {
+        [theme.breakpoints.up('md')]: {
             marginLeft: 40
         },
         height: '100%'
@@ -124,7 +124,7 @@ const PropertyDetails = inject('user')(observer((props) => {
                         xs={12} 
                         className={classes.cardDetails}
                     >
-                        <ToDos toDos={property.todoList} property={property.id} />
+                        <ToDos toDos={property.todoList} property={property} />
                     </Grid>
                     <Grid 
                         hidden={value !== 3}
@@ -132,9 +132,8 @@ const PropertyDetails = inject('user')(observer((props) => {
                         xs={12} 
                         className={classes.cardDetails}
                     >
-                        <PropertyServiceProviders serviceProviders={property.serviceWorkers}/>
-                    </Grid>   
-                        
+                        <PropertyServiceProviders property={property}/>
+                    </Grid>                 
                 </CardContent> 
             </Card>
         </Grid>

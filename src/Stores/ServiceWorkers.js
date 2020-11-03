@@ -8,7 +8,7 @@ export default class ServiceWorker {
         this.email = ServiceWorker.email
         this.phone = ServiceWorker.phone
         this.dateJoin = ServiceWorker.dateJoin
-        this.type = ServiceWorker.type
+        this.type = {id: ServiceWorker.typeId, type: ServiceWorker.type}
         this.img = ServiceWorker.img
 
         makeObservable(this, {

@@ -49,6 +49,7 @@ export default class User {
             addNewUserType: action,
             addNewProperty: action,
             addNewTodo: action,
+            addNewServiceProperty: action,
             addNewManagerEmployee: action,
             updateUserDetails: action,
             updatePropertyDetails: action,
@@ -99,8 +100,8 @@ export default class User {
         this.phone = user.phone
         this.dateJoin = user.dateJoin
         this.type = {
-            type: user.type,
-            id: user.typeId
+            id: user.typeId, 
+            type: user.type
         }
     };
 
@@ -142,7 +143,7 @@ export default class User {
     };
 
     loadUserServiceProviders = async () => {
-        // console.log(this.id);
+        this.serviceWorkers = []
         const allEmployees = await UserService().getUserServiceProviders(this.id)
 
         for (let employee of allEmployees) {
@@ -154,7 +155,6 @@ export default class User {
 
     loadUserTypes = async (id = undefined) => {
         const allTypes = await UserService().getUserTypes(id)
-        // console.log(allTypes);
         return allTypes
     };
     getOwnerList = async () => {
@@ -207,7 +207,7 @@ export default class User {
     addNewTodo = async (propertyId, todoDetails) => {
         if (this.type.id === 1) {
             const property = this.properties.find(p => p.id === propertyId)
-            const todo = { property: propertyId, img: '', ...todoDetails }
+            const todo = { ...todoDetails, property: propertyId, img: '' }
             todo.id = await UserService().addNewTodo(todo)
             property.todoList.push(new Todo(todo))
         }
@@ -230,6 +230,9 @@ export default class User {
 
     addNewServiceProperty = async (propertyId, employeeId) => {
         await UserService().addPropertyServiceWorker(propertyId, employeeId)
+        const serviceWorker = this.serviceWorkers.find(w => w.id === employeeId)
+        const property = this.properties.find(p => p.id === propertyId)
+        property.serviceWorkers.push(serviceWorker)
     }
 
     addNewBooking = async (bookingDetails) => {
@@ -307,7 +310,7 @@ export default class User {
     };
 
     deleteTodo = async (propertyId, todoId) => {
-        if (this.type === 'manager') {
+        if (this.type.id === 1) {
             const property = this.properties.find(p => p.id === propertyId)
             const todoIndex = property.todoList.findIndex(td => td.id === todoId)
             property.todoList.splice(todoIndex, 1)
@@ -319,7 +322,7 @@ export default class User {
     };
 
     deleteServiceWorkerFromProperty = async (propertyId, ServiceWorkerId) => {
-        if (this.type === 'manager') {
+        if (this.type.id === 1) {
             await UserService().deleteServiceWorkers(propertyId, ServiceWorkerId);
             const property = this.properties.find(p => p.id === propertyId)
             const serviceWorkerIndex = property.serviceWorkers.findIndex(sw => sw.id === ServiceWorkerId)
@@ -358,11 +361,3 @@ export default class User {
         }
     };
 };
-
-
-
-
-
-
-
-
