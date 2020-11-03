@@ -144,9 +144,7 @@ export default class User {
     loadUserServiceProviders = async () => {
         this.serviceWorkers = []
         const allEmployees = await UserService().getUserServiceProviders(this.id)
-
         for (let employee of allEmployees) {
-
             const serviceWorker = new ServiceWorkers(employee)
             this.serviceWorkers.push(serviceWorker)
         }
@@ -186,16 +184,30 @@ export default class User {
             const propertyDetails = { manager: this.id, ...property }
             if (property.owner.id) {
                 const propRes = await UserService().addNewProperty(propertyDetails)
-                console.log(propRes);
                 property.id = propRes[0]
-                console.log(property.id);
-                this.properties.push(new Property(property))
+                this.properties.push(
+                    new Property({
+                        ...property,
+                        propertyName: property.name,
+                        ownerId: property.owner.id,
+                        ownerName: property.owner.name,
+                        phone: property.owner.phone,
+                        email: property.owner.email
+                    }))
             }
             else {
                 const propertyAndOwnerIds = await UserService().addNewProperty(propertyDetails)
                 property.id = propertyAndOwnerIds[0]
                 property.owner.id = propertyAndOwnerIds[1]
-                this.properties.push(new Property(property))
+                this.properties.push(
+                    new Property({
+                        ...property,
+                        propertyName: property.name,
+                        ownerId: property.owner.id,
+                        ownerName: property.owner.name,
+                        phone: property.owner.phone,
+                        email: property.owner.email
+                    }))
             }
         }
         else {
@@ -207,7 +219,8 @@ export default class User {
         if (this.type.id === 1) {
             const property = this.properties.find(p => p.id === propertyId)
             const todo = { ...todoDetails, property: propertyId, img: '' }
-            todo.id = await UserService().addNewTodo(todo)
+            const todoId = await UserService().addNewTodo(todo)
+            todo.t_id = todoId[0]
             property.todoList.push(new Todo(todo))
         }
         else {
@@ -253,7 +266,7 @@ export default class User {
     };
 
     updatePropertyDetails = async (propertyId, updateDetails) => {
-        if (this.type === 1) {
+        if (this.type.id === 1) {
             const property = this.properties.find(p => p.id === propertyId)
             await UserService().updateProperty(property.id, updateDetails)
             for (let prop in updateDetails) {
@@ -296,10 +309,10 @@ export default class User {
     };
 
     deleteProperty = async (propertyId) => {
-        if (this.type === 1) {
+        if (this.type.id === 1) {
+            await UserService().deleteProperty(propertyId)
             const propertyIndex = this.properties.findIndex(p => p.id === propertyId)
             this.properties.splice(propertyIndex, 1)
-            await UserService.deleteProperty(propertyId)
         }
         else {
             console.log('You dont have prommision');

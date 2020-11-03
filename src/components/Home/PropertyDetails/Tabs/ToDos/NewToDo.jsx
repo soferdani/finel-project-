@@ -6,8 +6,9 @@ import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
-import { MenuItem } from '@material-ui/core'
+import { MenuItem, Snackbar } from '@material-ui/core'
 import { inject, observer } from 'mobx-react'
+import { Alert } from '@material-ui/lab'
 
 const NewToDo = inject('user')(observer((props) => {
 
@@ -26,7 +27,7 @@ const NewToDo = inject('user')(observer((props) => {
 
     const [input, setInput] = useState({
         task: '',
-        type: '',
+        typeId: '',
         serviceProvider: null
     })
 
@@ -37,8 +38,14 @@ const NewToDo = inject('user')(observer((props) => {
         }
         setInput({ ...input, [event.target.name]: value})
     }
+
+    const handleFormIsValid = () => {
+        return (input.task.length > 0 && input.typeId !== '')
+    }
     
     async function handleSubmitTodo() {
+        const type = allUesrType.find(t => t.id === input.typeId)
+        input.type = type.type
         props.handleSubmitTodo(input)
     }
 
@@ -66,8 +73,8 @@ const NewToDo = inject('user')(observer((props) => {
                     id="outlined-select-currency"
                     select
                     label="Select task's type"
-                    name='type'
-                    value={input.type}
+                    name='typeId'
+                    value={input.typeId}
                     onChange={handleInputChange}
                     helperText="Please select the task type to connect it to a service provider"
                     fullWidth
@@ -108,7 +115,7 @@ const NewToDo = inject('user')(observer((props) => {
                 >
                     {property
                         .serviceWorkers
-                            .filter(w => input.type && w.type.id === input.type)
+                            .filter(w => input.typeId && w.type.id === input.typeId)
                             .map((w) => (
                                 <MenuItem key={w.id} value={w.id}>
                                     {w.firstName} {w.lastName} - {w.type.type}
@@ -121,7 +128,7 @@ const NewToDo = inject('user')(observer((props) => {
                 <Button onClick={handleClose} color="primary">
                     Cancel
                 </Button>
-                <Button onClick={handleSubmitTodo} color="primary">
+                <Button onClick={handleSubmitTodo} color="primary" disabled={!handleFormIsValid()}>
                     ADD
                 </Button>
             </DialogActions>

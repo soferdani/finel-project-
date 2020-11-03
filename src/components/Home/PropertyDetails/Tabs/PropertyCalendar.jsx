@@ -13,10 +13,13 @@ import { useEffect } from 'react'
 const useStyles = makeStyles((theme) => ({
     calendarContainer:{
       maxWidth: '100%',
-      height:350,
+      height:270,
       [theme.breakpoints.up('md')]: {
-          height: 400
-      }
+          height: 340
+      },
+      [theme.breakpoints.up('xl')]: {
+        height: 500
+    }
     }
   }))
 
