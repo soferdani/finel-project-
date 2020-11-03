@@ -9,7 +9,7 @@ import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import { makeStyles } from '@material-ui/core/styles';
 import { OwnerDetails } from './OwnerDetails';
-import { Checkbox, MenuItem } from '@material-ui/core';
+import { Checkbox, Grid, MenuItem } from '@material-ui/core';
 import { useEffect } from 'react';
 
 
@@ -22,23 +22,23 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AddProperty = inject('user')(observer((props) => {
-
     const classes = useStyles();
     const [ownersList, setOwnersList] = useState([])
     const { open, handleCloseAddDialog, user } = props
     useEffect(() => {
         const getOwnerList = async () => {
-           const dbList = await user.getOwnerList()
-           console.log(dbList);
-           setOwnersList(dbList)
+            const dbList = await user.getOwnerList()
+            console.log(dbList);
+            setOwnersList(dbList)
         }
         getOwnerList()
     }, [])
     const [openOwnerDialog, setOpenOwnerDialog] = useState(false)
-    
+
     const [propertyDetails, setPropertyDitails] = useState({
         name: '',
         address: '',
+        img: '',
         owner: '',
         rooms: '',
         bathrooms: '',
@@ -50,21 +50,27 @@ const AddProperty = inject('user')(observer((props) => {
     })
 
     const handleChange = event => {
-        setPropertyDitails({ ...propertyDetails, [event.target.name]: event.target.value })
+        if (event.target.value) {
+            setPropertyDitails({ ...propertyDetails, [event.target.name]: event.target.value })
+        }
+        if (event.target.checked) {
+            setPropertyDitails({ ...propertyDetails, [event.target.name]: event.target.checked })
+        }
+
     }
 
-    const handleChangeOwner =  (event,owner, fromOwnerDialog = false) => {
+    const handleChangeOwner = (event, owner, fromOwnerDialog = false) => {
         if (fromOwnerDialog) {
             return setPropertyDitails({ ...propertyDetails, owner: owner })
         }
-        const SelectedOwner = ownersList.find(o=> o.name === event.target.value)
-        setPropertyDitails({ ...propertyDetails, owner: {...SelectedOwner}})
+        const SelectedOwner = ownersList.find(o => o.name === event.target.value)
+        setPropertyDitails({ ...propertyDetails, owner: { ...SelectedOwner } })
     }
 
-    const handleSubmitProperty = () => {
-        console.log(propertyDetails);
-        console.log(ownersList);
-        user.addNewProperty(propertyDetails)
+    const handleSubmitProperty = async () => {
+        await user.addNewProperty(propertyDetails)
+     
+        setOpenOwnerDialog(false)
     }
 
     const handleOpenOwnerDialog = () => {
@@ -76,7 +82,12 @@ const AddProperty = inject('user')(observer((props) => {
     }
 
     const handleClosePropertyDialog = () => {
-        console.log(propertyDetails);
+        for (let i = 0; i < propertyDetails; i++) {
+            propertyDetails[i] = ''
+            if (i >= 8) {
+                propertyDetails[i] = false
+            }
+        }
         handleCloseAddDialog()
     }
 
@@ -115,40 +126,62 @@ const AddProperty = inject('user')(observer((props) => {
                     onChange={handleChange}
                 />
                 <TextField
-                    id="outlined-select-currency"
-                    select
-                    label="Select Owner From Exsisting..."
-                    name='type'
-                    onChange={handleChangeOwner}
+                    id='outlined-multiline-static'
+                    variant='outlined'
+                    autoFocus
+                    multiline
+                    rows={3}
+                    variant="outlined"
+                    name="img"
+                    label="Property Imag URL"
+                    type="text"
                     fullWidth
-                    SelectProps={{
-                        MenuProps: {
-                            anchorOrigin: {
-                                vertical: "bottom",
-                                horizontal: "left"
-                            },
-                            getContentAnchorEl: null
-                        }
-                    }}>
-                    {ownersList.map(owner => (
-                        <MenuItem id={owner.id} value={owner.name}>
-                            {owner.name}
-                        </MenuItem>
-                    ))}
-                </TextField>
-                {openOwnerDialog ?
-                    <OwnerDetails
-                        open={openOwnerDialog}
-                        handleChange={handleChangeOwner}
-                        handleCloseDialog={handleCloseOwnerDialog}
-                    /> :
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={handleOpenOwnerDialog}>
-                        Create New Owner
+                    onChange={handleChange}
+                />
+                <Grid container direction="row"
+                    justify="space-between"
+                    alignItems="center">
+                    <Grid xs={6}>
+                        <TextField
+                            id="outlined-select-currency"
+                            select
+                            label="Select Owner From List"
+                            name='type'
+                            onChange={handleChangeOwner}
+                            fullWidth
+                            SelectProps={{
+                                MenuProps: {
+                                    anchorOrigin: {
+                                        vertical: "bottom",
+                                        horizontal: "left"
+                                    },
+                                    getContentAnchorEl: null
+                                }
+                            }}>
+                            {ownersList.map(owner => (
+                                <MenuItem id={owner.id} value={owner.name}>
+                                    {owner.name}
+                                </MenuItem>
+                            ))}
+                        </TextField>
+                    </Grid>
+                    OR
+                    <Grid>
+                        {openOwnerDialog ?
+                            <OwnerDetails
+                                open={openOwnerDialog}
+                                handleChange={handleChangeOwner}
+                                handleCloseDialog={handleCloseOwnerDialog}
+                            /> :
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={handleOpenOwnerDialog}>
+                                Create New Owner
                     </Button>
-                }
+                        }
+                    </Grid>
+                </Grid>
                 <TextField
                     id='outlined-multiline-static'
                     variant='outlined'
@@ -188,27 +221,31 @@ const AddProperty = inject('user')(observer((props) => {
                     fullWidth
                     onChange={handleChange}
                 />
-                <Checkbox
+               Kitchen <Checkbox
                     checked={propertyDetails.kitchen}
                     label="Max guests in Property"
+                    name='kitchen'
                     onChange={handleChange}
                     inputProps={{ 'aria-label': 'primary checkbox' }}
                 />
-                <Checkbox
+                AC <Checkbox
                     checked={propertyDetails.ac}
                     label="Max guests in Property"
+                    name='ac'
                     onChange={handleChange}
                     inputProps={{ 'aria-label': 'primary checkbox' }}
                 />
-                <Checkbox
+                Wifi <Checkbox
                     checked={propertyDetails.wifi}
+                    name='wifi'
                     label="Max guests in Property"
                     onChange={handleChange}
                     inputProps={{ 'aria-label': 'primary checkbox' }}
                 />
-                <Checkbox
+                Pool<Checkbox
                     checked={propertyDetails.pool}
                     label="Max guests in Property"
+                    name='pool'
                     onChange={handleChange}
                     inputProps={{ 'aria-label': 'primary checkbox' }}
                 />
