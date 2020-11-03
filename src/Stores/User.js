@@ -187,9 +187,7 @@ export default class User {
             const propertyDetails = { manager: this.id, ...property }
             if (property.owner.id) {
                 const propRes = await UserService().addNewProperty(propertyDetails)
-                console.log(propRes);
                 property.id = propRes[0]
-                console.log(property.id);
                 this.properties.push(new Property(property))
             }
             else {

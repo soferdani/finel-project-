@@ -33,7 +33,7 @@ const AddProperty = inject('user')(observer((props) => {
            setOwnersList(dbList)
         }
         getOwnerList()
-    }, [open])
+    }, [])
     const [openOwnerDialog, setOpenOwnerDialog] = useState(false)
     
     const [propertyDetails, setPropertyDitails] = useState({
@@ -58,7 +58,7 @@ const AddProperty = inject('user')(observer((props) => {
             return setPropertyDitails({ ...propertyDetails, owner: owner })
         }
         const SelectedOwner = ownersList.find(o=> o.name === event.target.value)
-        setPropertyDitails({ ...propertyDetails, owner: SelectedOwner})
+        setPropertyDitails({ ...propertyDetails, owner: {...SelectedOwner}})
     }
 
     const handleSubmitProperty = () => {
