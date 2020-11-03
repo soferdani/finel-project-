@@ -57,12 +57,10 @@ const Calendar = inject('user')(observer((props) => {
   async function commitChanges({ added, changed, deleted }) {
       if (added) {
         added.id = await user.addNewBooking({
-          fromdate_c: added.startDate,
-          todate_c: added.endDate,
+          startDate: added.startDate,
+          endDate: added.endDate,
           name: added.title,
-          adults_c: 0,
-          children_c: 0,
-          villa_name: added.notes})
+          property: added.notes})
         setBooking([...booking,  added ]);
       }
       if (changed) {
@@ -77,13 +75,12 @@ const Calendar = inject('user')(observer((props) => {
           setBooking(newBooking)
           const bookingToDB = {}
           for(let key in changed[id]){
-            const newKey = key === 'title' ? 'name' : key === 'notes' ? 'property' : key === 'startDate' ? 'start_date' : key === 'endDate' ? "end_date" : null
-            if(newKey){
+            const newKey = key === 'title' ? 'name' : key === 'notes' ? 'property' : key === 'startDate' ? 'start_date' : key === 'endDate' ? "end_date" : key
+            if(newKey !== key){
               changed[id][key] = newKey === 'property' ? parseInt(changed[id][key]) : changed[id][key]
               bookingToDB[newKey] = changed[id][key]
             }
           }
-          console.log(bookingToDB);
           user.updateBooking(id, bookingToDB);
       }
       if (deleted !== undefined) {

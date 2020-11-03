@@ -30,7 +30,6 @@ const Signup = inject('user')(observer((props) => {
     }
 
     async function handleSubmit(event) {
-        console.log(fields)
         event.preventDefault()
         setIsLoading(true)
         try {
@@ -52,6 +51,13 @@ const Signup = inject('user')(observer((props) => {
         try {
             await Auth.confirmSignUp(fields.email, fields.confirmationCode)
             await Auth.signIn(fields.email, fields.password)
+            await user.addNewUser({
+                firstName: fields.firstName,
+                lastName: fields.lastName,
+                email: fields.email,
+                phone: fields.phone,
+                userType: fields.userType,
+            })
             user.userHasAuthenticated(fields.email, true)
             history.push("/home")
         } catch (err) {
@@ -66,20 +72,20 @@ const Signup = inject('user')(observer((props) => {
 
     return (
         <div id="login-signup-card">
-          {newUser === null 
-            ?   <Form 
+          {newUser === null
+            ?   <Form
                     error={error}
                     setError={setError}
                     fields={fields}
-                    handleSubmit={handleSubmit} 
-                    handleFieldChange={handleFieldChange} 
-                /> 
-            :   <ConfirmForm 
+                    handleSubmit={handleSubmit}
+                    handleFieldChange={handleFieldChange}
+                />
+            :   <ConfirmForm
                     error={error}
                     setError={setError}
                     fields={fields}
-                    handleFieldChange={handleFieldChange} 
-                    handleConfirmationSubmit={handleConfirmationSubmit} 
+                    handleFieldChange={handleFieldChange}
+                    handleConfirmationSubmit={handleConfirmationSubmit}
                     validateConfirmationForm={validateConfirmationForm}
                 />
         }
