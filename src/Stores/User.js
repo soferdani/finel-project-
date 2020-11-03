@@ -255,7 +255,7 @@ export default class User {
     };
 
     updatePropertyDetails = async (propertyId, updateDetails) => {
-        if (this.type === 1) {
+        if (this.type.id === 1) {
             const property = this.properties.find(p => p.id === propertyId)
             await UserService().updateProperty(property.id, updateDetails)
             for (let prop in updateDetails) {
@@ -298,10 +298,10 @@ export default class User {
     };
 
     deleteProperty = async (propertyId) => {
-        if (this.type === 1) {
+        if (this.type.id === 1) {
+            await UserService().deleteProperty(propertyId)
             const propertyIndex = this.properties.findIndex(p => p.id === propertyId)
             this.properties.splice(propertyIndex, 1)
-            await UserService.deleteProperty(propertyId)
         }
         else {
             console.log('You dont have prommision');

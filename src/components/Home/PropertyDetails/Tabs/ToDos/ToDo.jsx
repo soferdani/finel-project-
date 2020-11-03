@@ -69,8 +69,7 @@ const ToDo = inject('user')(observer((props) => {
                     className={classes.heading}
                 >
                     {task.task}
-                </Typography>
-                
+                </Typography>              
             </AccordionSummary>
             <AccordionDetails>
                 <Grid item xs={12} container direction='column'>

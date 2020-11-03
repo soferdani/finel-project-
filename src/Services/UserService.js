@@ -109,6 +109,7 @@ const UserService = function () {
     }
 
     const deleteProperty = async (propertyId) => {
+  
         const property = await axios.delete(`http://localhost:3001/property/${propertyId}`)
         return property.data
     }

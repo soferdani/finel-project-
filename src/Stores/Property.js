@@ -9,10 +9,10 @@ export default class Property {
         this.rooms = property.rooms
         this.bathrooms = property.bathrooms
         this.guests = property.guests
-        this.pool = property.pool
-        this.ac = property.ac
-        this.wifi = property.wifi
-        this.kitchen = property.kitchen
+        this.pool = property.pool ? true : false
+        this.ac = property.ac ? true : false
+        this.wifi = property.wifi ? true : false
+        this.kitchen = property.kitchen ? true : false
         this.owner = {
             id: property.ownerId, 
             name: property.ownerName, 

@@ -1,10 +1,11 @@
-import { Divider, Grid, makeStyles, Typography } from '@material-ui/core'
+import { Button, Divider, Grid, makeStyles, Typography } from '@material-ui/core'
 import { inject, observer } from 'mobx-react'
-import React, { Fragment } from 'react'
+import React, { Fragment, useState } from 'react'
 import {
     Check as CheckIcon, 
     Close as CloseIcon
 } from '@material-ui/icons'
+import EditDetails from './EditDetails'
 
 const useStyles = makeStyles((theme) => ({
     detailsContainer: {
@@ -37,6 +38,11 @@ const useStyles = makeStyles((theme) => ({
     detail: {
         marginLeft: '5px',
         color: '#878787'
+    },
+    addButton: {
+        color: '#fb8500',
+        marginLeft: '10px',
+        fontSize: '0.7em'
     }
 }))
 
@@ -46,11 +52,35 @@ const DetailsCard = inject('user')(observer((props) => {
 
     const classes = useStyles()
 
+    const [open, setOpen] = useState(false)
+
+    const handleOpenEdit = () => {
+        setOpen(true)
+    }
+
+    const handleCloseEdit = () => {
+        setOpen(false)
+    }
+
+    async function handleSubmitEdit(updatedDetails) {
+        user.updatePropertyDetails(property.id, updatedDetails)
+    }
+
     return (
         <Fragment>
-            <Typography variant='h6' className={classes.cardTitle}>
-                Details
-            </Typography>
+            <Grid item xs={12} container direction='row' >
+                <Typography variant='h6' className={classes.cardTitle}>
+                    Details
+                </Typography>
+                <Button className={classes.addButton} onClick={handleOpenEdit}>EDIT</Button> 
+            </Grid>
+            <EditDetails 
+                key={property.id} 
+                open={open} 
+                handleCloseEdit={handleCloseEdit} 
+                handleSubmitEdit={handleSubmitEdit} 
+                property={property} 
+            />
             <Grid item xs={12} container direction='row' className={classes.detailsContainer}>
                 <Grid item xs={5} >
                     <Typography variant='subtitle1' className={classes.title}>
