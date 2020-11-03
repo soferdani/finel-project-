@@ -27,7 +27,7 @@ const Profile = inject('user')(observer((props) => {
         lastName: user.lastName,
         email: user.email,
         phone: user.phone,
-        userType: user.type.type,
+        // userType: user.type.type,
         img: '',
         lastPassword: '',
         password: '',
