@@ -1,13 +1,14 @@
 
 import { Grid, makeStyles, Paper, Typography } from '@material-ui/core'
 import { inject, observer } from 'mobx-react'
-import React, { Fragment } from 'react'
+import React, { Fragment, useState } from 'react'
 import moment from 'moment'
 import {
     Scheduler,
     WeekView,
     Appointments,
   } from '@devexpress/dx-react-scheduler-material-ui'
+import { useEffect } from 'react'
 
 const useStyles = makeStyles((theme) => ({
     calendarContainer:{
@@ -25,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
 const PropertyCalendar = inject('user')(observer((props) => {
 
     const { user, bookings, value } = props
+    const [bookingData, setBookingData ]= useState([])
     const classes = useStyles()
 
     const currentDate = moment()
@@ -43,20 +45,26 @@ const PropertyCalendar = inject('user')(observer((props) => {
 
         return {
             startDate: nextStartDate.toDate(),
-            endDate: nextEndDate.toDate(),
+            endDate: nextEndDate.toDate()
         }
     }
 
-    const bookingData = bookings.map(({ startDate, endDate, ...restArgs }) => {
-        const result = {
-          ...makeTodayAppointment(startDate, endDate),
-          ...restArgs,
-        }
-        date += 1;
-        if (date > 31) date = 1
-            return result
-    })
+    useEffect(()=>{
+        const newBookingData = bookings.map(({startDate, endDate, name, ...restArgs }) => {
+            const result = {
+            ...makeTodayAppointment(),
+            title: name,
+            ...restArgs,
+            }
+            date += 1;
+            if (date > 31) date = 1
+                return result
+        })
+        setBookingData(newBookingData)
+    }, [])
+    
 
+    console.log(bookingData);
     return (
         <Fragment>
             <Typography variant='h6'>
@@ -68,8 +76,8 @@ const PropertyCalendar = inject('user')(observer((props) => {
                     height='100%'
                 >
                     <WeekView
-                        startDayHour={9}
-                        endDayHour={19}
+                        startDayHour={1}
+                        endDayHour={23}
                     />
                     <Appointments />
                 </Scheduler>

@@ -1,84 +1,84 @@
-import { Grid, makeStyles } from '@material-ui/core'
+import { Grid, makeStyles, Typography } from '@material-ui/core'
 import { inject, observer } from 'mobx-react'
-import React, { useEffect, useState } from 'react'
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
+import React, { useState } from 'react'
+// import Table from '@material-ui/core/Table';
+// import TableBody from '@material-ui/core/TableBody';
+// import TableCell from '@material-ui/core/TableCell';
+// import TableHead from '@material-ui/core/TableHead';
+// import TableRow from '@material-ui/core/TableRow';
+// import DeleteIcon from '@material-ui/icons/Delete'
+import ServiceProvidersRow from '../Home/PropertyDetails/Tabs/ServiceProviders/ServiceProviderRow'
 
 const useStyles = makeStyles((theme) => ({
     formContainer: {
         padding: '20px',
         [theme.breakpoints.up('md')]: {
-            marginLeft: 180,
+            marginLeft: 40,
             paddingTop: '40px',
             padding: '30px',
         },
-    }
+    },
+    deleteButton: {
+      color: '#e74c3c'
+  },
 }))
 
-function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-  }
-  
-  const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24),
-    createData('Ice cream sandwich', 237, 9.0, 37),
-    createData('Eclair', 262, 16.0, 24),
-    createData('Cupcake', 305, 3.7, 67),
-    createData('Gingerbread', 356, 16.0, 49),
-  ];
-
-
 const AllServiceProv = inject('user')(observer((props) => {
-    
-    const { user } = props 
+
+    const { user } = props
     const classes = useStyles()
     const [allUserServicers, setAllUserServicers] = useState([])
 
-
-    // useEffect(() => {
-    //     const getAllTypes = async () => {
-    //         const userProv = user.serviceWorkers
-    //         console.log(userProv);
-        
-    //     }
-    //     getAllTypes()
-
-    // },[])
-
-    console.log(user.serviceWorkers[0]);
-
-
-
-
+    const handleDelete = async (workerId) =>{
+      await user.deleteServiceWorkerFromUser(workerId)
+    }
 
     return (
-      <Table className={classes.table} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>Name</TableCell>
-            <TableCell align="right">Email</TableCell>
-            <TableCell align="right">Phone</TableCell>
-            <TableCell align="right">Type</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
+      <Grid container>
+      <Grid
+              item
+              xs={12}
+              container
+              direction='row'
+              className={classes.tableCell}
+              alignItems='center'
+          >
+              <Grid item xs={1}></Grid>
+              <Grid item xs={2}>
+                  <Typography variant='body1' className={classes.tableTitles}>
+                      First Name
+                  </Typography>
+              </Grid>
+              <Grid item xs={2}>
+                  <Typography variant='body1' className={classes.tableTitles}>
+                      Last Name
+                  </Typography>
+              </Grid>
+              <Grid item xs={2}>
+                  <Typography variant='body1' className={classes.tableTitles}>
+                      Type
+                  </Typography>
+              </Grid>
+              <Grid item xs={3}>
+                  <Typography variant='body1' className={classes.tableTitles}>
+                      Email
+                  </Typography>
+              </Grid>
+              <Grid item xs={2}>
+                  <Typography variant='body1' className={classes.tableTitles}>
+                      Phone
+                  </Typography>
+              </Grid>
+          </Grid>
           {user.serviceWorkers.map((row) => (
-            <TableRow key={row.firstName}>
-              <TableCell component="th" scope="row">
-                {row.firstName} {row.lastName}
-                  </TableCell>
-                  <TableCell align="right">{row.email}</TableCell>
-                  <TableCell align="right">{row.phone}</TableCell>
-                  <TableCell align="right">{row.type.type}</TableCell>
-            </TableRow>
+            <ServiceProvidersRow
+                            key={row.id}
+                            serviceProvider={row}
+                            rowType={1}
+                            handleDelete={handleDelete}
+                        />
           ))}
-        </TableBody>
-      </Table>
+        </Grid>
     )
 }))
 

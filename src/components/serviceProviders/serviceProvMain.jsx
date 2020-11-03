@@ -1,24 +1,22 @@
-import { Grid, makeStyles } from '@material-ui/core'
+import { Grid, makeStyles, Divider } from '@material-ui/core'
 import { inject, observer } from 'mobx-react'
 import React, { useEffect, useState } from 'react'
 import TextField from '@material-ui/core/TextField';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
-import Button from '@material-ui/core/Button';
 import AllServiceProv from './allServiceProv';
-
-
+import AddButton from '../Home/AddProperty/AddButton'
+import UpdateServicer from './AddServicer'
 
 const useStyles = makeStyles((theme) => ({
     serviceContainer: {
         padding: '20px',
         [theme.breakpoints.up('md')]: {
-            marginLeft: 180,
+            marginLeft: 40,
             paddingTop: '40px',
-            padding: '30px',
         },
-    
+
         formControl: {
 
         }
@@ -27,76 +25,54 @@ const useStyles = makeStyles((theme) => ({
 
 
 const ServiceProvMain = inject('user')(observer((props) => {
-    
-    const { user } = props 
-     
 
-    const [allUesrType, setAllUesrType] = useState([])
-    const [type, setType] = useState('')
-
-    useEffect(() => {
-        const getAllTypes = async () => {
-            let userTypes = await user.loadUserTypes()
-
-            userTypes = userTypes.filter(t => t.type.id != 1) //FIXME: this filter!!
-            console.log(userTypes);
-            setAllUesrType(userTypes)
-
-        }
-        getAllTypes()
-
-    },[])
-
-
-
+    const { user } = props
     const classes = useStyles()
-    const [firstName, setFirstName] = useState('')
-    const [lastName, setLastName] = useState('')
-    const [email, setEmail] = useState('')
-    const [phone, setPhone] = useState('')
+    const [addDialogOpen, setAddDialogOpen] = useState(false)
+    const [value, setValue] = useState('')
+    const [key, setKey] = useState('name')
 
-
-
-
-    const addNewServiceProvider = () => {
-        const serviceProvider = {
-            firstName,
-            lastName,
-            email,
-            phone,
-            type: parseInt(type)
-        }
-        console.log(serviceProvider);
-        user.addNewManagerEmployee(serviceProvider)
+    const handleOpenAddDialog = () => {
+        setAddDialogOpen(true)
+    }
+    const handleCloseAddDialog = () => {
+        setAddDialogOpen(false)
     }
 
+    const handleType = e => {
+        setValue(e.target.value)
+    }
 
     return (
 
-        <Grid item 
-        xs={12} 
-        container className={classes.serviceContainer}>
-                
-            <TextField id="standard-basic" onChange = {(e) => {setFirstName(e.target.value)}} label="First Name" />
-            <TextField id="standard-basic" onChange = {(e) => {setLastName(e.target.value)}} label="Last Name" />
-            <TextField id="standard-basic" onChange = {(e) => {setEmail(e.target.value)}} label="Email" />
-            <TextField id="standard-basic" onChange = {(e) => {setPhone(e.target.value)}} label="Phone Number" />
+        <Grid item
+            xs={12}
+            container className={classes.serviceContainer}>
+
+            <TextField id="standard-basic" value={value} onChange={handleType} label={`Seacrh By ${key}`} />
             <FormControl className={classes.formControl}>
-                <InputLabel htmlFor="age-native-simple">Service Type</InputLabel>
+                <InputLabel htmlFor="age-native-simple">Search Field</InputLabel>
                 <Select
-                onChange = {(e)=> {setType(e.target.value)} }
-                native
-                value={type}
-                inputProps={{
-                name: 'age',
-                id: 'age-native-simple',
+                    onChange={(e) => { setKey(e.target.value) }}
+                    native
+                    value={key}
+                    inputProps={{
+                        name: 'age',
+                        id: 'age-native-simple',
                     }}>
-                        {allUesrType.length>0 && allUesrType.map(t => <option value={t.id}>{t.type}</option>)}
+                    <option value='name'>Name</option>
+                    <option value='type'>Type</option>
+                    <option value='country'>Country</option>
                 </Select>
             </FormControl>
-            <Button variant="contained" onClick={addNewServiceProvider} color="primary">Submit</Button>
+            <Divider />
 
-            <AllServiceProv></AllServiceProv>
+            <AllServiceProv />
+            <AddButton label={"Add Servicer"} handleOpenAddDialog={handleOpenAddDialog} />
+            <UpdateServicer
+                open={addDialogOpen}
+                handleCloseAddDialog={handleCloseAddDialog}
+            />
         </Grid>
     )
 }))

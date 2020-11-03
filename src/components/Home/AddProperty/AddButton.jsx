@@ -24,9 +24,9 @@ export default function AddButtun(props) {
   }
 
   return (
-    <Tooltip 
-      title="Add Property" 
-      aria-label="Add Property"
+    <Tooltip
+      title={props.label}
+      aria-label={props.label}
       onClick={handleOpenAddDialog}>
       <Fab color="secondary" className={classes.absolute}>
         <AddIcon />

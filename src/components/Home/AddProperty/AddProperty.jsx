@@ -69,6 +69,7 @@ const AddProperty = inject('user')(observer((props) => {
     const handleSubmitProperty = async () => {
         await user.addNewProperty(propertyDetails)
         handleClosePropertyDialog(false)
+
     }
 
     const handleOpenOwnerDialog = () => {
@@ -88,8 +89,7 @@ const AddProperty = inject('user')(observer((props) => {
         }
         handleCloseAddDialog()
     }
-
-    console.log();
+    
     return (
         <Dialog open={open} onClose={handleClosePropertyDialog} aria-labelledby="form-dialog-title">
             <DialogTitle id="form-dialog-title">Add Property</DialogTitle>
