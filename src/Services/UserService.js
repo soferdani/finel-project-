@@ -19,7 +19,7 @@ const UserService = function () {
 
     const getUserTypes = async (id) => {
         let userTypes
-        if(id) {
+        if (id) {
             userTypes = await axios.get(`http://localhost:3001/usertype/${id}`)
         } else {
             userTypes = await axios.get(`http://localhost:3001/usertype`)
@@ -37,6 +37,10 @@ const UserService = function () {
     const getPropertyServiceProviders = async (propertyId) => {
         const serviceWorkers = await axios.get(`http://localhost:3001/service/${propertyId}`)
         return serviceWorkers.data
+    }
+    const getOwnerList = async (managerId) => {
+        const ownerList = await axios.get(`http://localhost:3001/properties/owners/${managerId}`)
+        return ownerList.data
     }
 
     const getBooking = async (id) => {
@@ -66,7 +70,7 @@ const UserService = function () {
     }
 
     const addPropertyServiceWorker = async (propertyId, employeeId) => {
-        const PropertyUser = await axios.post('http://localhost:3001/service-create', {user: employeeId, property: propertyId})
+        const PropertyUser = await axios.post('http://localhost:3001/service-create', { user: employeeId, property: propertyId })
         return PropertyUser.data
     }
 
@@ -96,7 +100,7 @@ const UserService = function () {
     }
 
     const updateTodoStatus = async (todoId, status) => {
-        const todo = await axios.put(`http://localhost:3001/todo/${todoId}`, {status: status} )
+        const todo = await axios.put(`http://localhost:3001/todo/${todoId}`, { status: status })
         return todo.data
     }
 
@@ -116,7 +120,7 @@ const UserService = function () {
     }
 
     const deleteServiceWorkerFromUser = async (managerId, ServiceWorkerId) => {
-        const deleted = await axios.delete(`http://localhost:3001/useremployee`, {managerId, ServiceWorkerId})
+        const deleted = await axios.delete(`http://localhost:3001/useremployee`, { managerId, ServiceWorkerId })
         return deleted.data
     }
 
@@ -125,11 +129,13 @@ const UserService = function () {
         return deleted.data
     }
 
-    return { getUserDetails,
+    return {
+        getUserDetails,
         getUserProperties,
         getPropertyTodo,
         getPropertyServiceProviders,
         getUserServiceProviders,
+        getOwnerList,
         getBooking,
         getUserTypes,
         addNewUserType,
@@ -148,7 +154,7 @@ const UserService = function () {
         deleteServiceWorkers,
         deleteServiceWorkerFromUser,
         deleteBooking
-     }
+    }
 }
 
 export default UserService;
