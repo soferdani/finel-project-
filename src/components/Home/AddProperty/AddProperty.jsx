@@ -35,7 +35,7 @@ const AddProperty = inject('user')(observer((props) => {
         getOwnerList()
     }, [open])
     const [openOwnerDialog, setOpenOwnerDialog] = useState(false)
-    
+
     const [propertyDetails, setPropertyDitails] = useState({
         name: '',
         address: '',
@@ -62,8 +62,6 @@ const AddProperty = inject('user')(observer((props) => {
     }
 
     const handleSubmitProperty = () => {
-        console.log(propertyDetails);
-        console.log(ownersList);
         user.addNewProperty(propertyDetails)
     }
 

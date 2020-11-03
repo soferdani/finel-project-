@@ -11,7 +11,6 @@ import Booking from '../Stores/Booking'
 import UserService from '../Services/UserService'
 
 
-// idan
 export default class User {
 
     constructor() {
@@ -100,7 +99,7 @@ export default class User {
         this.phone = user.phone
         this.dateJoin = user.dateJoin
         this.type = {
-            id: user.typeId, 
+            id: user.typeId,
             type: user.type
         }
     };
@@ -217,11 +216,9 @@ export default class User {
     };
 
     addNewManagerEmployee = async (servicerDetails) => {
-        console.log(servicerDetails);
         if (this.type.id === 1) {
-            const serviceWorker = await UserService().addNewServiceWorker(this.id ,servicerDetails)
-            console.log(serviceWorker);
-            this.serviceWorkers.push(new ServiceWorkers(serviceWorker))
+            servicerDetails.id = await UserService().addNewServiceWorker(this.id ,servicerDetails)
+            this.serviceWorkers.push(new ServiceWorkers(servicerDetails))
         }
         else {
             console.log('You dont have prommision');
@@ -334,14 +331,18 @@ export default class User {
     };
 
     deleteServiceWorkerFromUser = async (ServiceWorkerId) => {
-        if (this.type === 'manager') {
+        if (this.type.id === 1) {
             for (let property of this.properties) {
                 const serviceWorker = property.serviceWorkers.findIndex(sw => sw.id === ServiceWorkerId)
-                if (serviceWorker >= 0) {
-                    alert('This servive worker is connected to one of your properties. You must detlete it first.')
+                console.log(serviceWorker);
+                if (serviceWorker !== -1) {
+                    alert('This service worker is connected to one of your properties. You must detlete it first.')
+                    return
+                }else{
+                    await UserService().deleteServiceWorkerFromUser(this.id, ServiceWorkerId)
+                    this.serviceWorkers = this.serviceWorkers.filter(w => w.id !== ServiceWorkerId)
                 }
             }
-            await UserService().deleteServiceWorkerFromUser(this.id, ServiceWorkerId)
         }
         else {
             console.log('You dont have prommision');

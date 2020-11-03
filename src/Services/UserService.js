@@ -28,7 +28,6 @@ const UserService = function () {
     }
 
     const getUserServiceProviders = async (managerId) => {
-        // console.log(managerId);
         const serviceWorkers = await axios.get(`http://localhost:3001/useremployee/${managerId}`)
         return serviceWorkers.data
     }
@@ -70,8 +69,9 @@ const UserService = function () {
 
     const addNewServiceWorker = async (managerId, serviceWorker) => {
         const newServiceWorker = await axios.post('http://localhost:3001/user', serviceWorker)
+        console.log(managerId + newServiceWorker.data[0]);
         await axios.post('http://localhost:3001/useremployee', { managerId, employeeId: newServiceWorker.data[0]})
-        return newServiceWorker.data
+        return newServiceWorker.data[0]
     }
 
     const addPropertyServiceWorker = async (propertyId, employeeId) => {
@@ -125,7 +125,7 @@ const UserService = function () {
     }
 
     const deleteServiceWorkerFromUser = async (managerId, ServiceWorkerId) => {
-        const deleted = await axios.delete(`http://localhost:3001/useremployee`, { managerId, ServiceWorkerId })
+        const deleted = await axios.delete(`http://localhost:3001/useremployee/${managerId}/${ServiceWorkerId}`)
         return deleted.data
     }
 
