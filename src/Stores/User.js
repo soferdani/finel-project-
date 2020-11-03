@@ -145,9 +145,7 @@ export default class User {
     loadUserServiceProviders = async () => {
         this.serviceWorkers = []
         const allEmployees = await UserService().getUserServiceProviders(this.id)
-
         for (let employee of allEmployees) {
-
             const serviceWorker = new ServiceWorkers(employee)
             this.serviceWorkers.push(serviceWorker)
         }
@@ -188,13 +186,29 @@ export default class User {
             if (property.owner.id) {
                 const propRes = await UserService().addNewProperty(propertyDetails)
                 property.id = propRes[0]
-                this.properties.push(new Property(property))
+                this.properties.push(
+                    new Property({
+                        ...property,
+                        propertyName: property.name,
+                        ownerId: property.owner.id,
+                        ownerName: property.owner.name,
+                        phone: property.owner.phone,
+                        email: property.owner.email
+                    }))
             }
             else {
                 const propertyAndOwnerIds = await UserService().addNewProperty(propertyDetails)
                 property.id = propertyAndOwnerIds[0]
                 property.owner.id = propertyAndOwnerIds[1]
-                this.properties.push(new Property(property))
+                this.properties.push(
+                    new Property({
+                        ...property,
+                        propertyName: property.name,
+                        ownerId: property.owner.id,
+                        ownerName: property.owner.name,
+                        phone: property.owner.phone,
+                        email: property.owner.email
+                    }))
             }
         }
         else {
