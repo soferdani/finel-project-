@@ -28,7 +28,6 @@ const AddProperty = inject('user')(observer((props) => {
     useEffect(() => {
         const getOwnerList = async () => {
             const dbList = await user.getOwnerList()
-            console.log(dbList);
             setOwnersList(dbList)
         }
         getOwnerList()
@@ -54,7 +53,7 @@ const AddProperty = inject('user')(observer((props) => {
             setPropertyDitails({ ...propertyDetails, [event.target.name]: event.target.value })
         }
         if (event.target.checked) {
-            setPropertyDitails({ ...propertyDetails, [event.target.name]: event.target.checked })
+            console.log(setPropertyDitails({ ...propertyDetails, [event.target.name]: event.target.checked }))
         }
 
     }
@@ -69,8 +68,7 @@ const AddProperty = inject('user')(observer((props) => {
 
     const handleSubmitProperty = async () => {
         await user.addNewProperty(propertyDetails)
-     
-        setOpenOwnerDialog(false)
+        handleClosePropertyDialog(false)
     }
 
     const handleOpenOwnerDialog = () => {
