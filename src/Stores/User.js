@@ -65,11 +65,11 @@ export default class User {
             this.isAuthenticated = bool
             if (this.isAuthenticated && email) {
                 await this.loadUserDetails(email)
-                await this.loadUserServiceProviders()
                 await this.loadUserProperties()
                 await this.loadPropertiesWorkers()
                 await this.loadProperteisTodos()
                 await this.loadProperteisBooking()
+                await this.loadUserServiceProviders()
             }
             else {
                 this.isAuthenticated = false
@@ -141,7 +141,9 @@ export default class User {
     };
 
     loadUserServiceProviders = async () => {
+        // console.log(this.id);
         const allEmployees = await UserService().getUserServiceProviders(this.id)
+        // console.log(allEmployees);
         for(let employee of allEmployees) {
             const serviceWorker = new ServiceWorkers(employee)
             this.serviceWorkers.push(serviceWorker)
