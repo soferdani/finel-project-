@@ -48,6 +48,7 @@ export default class User {
             addNewUserType: action,
             addNewProperty: action,
             addNewTodo: action,
+            addNewServiceProperty: action,
             addNewManagerEmployee: action,
             updateUserDetails: action,
             updatePropertyDetails: action,
@@ -98,8 +99,8 @@ export default class User {
         this.phone = user.phone
         this.dateJoin = user.dateJoin
         this.type = {
-           type: user.type,
-            id: user.typeId
+            id: user.typeId, 
+            type: user.type
         }
     };
 
@@ -141,6 +142,7 @@ export default class User {
     };
 
     loadUserServiceProviders = async () => {
+        this.serviceWorkers = []
         const allEmployees = await UserService().getUserServiceProviders(this.id)
         for(let employee of allEmployees) {
             const serviceWorker = new ServiceWorkers(employee)
@@ -150,7 +152,6 @@ export default class User {
 
     loadUserTypes = async (id = undefined) => {
         const allTypes = await UserService().getUserTypes(id)
-        // console.log(allTypes);
         return allTypes
     };
 
@@ -196,6 +197,9 @@ export default class User {
 
     addNewServiceProperty = async (propertyId, employeeId) => {
         await UserService().addPropertyServiceWorker(propertyId, employeeId)
+        const serviceWorker = this.serviceWorkers.find(w => w.id === employeeId)
+        const property = this.properties.find(p => p.id === propertyId)
+        property.serviceWorkers.push(serviceWorker)
     }
 
     addNewBooking = async (bookingDetails) => {
@@ -324,11 +328,3 @@ export default class User {
         }
     };
 };
-
-
-
-
-
-
-
-

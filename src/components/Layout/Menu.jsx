@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
   },
   logo: {
     height: '45px',
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up('md')]: {
       height: '60px',
     },
   },
@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
     color: 'inherit'
   },
   appBar: {
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up('md')]: {
       width: `calc(100% - ${drawerWidth}px)`,
       marginLeft: drawerWidth,
     },
@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
   },
   menuButton: {
     marginRight: theme.spacing(2),
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up('md')]: {
       display: 'none',
     },
   },
@@ -209,7 +209,7 @@ const Menu = inject('user')(observer((props) => {
         </AppBar>
       </Grid>
       <nav className={classes.drawer} aria-label="mailbox folders">
-        <Hidden smUp implementation="css">
+        <Hidden mdUp implementation="css">
           <Drawer
             container={container}
             variant="temporary"
@@ -226,7 +226,7 @@ const Menu = inject('user')(observer((props) => {
             {drawer}
           </Drawer>
         </Hidden>
-        <Hidden xsDown implementation="css">
+        <Hidden smDown implementation="css">
           <Drawer
             classes={{
               paper: classes.drawerPaper,

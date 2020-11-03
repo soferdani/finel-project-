@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
     calendarContainer:{
       maxWidth: '100%',
       height:350,
-      [theme.breakpoints.up('sm')]: {
+      [theme.breakpoints.up('md')]: {
           height: 400
       }
     }
