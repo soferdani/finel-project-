@@ -13,10 +13,14 @@ import ServiceProvMain from '../serviceProviders/serviceProvMain'
 const useStyles = makeStyles((theme) => ({
     homeContainer: {
         padding: '20px',
+        paddingBottom: '0px',
+        height: '88vh',
+        marginBottom: '10px',
         [theme.breakpoints.up('md')]: {
             marginLeft: 160,
             paddingTop: '40px',
             padding: '30px',
+            height: '90vh'
         },
     }
 }))

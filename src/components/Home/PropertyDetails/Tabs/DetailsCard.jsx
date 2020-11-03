@@ -10,7 +10,8 @@ const useStyles = makeStyles((theme) => ({
     detailsContainer: {
         padding: '5px',
         [theme.breakpoints.up('md')]: {
-            padding: '30px'
+            padding: '10px',
+            height:'100%'
         }
     },
     cardTitle: {
@@ -30,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
         height: 20,
         [theme.breakpoints.up('md')]: {
             marginBottom: '10px',
-            height: 30,
+            height: 20,
         }
     },
     detail: {

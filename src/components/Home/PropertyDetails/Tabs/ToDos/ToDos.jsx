@@ -28,7 +28,6 @@ const ToDos = inject('user')(observer((props) => {
     const [openNew, setOpenNew] = useState(false)
 
     const { user, toDos, property } = props
-
     const handleOpenNewTask = () => {
         setOpenNew(true);
       }
