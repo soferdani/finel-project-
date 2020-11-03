@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import Dialog from '@material-ui/core/Dialog'
@@ -7,22 +7,32 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import { MenuItem } from '@material-ui/core'
+import { inject, observer } from 'mobx-react'
 
-export default function NewToDo(props) {
+const NewToDo = inject('user')(observer((props) => {
 
-    const { open, handleClose, property } = props
+    const { user, open, handleClose, property } = props
 
-    const types = ['Manager', 'Electricity', 'Plumbing', 'Pool']
+    const [allUesrType, setAllUesrType] = useState([])
+
+    useEffect(() => {
+        const getAllTypes = async () => {
+            const userTypes = await user.loadUserTypes()
+            setAllUesrType(userTypes)
+        }
+        getAllTypes()
+
+    },[])
 
     const [input, setInput] = useState({
         task: '',
         type: '',
-        serviceProvider: ''
+        serviceProvider: null
     })
 
     async function handleInputChange(event) {
         let value = event.target.value
-        if(event.target.name === 'serviceProvider') {
+        if(event.target.name === 'serviceProvider' || event.target.name === 'type') {
             value = parseInt(value)
         }
         setInput({ ...input, [event.target.name]: value})
@@ -71,9 +81,9 @@ export default function NewToDo(props) {
                         }
                     }}
                 >
-                    {types.map((option) => (
-                        <MenuItem key={option} value={option}>
-                            {option}
+                    {allUesrType.map((option) => (
+                        <MenuItem key={option.id} value={option.id}>
+                            {option.type}
                         </MenuItem>
                     ))}
                 </TextField>
@@ -98,7 +108,7 @@ export default function NewToDo(props) {
                 >
                     {property
                         .serviceWorkers
-                            .filter(w => w.type.type.includes(input.type))
+                            .filter(w => input.type && w.type.id === input.type)
                             .map((w) => (
                                 <MenuItem key={w.id} value={w.id}>
                                     {w.firstName} {w.lastName} - {w.type.type}
@@ -117,4 +127,6 @@ export default function NewToDo(props) {
             </DialogActions>
         </Dialog>
     )
-}
+}))
+
+export default NewToDo

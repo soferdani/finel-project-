@@ -14,7 +14,6 @@ const UserService = function () {
 
     const getPropertyTodo = async (id) => {
         const todoList = await axios.get(`http://localhost:3001/todos/${id}`)
-        console.log(todoList, id)
         return todoList.data
     }
 
@@ -25,7 +24,6 @@ const UserService = function () {
         } else {
             userTypes = await axios.get(`http://localhost:3001/usertype`)
         }
-        // console.log(userTypes);
         return userTypes.data
     }
 
