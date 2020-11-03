@@ -150,6 +150,21 @@ export default class User {
         return allTypes
     };
 
+    addNewUser = async (user) => {
+        console.log(user);
+        this.id = await UserService().addNewUser(user)
+        this.img = user.img
+        this.firstName = user.firstName
+        this.lastName = user.lastName
+        this.email = user.email
+        this.phone = user.phone
+        this.dateJoin = user.dateJoin
+        this.type = {
+           type: user.type,
+            id: user.typeId
+        }
+    };
+
     addNewUserType = async (type) => {
         const newType = await UserService().addNewUserType(type)
         return newType
@@ -194,7 +209,7 @@ export default class User {
 
     addNewBooking = async (bookingDetails) => {
         if (this.type.id === 1) {
-            const property = this.properties.find(p => p.id === bookingDetails.property)
+            const property = this.properties.find(p => p.name === bookingDetails.property)
             bookingDetails.id = await UserService().addNewBooking(bookingDetails)
             property.booking.push(new Booking(bookingDetails))
             return bookingDetails.id

@@ -19,23 +19,13 @@ const useStyles = makeStyles((theme) => ({
     }
   }))
 
-const PropertyCalendar = inject('user')(observer((props) => { 
+const PropertyCalendar = inject('user')(observer((props) => {
 
     const { user, bookings, value } = props
     const classes = useStyles()
-    
+
     const currentDate = moment()
     let date = currentDate.date()
-
-    const bookingData = bookings.map(({ startDate, endDate, ...restArgs }) => {
-        const result = {
-          ...makeTodayAppointment(startDate, endDate),
-          ...restArgs,
-        }
-        date += 1;
-        if (date > 31) date = 1
-            return result
-    })
 
     const makeTodayAppointment = (startDate, endDate) => {
         const days = moment(startDate).diff(endDate, 'days');
@@ -54,13 +44,23 @@ const PropertyCalendar = inject('user')(observer((props) => {
         }
     }
 
-    return ( 
+    const bookingData = bookings.map(({ startDate, endDate, ...restArgs }) => {
+        const result = {
+          ...makeTodayAppointment(startDate, endDate),
+          ...restArgs,
+        }
+        date += 1;
+        if (date > 31) date = 1
+            return result
+    })
+
+    return (
         <Fragment>
             <Typography variant='h6'>
                 Weekly Schedule
             </Typography>
             <Paper className={classes.calendarContainer}>
-                <Scheduler  
+                <Scheduler
                     data={bookingData}
                     height='100%'
                 >

@@ -1,12 +1,19 @@
 import { Grid, MenuItem, TextField, Typography } from '@material-ui/core'
-import React, { useState } from 'react'
+import { inject, observer } from 'mobx-react';
+import React, { useEffect, useState } from 'react'
 import ErrorNotice from '../../misc/ErrorNotice'
 
-export default function Form(props) {
+const Form = inject('user')(observer((props) => {
 
-    const { error, setError, fields, handleFieldChange, handleSubmit } = props 
-
-    const types = ['Manager', 'Electricity', 'Plumbing', 'Pool']
+    const { user, error, setError, fields, handleFieldChange, handleSubmit } = props
+    const [types, setTypes] = useState([])
+    useEffect(()=>{
+        const getUserType = async () =>{
+            const typeDB = await user.loadUserTypes()
+            setTypes(typeDB);
+        }
+        getUserType()
+    }, [])
 
     const validateForm = () => {
         return (
@@ -38,7 +45,7 @@ export default function Form(props) {
                     type="text"
                     value={fields.lastName}
                     onChange={handleFieldChange}
-                /> 
+                />
             </form>
             <form autoComplete='email'>
                 <Typography variant="subtitle2">Email</Typography>
@@ -95,8 +102,8 @@ export default function Form(props) {
                   }}
             >
                 {types.map((option) => (
-                    <MenuItem key={option} value={option}>
-                    {option}
+                    <MenuItem key={option.id} value={option.id}>
+                    {option.type}
                     </MenuItem>
                 ))}
             </TextField>
@@ -109,4 +116,5 @@ export default function Form(props) {
         </Grid>
     )
 
-}
+}))
+export default Form

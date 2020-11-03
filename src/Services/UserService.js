@@ -42,6 +42,12 @@ const UserService = function () {
         return booking.data
     }
 
+    const addNewUser = async (userInfo) => {
+        console.log(userInfo);
+        const id = await axios.post(`http://localhost:3001/user`, userInfo)
+        return id.data[0]
+    }
+
     const addNewUserType = async (type) => {
         const newType = await axios.get(`http://localhost:3001/usertype`, { type })
         return newType
@@ -130,6 +136,7 @@ const UserService = function () {
         getUserServiceProviders,
         getBooking,
         getUserTypes,
+        addNewUser,
         addNewUserType,
         addNewProperty,
         addNewTodo,
