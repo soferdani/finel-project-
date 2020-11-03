@@ -1,16 +1,10 @@
 import React from 'react'
-import { makeStyles, withStyles } from '@material-ui/core/styles'
-import { 
-    Typography, 
-    Grid,
-    Paper,
-    IconButton,
-    Checkbox
-} from '@material-ui/core'
+import { Accordion, AccordionDetails, AccordionSummary, Button, Grid, Checkbox, IconButton, makeStyles, withStyles, Typography } from '@material-ui/core'
 import {
     Delete as DeleteIcon, 
     RadioButtonUnchecked as RadioButtonUncheckedIcon, 
-    CheckCircle as CheckCircleIcon
+    CheckCircle as CheckCircleIcon,
+    ExpandMore as ExpandMoreIcon
 } from '@material-ui/icons'
 import { inject, observer } from 'mobx-react'
 import moment from 'moment'
@@ -48,56 +42,65 @@ const ToDo = inject('user')(observer((props) => {
 
     const { user, task, property } = props
 
+    const serviceProvider = property.serviceWorkers.find(w => w.id === task.serviceProvider)
+
     const handleCheck = async function() {
-        user.updateTodoStatus(property, task.id)
+        user.updateTodoStatus(property.id, task.id)
     }
 
     const handleDelete = async function() {
-        user.deleteTodo(property, task.id)
+        user.deleteTodo(property.id, task.id)
     }
 
     return (
-        <Paper 
-            elevation={3} 
-            className={
+        <Accordion 
+            className={ 
                 task.complete 
                     ? classes.toDoComplete 
                     : classes.toDoCard
-            }
+                }
         >
-            <Grid item xs={12} container className={classes.taskContainer} align='center' direction='row'>
-                <Grid item xs={2} md={2}>
-                    <IconButton onClick={handleDelete}>
-                        <DeleteIcon />
-                    </IconButton>
-                </Grid>
-                <Grid item xs={3} md={5}>
-                    <Typography variant='body2'>
-                        {task.task}
+            <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1a-content"
+                id="panel1a-header"
+            >
+                <Typography 
+                    className={classes.heading}
+                >
+                    {task.task}
+                </Typography>
+                
+            </AccordionSummary>
+            <AccordionDetails>
+                <Grid item xs={12} container direction='column'>
+                    <Grid item xs={12} container direction='row'>
+                        <DoneCheckbox 
+                            onChange={handleCheck}
+                            checked={task.complete}
+                            className={classes.checkbox}
+                            icon={<RadioButtonUncheckedIcon />} 
+                            checkedIcon={<CheckCircleIcon />} 
+                            name="checkedH" 
+                        />
+                        <IconButton onClick={handleDelete}>
+                            <DeleteIcon />
+                        </IconButton>
+                    </Grid>
+                    <Typography variant="subtitle2">
+                        Type: {task.type.type}
                     </Typography>
-                </Grid>
-                <Grid item xs={2} md={2}>
-                    <Typography variant='body2'>
-                        {task.type}
+                    <Typography variant="subtitle2">
+                        Service Provider: {serviceProvider 
+                            ? `${serviceProvider.firstName} ${serviceProvider.lastName}`
+                            : 'No service provider was assigned to this task'} 
                     </Typography>
-                </Grid>
-                <Grid item xs={3} md={2} >
-                    <Typography variant='body2'>
-                        {moment(task.date).format('DD/MM/YY')}
+                    <Typography variant="subtitle2">
+                        Created in: {moment(task.date).format('DD/MM/YY')}
                     </Typography>
-                </Grid>
-                <Grid item xs={2} md={1}>
-                    <DoneCheckbox 
-                        onChange={handleCheck}
-                        checked={task.complete}
-                        className={classes.checkbox}
-                        icon={<RadioButtonUncheckedIcon />} 
-                        checkedIcon={<CheckCircleIcon />} 
-                        name="checkedH" 
-                    />
-                </Grid>
-            </Grid>
-        </Paper>
+                </Grid> 
+            </AccordionDetails>
+        </Accordion> 
     )
 }))
 

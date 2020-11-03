@@ -24,7 +24,6 @@ const UserService = function () {
         } else {
             userTypes = await axios.get(`http://localhost:3001/usertype`)
         }
-        // console.log(userTypes);
         return userTypes.data
     }
 

@@ -27,8 +27,7 @@ const ToDos = inject('user')(observer((props) => {
 
     const [openNew, setOpenNew] = useState(false)
 
-    const { user, toDos, property, value } = props
-    
+    const { user, toDos, property } = props
 
     const handleOpenNewTask = () => {
         setOpenNew(true);
@@ -39,7 +38,7 @@ const ToDos = inject('user')(observer((props) => {
     }
 
     const handleSubmitTodo = async function(todo) {
-        user.addNewTodo(property, todo)
+        user.addNewTodo(property.id, todo)
         handleClose()
     }
 
@@ -56,6 +55,7 @@ const ToDos = inject('user')(observer((props) => {
                 open={openNew} 
                 handleClose={handleClose}
                 handleSubmitTodo={handleSubmitTodo}
+                property={property}
             />
         </Fragment>
     )

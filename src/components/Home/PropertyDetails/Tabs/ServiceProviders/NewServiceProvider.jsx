@@ -21,6 +21,7 @@ const NewServiceProvider = inject('user')(observer((props) => {
     
     async function handleSubmitService() {
         props.handleSubmitService(input)
+        setInput('')
     }
 
     return (
@@ -30,31 +31,31 @@ const NewServiceProvider = inject('user')(observer((props) => {
                 <DialogContentText>
                     Connect this property to an employee from your service worker's list
                 </DialogContentText>
-                 <TextField
-                    id="outlined-select-currency"
-                    select
-                    label="Service Provider"
-                    name='type'
-                    value={input}
-                    onChange={handleInputChange}
-                    helperText="Please select a service provider from the list"
-                    fullWidth
-                    SelectProps={{
-                        MenuProps: {
-                          anchorOrigin: {
-                            vertical: "bottom",
-                            horizontal: "left"
-                          },
-                          getContentAnchorEl: null
-                        }
-                    }}
-                >
-                {availableProviders.map((worker) => (
-                    <MenuItem key={worker.id} value={worker.id}>
-                        {worker.firstName} {worker.lastName} - {worker.type.type}
-                    </MenuItem>
-                ))}
-            </TextField>
+                    <TextField
+                        id="outlined-select-currency"
+                        select
+                        label="Service Provider"
+                        name='type'
+                        value={input}
+                        onChange={handleInputChange}
+                        helperText="Please select a service provider from the list"
+                        fullWidth
+                        SelectProps={{
+                            MenuProps: {
+                            anchorOrigin: {
+                                vertical: "bottom",
+                                horizontal: "left"
+                            },
+                            getContentAnchorEl: null
+                            }
+                        }}
+                    >
+                        {availableProviders.map((worker) => (
+                            <MenuItem key={worker.id} value={worker.id}>
+                                {worker.firstName} {worker.lastName} - {worker.type.type}
+                            </MenuItem>
+                        ))}
+                    </TextField>
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleClose} color="primary">

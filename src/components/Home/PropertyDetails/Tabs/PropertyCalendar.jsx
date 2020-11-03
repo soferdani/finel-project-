@@ -43,6 +43,16 @@ const PropertyCalendar = inject('user')(observer((props) => {
             endDate: nextEndDate.toDate(),
         }
     }
+    
+    const bookingData = bookings.map(({ startDate, endDate, ...restArgs }) => {
+        const result = {
+          ...makeTodayAppointment(startDate, endDate),
+          ...restArgs,
+        }
+        date += 1;
+        if (date > 31) date = 1
+            return result
+    })
 
     const bookingData = bookings.map(({ startDate, endDate, ...restArgs }) => {
         const result = {

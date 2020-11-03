@@ -1,15 +1,21 @@
 import { makeStyles, Typography, CssBaseline, Hidden, Grid, Button } from '@material-ui/core'
 import { inject, observer } from 'mobx-react'
 import React, { Fragment, useState } from 'react'
-import ServiceProvidersAccordion from './ServiceProviderAccordion'
-import ServiceProvidersTable from './ServiceProviderTable'
 import NewServiceProvider from './NewServiceProvider'
+import ServiceProvidersRow from './ServiceProviderRow'
 
 const useStyles = makeStyles((theme) => ({
     addButton: {
         color: '#fb8500',
         marginLeft: '10px',
         fontSize: '0.7em'
+    },
+    tableCell: {
+        marginBottom: '5px',
+        marginTop: '10px'
+    },
+    tableTitles: {
+        fontWeight: 'bold'
     }
 }))
 
@@ -46,6 +52,10 @@ const PropertyServiceProviders = inject('user')(observer((props) => {
         handleClose()
     }
 
+    const handleDelete = async function(workerId) {
+        await user.deleteServiceWorkerFromProperty(property.id, workerId)
+    }
+
     const classes = useStyles()
 
     return (
@@ -58,10 +68,63 @@ const PropertyServiceProviders = inject('user')(observer((props) => {
             </Grid>
             <CssBaseline />
             <Hidden mdUp implementation="css">
-                <ServiceProvidersAccordion serviceProviders={serviceProviders} />
+                {serviceProviders
+                    .map(p => 
+                        <ServiceProvidersRow 
+                            key={p.id} 
+                            serviceProvider={p} 
+                            rowType={0}
+                            handleDelete={handleDelete}
+                        />
+                    )
+                } 
             </Hidden>
             <Hidden smDown implementation="css">
-                <ServiceProvidersTable serviceProviders={serviceProviders} />
+            <Grid 
+                    item 
+                    xs={12} 
+                    container 
+                    direction='row' 
+                    className={classes.tableCell}
+                    alignItems='center'
+                >
+                    <Grid item xs={1}></Grid>
+                    <Grid item xs={2}>
+                        <Typography variant='body1' className={classes.tableTitles}>
+                            First Name
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={2}>
+                        <Typography variant='body1' className={classes.tableTitles}>
+                            Last Name
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={2}>
+                        <Typography variant='body1' className={classes.tableTitles}>
+                            Type
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={3}>
+                        <Typography variant='body1' className={classes.tableTitles}>
+                            Email
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={2}>
+                        <Typography variant='body1' className={classes.tableTitles}>
+                            Phone
+                        </Typography>
+                    </Grid>
+                </Grid>
+                {serviceProviders
+                    .map(p => 
+                        <ServiceProvidersRow 
+                            key={p.id} 
+                            serviceProvider={p} 
+                            rowType={1}
+                            handleDelete={handleDelete}
+                        />
+                    )
+                }
             </Hidden>
             <NewServiceProvider 
                 open={openNew} 
