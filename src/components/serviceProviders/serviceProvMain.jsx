@@ -6,6 +6,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import Button from '@material-ui/core/Button';
+import AllServiceProv from './allServiceProv';
 
 
 
@@ -36,10 +37,11 @@ const ServiceProvMain = inject('user')(observer((props) => {
     useEffect(() => {
         const getAllTypes = async () => {
             let userTypes = await user.loadUserTypes()
+
             userTypes = userTypes.filter(t => t.type.id != 1) //FIXME: this filter!!
+            console.log(userTypes);
             setAllUesrType(userTypes)
 
-            // console.log(userTypes);
         }
         getAllTypes()
 
@@ -93,6 +95,8 @@ const ServiceProvMain = inject('user')(observer((props) => {
                 </Select>
             </FormControl>
             <Button variant="contained" onClick={addNewServiceProvider} color="primary">Submit</Button>
+
+            <AllServiceProv></AllServiceProv>
         </Grid>
     )
 }))

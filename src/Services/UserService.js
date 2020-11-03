@@ -19,7 +19,7 @@ const UserService = function () {
 
     const getUserTypes = async (id) => {
         let userTypes
-        if(id) {
+        if (id) {
             userTypes = await axios.get(`http://localhost:3001/usertype/${id}`)
         } else {
             userTypes = await axios.get(`http://localhost:3001/usertype`)
@@ -29,6 +29,7 @@ const UserService = function () {
     }
 
     const getUserServiceProviders = async (managerId) => {
+        // console.log(managerId);
         const serviceWorkers = await axios.get(`http://localhost:3001/useremployee/${managerId}`)
         return serviceWorkers.data
     }
@@ -37,10 +38,20 @@ const UserService = function () {
         const serviceWorkers = await axios.get(`http://localhost:3001/service/${propertyId}`)
         return serviceWorkers.data
     }
+    const getOwnerList = async (managerId) => {
+        const ownerList = await axios.get(`http://localhost:3001/properties/owners/${managerId}`)
+        return ownerList.data
+    }
 
     const getBooking = async (id) => {
         const booking = await axios.get(`http://localhost:3001/booking/${id}`)
         return booking.data
+    }
+
+    const addNewUser = async (userInfo) => {
+        console.log(userInfo);
+        const id = await axios.post(`http://localhost:3001/user`, userInfo)
+        return id.data[0]
     }
 
     const addNewUserType = async (type) => {
@@ -65,7 +76,11 @@ const UserService = function () {
     }
 
     const addPropertyServiceWorker = async (propertyId, employeeId) => {
+<<<<<<< HEAD
         const PropertyUser = await axios.post('http://localhost:3001/service', {user: employeeId, property: propertyId})
+=======
+        const PropertyUser = await axios.post('http://localhost:3001/service-create', { user: employeeId, property: propertyId })
+>>>>>>> 1e7a19dfdb9dee9af2bf773a431064603f667cc1
         return PropertyUser.data
     }
 
@@ -95,7 +110,7 @@ const UserService = function () {
     }
 
     const updateTodoStatus = async (todoId, status) => {
-        const todo = await axios.put(`http://localhost:3001/todo/${todoId}`, {status: status} )
+        const todo = await axios.put(`http://localhost:3001/todo/${todoId}`, { status: status })
         return todo.data
     }
 
@@ -115,7 +130,7 @@ const UserService = function () {
     }
 
     const deleteServiceWorkerFromUser = async (managerId, ServiceWorkerId) => {
-        const deleted = await axios.delete(`http://localhost:3001/useremployee`, {managerId, ServiceWorkerId})
+        const deleted = await axios.delete(`http://localhost:3001/useremployee`, { managerId, ServiceWorkerId })
         return deleted.data
     }
 
@@ -124,13 +139,16 @@ const UserService = function () {
         return deleted.data
     }
 
-    return { getUserDetails,
+    return {
+        getUserDetails,
         getUserProperties,
         getPropertyTodo,
         getPropertyServiceProviders,
         getUserServiceProviders,
+        getOwnerList,
         getBooking,
         getUserTypes,
+        addNewUser,
         addNewUserType,
         addNewProperty,
         addNewTodo,
@@ -147,7 +165,7 @@ const UserService = function () {
         deleteServiceWorkers,
         deleteServiceWorkerFromUser,
         deleteBooking
-     }
+    }
 }
 
 export default UserService;
