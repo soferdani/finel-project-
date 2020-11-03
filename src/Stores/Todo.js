@@ -19,6 +19,7 @@ export default class Todo {
             task: observable,
             complete: observable,
             img: observable,
+            date: observable
         })
     }
 }

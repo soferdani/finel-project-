@@ -91,9 +91,10 @@ const ToDo = inject('user')(observer((props) => {
                         Type: {task.type.type}
                     </Typography>
                     <Typography variant="subtitle2">
-                        Service Provider: {serviceProvider 
-                            ? `${serviceProvider.firstName} ${serviceProvider.lastName}`
-                            : 'No service provider was assigned to this task'} 
+                        Service Provider: 
+                        {serviceProvider 
+                            ? ` ${serviceProvider.firstName} ${serviceProvider.lastName}`
+                            : task.type.id === 1 ? ' Manager' : ' No service provider was assigned to this task'} 
                     </Typography>
                     <Typography variant="subtitle2">
                         Created in: {moment(task.date).format('DD/MM/YY')}

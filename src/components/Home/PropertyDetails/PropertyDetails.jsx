@@ -17,9 +17,6 @@ import DetailsCard from './Tabs/DetailsCard'
 import PropertyServiceProviders from './Tabs/ServiceProviders/PropertyServiceProviders'
 
 const useStyles = makeStyles((theme) => ({
-    detailsContainer: {
-        height: '82vh'
-    },
     root: {
         width: '100%',
         paddingTop: '5px',
@@ -41,6 +38,9 @@ const useStyles = makeStyles((theme) => ({
     },
     cardDetails: {
         marginTop: '15px'
+    },
+    detailsContainer: {
+        marginBottom: '10px'
     }
 }))
 

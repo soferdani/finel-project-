@@ -26,7 +26,7 @@ const NewToDo = inject('user')(observer((props) => {
 
     const [input, setInput] = useState({
         task: '',
-        type: '',
+        typeId: '',
         serviceProvider: null
     })
 
@@ -37,8 +37,14 @@ const NewToDo = inject('user')(observer((props) => {
         }
         setInput({ ...input, [event.target.name]: value})
     }
+
+    const handleFormIsValid = () => {
+        return (input.task.length > 0 && input.typeId !== '')
+    }
     
     async function handleSubmitTodo() {
+        const type = allUesrType.find(t => t.id === input.typeId)
+        input.type = type.type
         props.handleSubmitTodo(input)
     }
 
@@ -66,8 +72,8 @@ const NewToDo = inject('user')(observer((props) => {
                     id="outlined-select-currency"
                     select
                     label="Select task's type"
-                    name='type'
-                    value={input.type}
+                    name='typeId'
+                    value={input.typeId}
                     onChange={handleInputChange}
                     helperText="Please select the task type to connect it to a service provider"
                     fullWidth
@@ -121,7 +127,7 @@ const NewToDo = inject('user')(observer((props) => {
                 <Button onClick={handleClose} color="primary">
                     Cancel
                 </Button>
-                <Button onClick={handleSubmitTodo} color="primary">
+                <Button onClick={handleSubmitTodo} color="primary" disabled={!handleFormIsValid()}>
                     ADD
                 </Button>
             </DialogActions>

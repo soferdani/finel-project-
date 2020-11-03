@@ -206,7 +206,8 @@ export default class User {
         if (this.type.id === 1) {
             const property = this.properties.find(p => p.id === propertyId)
             const todo = { ...todoDetails, property: propertyId, img: '' }
-            todo.id = await UserService().addNewTodo(todo)
+            const todoId = await UserService().addNewTodo(todo)
+            todo.t_id = todoId[0]
             property.todoList.push(new Todo(todo))
         }
         else {

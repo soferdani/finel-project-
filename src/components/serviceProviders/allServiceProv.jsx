@@ -74,7 +74,7 @@ const AllServiceProv = inject('user')(observer((props) => {
                   </TableCell>
                   <TableCell align="right">{row.email}</TableCell>
                   <TableCell align="right">{row.phone}</TableCell>
-                  <TableCell align="right">{row.type}</TableCell>
+                  <TableCell align="right">{row.type.type}</TableCell>
             </TableRow>
           ))}
         </TableBody>
