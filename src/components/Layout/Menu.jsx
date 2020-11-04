@@ -164,6 +164,16 @@ const Menu = inject('user')(observer((props) => {
                     <ListItemText primary='Analytics'/>
                 </ListItem>
             </Link></>: null}
+            <Link to='/home/chat'
+            onClick={() => localStorage.setItem('currentRoute', '/home/chat')}
+            className={classes.link}>
+                <ListItem button key='chat'>
+                    <ListItemIcon>
+                        <TrendingUpIcon />
+                    </ListItemIcon>
+                    <ListItemText primary='Chat'/>
+                </ListItem>
+            </Link>
         </List>
       <Divider />
         <List>
