@@ -60,12 +60,12 @@ const Login = inject('user')(observer((props) => {
         try {
             await Auth.signIn(email, password)
             user.userHasAuthenticated(email, true)
-            history.pish('/home/properties')
+            history.push('/home/properties')
         } catch (err) {
             err.message && setError(err.message)
         }
     }
- 
+
 
     return (
         <div id='login-signup-card'>
@@ -80,7 +80,7 @@ const Login = inject('user')(observer((props) => {
                             <ErrorNotice message={error} clearError={() => setError(undefined)} />
                         )}
                         <Grid item xs={10} className={classes.inputContainer}>
-                            <Paper component="form" className={classes.inputPaper} > 
+                            <Paper component="form" className={classes.inputPaper} >
                                 <EmailIcon className={classes.icon} />
                                 <InputBase
                                     className={classes.margin}
@@ -90,12 +90,12 @@ const Login = inject('user')(observer((props) => {
                                     type='email'
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                /> 
-                            </Paper> 
+                                />
+                            </Paper>
                         </Grid>
 
                         <Grid item xs={10} className={classes.inputContainer}>
-                            <Paper component="form" className={classes.inputPaper} > 
+                            <Paper component="form" className={classes.inputPaper} >
                                 <LockIcon className={classes.icon} />
                                 <InputBase
                                     className={classes.margin}
@@ -105,17 +105,17 @@ const Login = inject('user')(observer((props) => {
                                     type='password'
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                /> 
-                            </Paper> 
+                                />
+                            </Paper>
                         </Grid>
 
                     </Grid>
                     <Typography variant='subtitle1'>
                         Not a user? <Link to='/signup'>Sign Up</Link>
                     </Typography>
-                    <Button 
-                        onClick={submit} 
-                        variant='contained' 
+                    <Button
+                        onClick={submit}
+                        variant='contained'
                         className={classes.button}
                     >
                         SEND

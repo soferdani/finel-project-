@@ -32,17 +32,19 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
+const messages = {
+  moreInformationLabel: '',
+};
+
 const TextEditor = (props) => {
   if (props.type === 'multilineTextEditor') {
     return null;
-  } return <AppointmentForm.TextEditor {...props} />;
+  } return <AppointmentForm.TextEditor {...props} />
 };
 
 const BasicLayout = ({ onFieldChange, appointmentData, ...restProps }, user) => {
-  const usercopy = {...user}
   const onCustomFieldChange = (e) => {
-    const key = e.target.name
-    onFieldChange({ [key]: e.target.value });
+    onFieldChange({ [e.target.name]: e.target.value });
   };
 
   return (
@@ -98,7 +100,7 @@ const BasicLayout = ({ onFieldChange, appointmentData, ...restProps }, user) => 
         onChange={onCustomFieldChange}
         placeholder="Property"
       >
-        {usercopy.properties.map(p => {
+        {user.properties.map(p => {
           return (<MenuItem key={p.id} value={p.id}>
             {p.name}
           </MenuItem>)
@@ -158,16 +160,11 @@ const Calendar = inject('user')(observer((props) => {
     setBooking(newBooking)
   }, [])
 
-  const messages = {
-    moreInformationLabel: '',
-  };
-
 
   async function commitChanges({ added, changed, deleted }) {
       if (added) {
         added.startDate = moment(added.startDate).format('YYYY/MM/DD HH:mm:ss')
         added.endDate = moment(added.endDate).format('YYYY/MM/DD HH:mm:ss')
-        // console.log(added);
         added.id = await user.addNewBooking(added)
         setBooking([...booking,  added ]);
       }
@@ -250,9 +247,9 @@ const Calendar = inject('user')(observer((props) => {
             showDeleteButton
           />
         <AppointmentForm
-        basicLayoutComponent={(e) => BasicLayout(e, user)}
-        textEditorComponent={TextEditor}
-        messages={messages}
+          basicLayoutComponent={(e) => BasicLayout(e, user)}
+          textEditorComponent={TextEditor}
+          messages={messages}
         />
         </Scheduler>
       </Paper>

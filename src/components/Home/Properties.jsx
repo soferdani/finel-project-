@@ -19,7 +19,7 @@ const Properties = inject('user')(observer((props) => {
     const handleCloseAddDialog = () => {
         setAddDialogOpen(false)
     }
-    console.log(user.type.id);
+    
     return (
         <Fragment>
             {
