@@ -1,36 +1,30 @@
-
 import { Grid, makeStyles, Paper, Typography } from '@material-ui/core'
 import { inject, observer } from 'mobx-react'
-import React, { Fragment, useState } from 'react'
+import React, { Fragment } from 'react'
 import moment from 'moment'
 import {
     Scheduler,
     WeekView,
     Appointments,
 } from '@devexpress/dx-react-scheduler-material-ui'
-import { useEffect } from 'react'
 
 const useStyles = makeStyles((theme) => ({
-    calendarContainer: {
-        maxWidth: '100%',
-        height: 270,
-        [theme.breakpoints.up('md')]: {
-            height: 340
-        },
-        [theme.breakpoints.up('xl')]: {
-            height: 500
-        }
+    calendarContainer:{
+      maxWidth: '100%',
+      height:270,
+      [theme.breakpoints.up('md')]: {
+          height: 340
+      },
+      [theme.breakpoints.up('xl')]: {
+        height: 510
+    }
     }
 }))
 
 const PropertyCalendar = inject('user')(observer((props) => {
 
     const { user, bookings, value } = props
-    const [bookingData, setBookingData] = useState([])
     const classes = useStyles()
-
-    const currentDate = moment()
-    let date = currentDate.date()
 
     const makeTodayAppointment = (startDate, endDate) => {
         const diff = moment(endDate).diff(moment(startDate), "days")
@@ -43,16 +37,14 @@ const PropertyCalendar = inject('user')(observer((props) => {
             meetings.push({ startDate, endDate: newEndDate })
             if(i > 0){
                 startDate = moment(startDate).add(1, 'days').format('YYYY/MM/DD HH:mm:ss')
-                console.log(startDate);
             }else{
                 startDate = moment(startDate).startOf('day').add(32, 'hours').format('YYYY/MM/DD HH:mm:ss')
-                console.log(startDate);
             }
         }
         return meetings
     }
 
-    useEffect(() => {
+    const getBookings = () => {
         const spliData = []
         const newBookingData = bookings.map(({ startDate, endDate, name, ...restArgs }) => {
             if (moment(startDate).diff(moment(endDate), "days") === 0) {
@@ -71,23 +63,12 @@ const PropertyCalendar = inject('user')(observer((props) => {
             }
         })
         spliData.forEach(s=> newBookingData.push(s))
-        setBookingData(newBookingData)
-    }, [bookings])
+        return newBookingData
+    }
 
-    // console.log(bookingData)
+    const bookingData = getBookings()
+    console.log(bookingData)
 
-    // const meeting = [
-    //     {
-    //         endDate: "2020/11/02 18:00:00",
-    //         guests: undefined,
-    //         id: 54,
-    //         phone: "fff",
-    //         property: 3,
-    //         startDate: "2020/11/02 08:00:00",
-    //         title: "fffaa"
-    //     }
-    // ]
-    
     return (
         <Fragment>
             <Typography variant='h6'>
@@ -98,6 +79,7 @@ const PropertyCalendar = inject('user')(observer((props) => {
                     data={bookingData}
                     height='100%'
                 >
+
                     <WeekView
                         startDayHour={7}
                         endDayHour={19}

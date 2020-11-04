@@ -8,7 +8,7 @@ import Loader from './Layout/Loader'
 
 const Routes = inject('user')(observer((props) => {
 
-    const { user, IsAuthenticating } = props
+    const { user } = props
 
     if(!localStorage.currentRoute){
         localStorage.setItem('currentRoute', '/home/properties')
@@ -16,11 +16,9 @@ const Routes = inject('user')(observer((props) => {
 
     return (
         <Fragment>
-            {IsAuthenticating
-                ?   <Redirect to='/load' />
-                :   user.isAuthenticated === true
-                        ?   <Redirect from='/' to={localStorage.currentRoute} />
-                        :   <Redirect from='/' to='/login' />
+            {user.isAuthenticated === true
+                ?   <Redirect from='/' to={localStorage.currentRoute} />
+                :   <Redirect from='/' to='/login' />
             }
             <Route
                 path='/load'

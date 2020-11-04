@@ -19,30 +19,40 @@ import moment from 'moment'
 
 const useStyles = makeStyles((theme) => ({
   cardDetails: {
-    marginTop: '15px'
+    [theme.breakpoints.up('md')]: {
+      marginLeft: 40,
+    },
+  },
+  title: {
+    marginBottom: '10px'
   },
   calendarContainer: {
-    maxWidth: '90%',
-    height: '100%',
+    maxWidth: '100%',
     [theme.breakpoints.up('sm')]: {
-      marginLeft: 100,
-      maxWidth: '90%',
-      height: 600
+      height: 100
+    },
+    [theme.breakpoints.up('md')]: {
+      height: 550
+    },
+    [theme.breakpoints.up('xl')]: {
+      height: 700
     }
   }
 }))
 
+const messages = {
+  moreInformationLabel: '',
+};
+
 const TextEditor = (props) => {
   if (props.type === 'multilineTextEditor') {
     return null;
-  } return <AppointmentForm.TextEditor {...props} />;
+  } return <AppointmentForm.TextEditor {...props} />
 };
 
 const BasicLayout = ({ onFieldChange, appointmentData, ...restProps }, user) => {
-  const usercopy = {...user}
   const onCustomFieldChange = (e) => {
-    const key = e.target.name
-    onFieldChange({ [key]: e.target.value });
+    onFieldChange({ [e.target.name]: e.target.value });
   };
 
   return (
@@ -98,7 +108,7 @@ const BasicLayout = ({ onFieldChange, appointmentData, ...restProps }, user) => 
         onChange={onCustomFieldChange}
         placeholder="Property"
       >
-        {usercopy.properties.map(p => {
+        {user.properties.map(p => {
           return (<MenuItem key={p.id} value={p.id}>
             {p.name}
           </MenuItem>)
@@ -158,16 +168,11 @@ const Calendar = inject('user')(observer((props) => {
     setBooking(newBooking)
   }, [])
 
-  const messages = {
-    moreInformationLabel: '',
-  };
-
 
   async function commitChanges({ added, changed, deleted }) {
       if (added) {
         added.startDate = moment(added.startDate).format('YYYY/MM/DD HH:mm:ss')
         added.endDate = moment(added.endDate).format('YYYY/MM/DD HH:mm:ss')
-        // console.log(added);
         added.id = await user.addNewBooking(added)
         setBooking([...booking,  added ]);
       }
@@ -203,20 +208,18 @@ const Calendar = inject('user')(observer((props) => {
     <Grid
       item
       xs={12}
-      className={classes.cardDetails}>
-
+      className={classes.cardDetails}
+    >
       <Grid
         container
         item
         xs={12}
-        justify="center">
-        <Typography variant='h5'>
+      >
+        <Typography variant='h5' className={classes.title}>
           All properties Schedule
         </Typography>
-  </Grid>
-
+      </Grid>
       <Paper className={classes.calendarContainer}>
-
         <Scheduler
           data={booking}
           height='100%'
@@ -250,9 +253,9 @@ const Calendar = inject('user')(observer((props) => {
             showDeleteButton
           />
         <AppointmentForm
-        basicLayoutComponent={(e) => BasicLayout(e, user)}
-        textEditorComponent={TextEditor}
-        messages={messages}
+          basicLayoutComponent={(e) => BasicLayout(e, user)}
+          textEditorComponent={TextEditor}
+          messages={messages}
         />
         </Scheduler>
       </Paper>

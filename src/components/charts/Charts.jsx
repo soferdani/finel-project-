@@ -40,7 +40,6 @@ const Charts = inject('user')(observer((props) => {
     }, []) 
     
 
-    
 
     
 const data01 = [
@@ -76,6 +75,7 @@ const data01 = [
                 <Tooltip />
             </PieChart>
             
+
         </Grid>
     )
 

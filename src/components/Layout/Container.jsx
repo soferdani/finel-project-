@@ -6,20 +6,20 @@ import { useHistory, BrowserRouter as Router, Route, Redirect, IndexRoute } from
 import Calendar from '../calender/Calendar'
 import Properties from '../Home/Properties'
 import Menu from './Menu'
-
 import Profile from '../profile/Profile'
 import ServiceProvMain from '../serviceProviders/serviceProvMain'
 import Charts from '../charts/Charts'
+import Chat from '../chat/Chat'
 import SettingComponent from '../settings/SettingComponent'
 
 const useStyles = makeStyles((theme) => ({
-    homeContainer: {
+    container: {
         padding: '20px',
         paddingBottom: '0px',
         height: '88vh',
         marginBottom: '10px',
         [theme.breakpoints.up('md')]: {
-            marginLeft: 160,
+            marginLeft: 350,
             paddingTop: '40px',
             padding: '30px',
             height: '90vh'
@@ -37,9 +37,9 @@ const Container = inject('user')(observer((props) => {
 
     async function handleLogout() {
         await Auth.signOut()
-        user.userHasAuthenticated(false)
+        await user.userHasAuthenticated(false)
+        history.push('/login')  
         localStorage.clear()
-        history.push('/login')
     }
 
     return (
@@ -84,21 +84,27 @@ const Container = inject('user')(observer((props) => {
                     />
                     <Route
                         path='/home/serviceproviders'
-                        exact render={() => 
+                        exact render={() =>
                             <ServiceProvMain />
-                        } 
+                        }
                     />
                     <Route
                         path='/home/charts'
-                        exact render={() => 
+                        exact render={() =>
                             <Charts />
-                        } 
+                        }
+                    />
+                    <Route
+                        path='/home/chat'
+                        exact render={() =>
+                            <Chat />
+                        }
                     />
                     <Route
                         path='/home/settings'
-                        exact render={() => 
+                        exact render={() =>
                             <SettingComponent />
-                        } 
+                        }
                     />
                 </Grid>
             </Grid>

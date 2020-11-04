@@ -1,25 +1,25 @@
-import { Grid, makeStyles, Divider } from '@material-ui/core'
+import { Grid, makeStyles, MenuItem, Typography, TextField } from '@material-ui/core'
 import { inject, observer } from 'mobx-react'
-import React, { useEffect, useState } from 'react'
-import TextField from '@material-ui/core/TextField';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
+import React, { useState } from 'react'
 import AllServiceProv from './allServiceProv';
 import AddButton from '../Home/AddProperty/AddButton'
 import UpdateServicer from './AddServicer'
 
 const useStyles = makeStyles((theme) => ({
     serviceContainer: {
-        padding: '20px',
+        marginBottom: '30px',
         [theme.breakpoints.up('md')]: {
             marginLeft: 40,
-            paddingTop: '40px',
         },
-
-        formControl: {
-
-        }
+    },
+    title: {
+        marginBottom: '10px'
+    },
+    searchingContainer: {
+        marginBottom: '20px'
+    },
+    textField: {
+        marginRight: '25px'
     }
 }))
 
@@ -47,25 +47,47 @@ const ServiceProvMain = inject('user')(observer((props) => {
 
         <Grid item
             xs={12}
-            container className={classes.serviceContainer}>
-
-            <TextField id="standard-basic" value={value} onChange={handleType} label={`Seacrh By ${key}`} />
-            <FormControl className={classes.formControl}>
-                <InputLabel htmlFor="age-native-simple">Search Field</InputLabel>
-                <Select
-                    onChange={(e) => { setKey(e.target.value) }}
-                    native
-                    value={key}
-                    inputProps={{
-                        name: 'age',
-                        id: 'age-native-simple',
-                    }}>
-                    <option value='name'>Name</option>
-                    <option value='type'>Type</option>
-                    <option value='country'>Country</option>
-                </Select>
-            </FormControl>
-            <Divider />
+            container 
+            className={classes.serviceContainer}
+        >
+            <Typography variant='h5' className={classes.title}>
+                All properties Schedule
+            </Typography>
+            <Grid item xs={12} container direction='row' className={classes.searchingContainer}>
+                <Grid item xs={3} className={classes.textField}>
+                    <TextField 
+                        fullWidth
+                        id="standard-basic" 
+                        value={value} 
+                        onChange={handleType} 
+                        label={`Seacrh By ${key}`} 
+                    />
+                </Grid>
+                <Grid item xs={2} className={classes.textField}>  
+                    <TextField
+                        className={classes.dropDown}
+                        select
+                        fullWidth
+                        label='Search Field'
+                        id="demo-simple-select"
+                        onChange={(e) => { setKey(e.target.value) }}
+                        value={key}
+                        SelectProps={{
+                            MenuProps: {
+                                anchorOrigin: {
+                                    vertical: "bottom",
+                                    horizontal: "left"
+                                },
+                                getContentAnchorEl: null
+                            }
+                        }}
+                    >
+                            <MenuItem value='name'>Name</MenuItem >
+                            <MenuItem value='type'>Type</MenuItem >
+                            <MenuItem value='country'>Country</MenuItem >
+                    </TextField>
+                </Grid>
+            </Grid>
 
             <AllServiceProv />
             <AddButton label={"Add Servicer"} handleOpenAddDialog={handleOpenAddDialog} />

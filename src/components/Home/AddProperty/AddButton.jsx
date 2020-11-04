@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
     position: 'fixed',
     bottom: theme.spacing(2),
     right: theme.spacing(3),
-  },
+  }
 }));
 
 export default function AddButtun(props) {
@@ -27,8 +27,9 @@ export default function AddButtun(props) {
     <Tooltip
       title={props.label}
       aria-label={props.label}
-      onClick={handleOpenAddDialog}>
-      <Fab color="secondary" className={classes.absolute}>
+      onClick={handleOpenAddDialog}
+    >
+      <Fab className={classes.absolute} color='primary'>
         <AddIcon />
       </Fab>
     </Tooltip>
