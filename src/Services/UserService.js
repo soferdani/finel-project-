@@ -32,6 +32,7 @@ const UserService = function () {
         return serviceWorkers.data
     }
 
+    
     const getMostBookingAppetenceForUser = async (managerId) => {
         const serviceWorkers = await axios.get(`http://localhost:3001/analytics/bookingchannels/${managerId}`)        
         return serviceWorkers.data

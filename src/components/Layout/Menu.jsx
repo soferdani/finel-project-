@@ -144,6 +144,7 @@ const Menu = inject('user')(observer((props) => {
                     <ListItemText primary='Calendar'/>
                 </ListItem>
             </Link>
+
             {user.type.id === 1 
               && 
               <Fragment>

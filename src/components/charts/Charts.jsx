@@ -5,7 +5,8 @@ import React, { useState, useEffect } from 'react'
 import moment from 'moment'
 import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts';
 import Card from '@material-ui/core/Card';
-
+import { PieChart, Pie, Sector, Cell } from 'recharts';
+import pieChart from './PaiChart';
 
 const useStyles = makeStyles((theme) => ({
     chartsContainer: {
@@ -17,24 +18,6 @@ const useStyles = makeStyles((theme) => ({
     },
     fields: {
         width: '100%'
-    },
-    badge1: {
-        minWidth: '25%',
-        [theme.breakpoints.up('sm')]: {
-            backgroundColor: "#219EBC",
-            padding:100,
-            borderRadius: 80,
-            margin: 20
-        }
-    },
-    badge2: {
-        minWidth: '25%',
-        [theme.breakpoints.up('sm')]: {
-            backgroundColor: "#8ECAE6",
-            padding:100,
-            borderRadius: 80,
-            margin: 20
-        }
     }
 }))
 
@@ -42,43 +25,56 @@ const Charts = inject('user')(observer((props) => {
     const { user } = props
     const classes = useStyles()
 
+
+
     const [bookingDistribution, setBookingDistribution] = useState ([])
-    const [allTodoStatus, setAllTodoStatus] = useState ([])
+    const [allTodoComplete, setAllTodoComplete ] = useState ([])
 
     useEffect(() => {
         const feachDataFromDB = async () => {
             const mostBookingForUser = await user.getMostBookingForUser()
-            const allUserTodos = await user.getAllTodoStatus()
-            setAllTodoStatus(allUserTodos)
-            setBookingDistribution(mostBookingForUser.filter(b => b.channel !== 'undefined' && b.channel !== null))
+            setBookingDistribution(mostBookingForUser.filter(b => b.channel !== "undefined" && b.channel !== null))
+            // user.mostBookingApartment()
         }
         feachDataFromDB()
     }, []) 
-
-    const [product] = useState({
-        name: "monthly subscription",
-        price: 1.00
-    }) 
+    
 
 
+    
+const data01 = [
+    { name: 'Group A', value: 400 }, { name: 'Group B', value: 300 },
+    { name: 'Group C', value: 300 }, { name: 'Group D', value: 200 },
+    { name: 'Group E', value: 278 }, { name: 'Group F', value: 189 },
+  ];
+  
+  const data02 = [
+    { name: 'Group A', value: 2400 }, { name: 'Group B', value: 4567 },
+    { name: 'Group C', value: 1398 }, { name: 'Group D', value: 9800 },
+    { name: 'Group E', value: 3908 }, { name: 'Group F', value: 4800 },
+  ];
+
+
+    
 
 
 
     return (
         <Grid className={classes.chartsContainer} container item xs={12} >
-        <BarChart width={600} height={300} data={bookingDistribution}>
-            <XAxis dataKey="channel" stroke="#8884d8" />
-            <YAxis />
-            <Tooltip />
-            <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-            <Bar dataKey="numberOfBooking" fill="#8884d8" barSize={30} />
-    </BarChart>
+            <BarChart width={600} height={300} data={bookingDistribution}>
+                <XAxis dataKey="channel" stroke="#8884d8" />
+                <YAxis />
+                <Tooltip />
+                <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
+                <Bar dataKey="numberOfBooking" fill="#8884d8" barSize={30} />
+            </BarChart>
 
-
-        
-        <Card className={classes.badge1}> Total todos left: </Card>
-        
-        <Card className={classes.badge2}> info2 </Card>
+            <PieChart width={400} height={400}>
+                <Pie dataKey="value" isAnimationActive={false} data={data01} cx={200} cy={200} outerRadius={80} fill="#8884d8" label />
+                <Pie dataKey="value" data={data02} cx={500} cy={200} innerRadius={40} outerRadius={80} fill="#82ca9d" />
+                <Tooltip />
+            </PieChart>
+            
 
         </Grid>
     )
