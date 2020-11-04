@@ -37,8 +37,8 @@ const Container = inject('user')(observer((props) => {
     async function handleLogout() {
         await Auth.signOut()
         user.userHasAuthenticated(false)
-        localStorage.clear()
         history.push('/login')
+        localStorage.clear()
     }
 
     return (
@@ -83,15 +83,15 @@ const Container = inject('user')(observer((props) => {
                     />
                     <Route
                         path='/home/serviceproviders'
-                        exact render={() => 
+                        exact render={() =>
                             <ServiceProvMain />
-                        } 
+                        }
                     />
                     <Route
                         path='/home/charts'
-                        exact render={() => 
+                        exact render={() =>
                             <Charts />
-                        } 
+                        }
                     />
                 </Grid>
             </Grid>
