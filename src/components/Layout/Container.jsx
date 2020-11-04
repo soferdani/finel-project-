@@ -44,7 +44,7 @@ const Container = inject('user')(observer((props) => {
         <Router>
             <Grid item xs={12} container className={classes.container} alignItems='flex-start'>
                 <Menu handleLogout={handleLogout} />
-                <Redirect to={localStorage.currentRoute}/>
+                {/* <Redirect to={localStorage.currentRoute}/> */}
                 <Grid
                     item
                     xs={12}
@@ -53,8 +53,8 @@ const Container = inject('user')(observer((props) => {
 
                 >
                     <Route
-                        path='/home/properties'
-                        exact render={({ match }) =>
+                        exact path='/home/properties'
+                        render={({ match }) =>
                             <Properties
                                 match={match}
                             />

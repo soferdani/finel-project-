@@ -59,7 +59,7 @@ const Signup = inject('user')(observer((props) => {
                 userType: fields.userType,
             })
             user.userHasAuthenticated(fields.email, true)
-            history.push("/home")
+            history.push("/home/properties")
         } catch (err) {
             err.message && setError(err.message)
             setIsLoading(false)

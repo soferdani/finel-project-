@@ -60,7 +60,7 @@ const Login = inject('user')(observer((props) => {
         try {
             await Auth.signIn(email, password)
             user.userHasAuthenticated(email, true)
-            history.push("/home")
+            history.push("/home/properties")
         } catch (err) {
             err.message && setError(err.message)
         }
