@@ -20,6 +20,9 @@ const useStyles = makeStyles((theme) => ({
         fontFamily: "'Montserrat', sans-serif",
         marginBottom: '25px'
     },
+    error: {
+        color: '#d00000'
+    },
     inputContainer: {
         marginTop: '25px',
         marginBottom: '45px'
@@ -61,12 +64,12 @@ const Login = inject('user')(observer((props) => {
 
     const submit = async (e) => {
         setIsLoading(true)
-
         try {
             await Auth.signIn(email, password)
             await user.userHasAuthenticated(email, true)
             history.push('/home/properties')
         } catch (err) {
+            setIsLoading(false)
             err.message && setError(err.message)
         }
     }
@@ -75,7 +78,7 @@ const Login = inject('user')(observer((props) => {
     return (
         <div id='login-signup-card'>
             {isLoading 
-                ? <Loader />
+                ?   <Loader />
                 :   <Grid item xs={12} md={4} container className={classes.paperLoginContainer}>
                         <Paper elevation={3} className={classes.paperCard}>
                             <Grid item xs={12} container justify='center' alignItems='center' direction='column'>
@@ -83,9 +86,11 @@ const Login = inject('user')(observer((props) => {
                                 <Typography variant="h5" className={classes.title}>
                                     Login
                                 </Typography>
-                                {error && (
-                                    <ErrorNotice message={error} clearError={() => setError(undefined)} />
-                                )}
+                                <Grid item xs={12} hidden={!error}>
+                                    <Typography variant='body2' className={classes.error}>
+                                        {error}
+                                    </Typography>
+                                </Grid>
                                 <Grid item xs={10} className={classes.inputContainer}>
                                     <Paper component="form" className={classes.inputPaper} > 
                                         <EmailIcon className={classes.icon} />
