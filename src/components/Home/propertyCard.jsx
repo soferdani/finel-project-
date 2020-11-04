@@ -38,7 +38,7 @@ const PropertyCard = inject('user')(observer((props) => {
 
     return (
         <Grid item xs={12} md={4} container >
-            <Link to={`/home/properties/${property.id}`} className={classes.link}>
+            <Link to={`/home/properties/${property.id}`} className={classes.link} onClick={() => localStorage.setItem('currentRoute', `/home/properties/${property.id}`)}>
                 <Card className={classes.root}>
                     <CardActionArea>
                         <CardMedia
@@ -47,6 +47,7 @@ const PropertyCard = inject('user')(observer((props) => {
                             height="180"
                             image={property.img}
                             title="Contemplative Reptile"
+                            className={classes.img}
                         />
                         <CardContent>
                             <Typography

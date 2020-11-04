@@ -1,24 +1,35 @@
 import { inject, observer } from 'mobx-react'
 import React, { Fragment } from 'react'
-import { BrowserRouter as Router, Redirect, Route, useLocation } from 'react-router-dom'
+import { BrowserRouter as Router, Redirect, Route } from 'react-router-dom'
 import Login from './auth/Login'
 import Signup from './auth/Signup'
 import Container from './Layout/Container'
+import Loader from './Layout/Loader'
 
 const Routes = inject('user')(observer((props) => {
 
-    const { user } = props
+    const { user, IsAuthenticating } = props
 
     if(!localStorage.currentRoute){
         localStorage.setItem('currentRoute', '/home/properties')
     }
 
     return (
-        <Router>
-            {user.isAuthenticated === true
-                ?   <Redirect from='/' to='/home' />
-                :   <Redirect from='/' to='/login' />
+        <Fragment>
+            {IsAuthenticating
+                ?   <Redirect to='/load' />
+                :   user.isAuthenticated === true
+                        ?   <Redirect from='/' to={localStorage.currentRoute} />
+                        :   <Redirect from='/' to='/login' />
             }
+            <Route
+                path='/load'
+                exact render={({ match }) =>
+                    <Loader
+                        match={match}
+                    />
+                }
+            />
             <Route
                 path='/login'
                 exact render={({ match }) =>
@@ -37,14 +48,15 @@ const Routes = inject('user')(observer((props) => {
             />
             <Route
                 path='/home'
-                exact render={({ match }) =>
-                <Container
+                render={({ match }) =>
+                    <Container
                     match={match}
-                />
+                    />
                 }
             >
+                
             </Route>
-        </Router>
+        </Fragment>
     )
 }))
 

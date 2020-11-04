@@ -4,6 +4,7 @@ import { Auth } from "aws-amplify"
 import './App.css'
 import { inject, observer } from 'mobx-react'
 import Routes from './components/AppRoutes'
+import { Redirect, useHistory } from 'react-router-dom';
 
 const App = inject('user')(observer((props) => {
 
@@ -11,6 +12,7 @@ const App = inject('user')(observer((props) => {
 
   const [IsAuthenticating, setIsAuthenticating] = useState(true)
 
+  const history = useHistory()
 
   useEffect(() => {
     onLoad();
@@ -19,20 +21,19 @@ const App = inject('user')(observer((props) => {
   const onLoad = async () => {
     try {
       const session = await Auth.currentSession()
-      user.userHasAuthenticated(session.idToken.payload.email, true)
+      await user.userHasAuthenticated(session.idToken.payload.email, true)
     }
     catch(e) {
       if (e !== 'No current user') {
         alert(e)
       }
     }
-  
     await setIsAuthenticating(false)
   }
 
   return (
     <Grid item xs={12} container >
-      <Routes />
+      <Routes IsAuthenticating={IsAuthenticating} />
     </Grid>
   )
 }))

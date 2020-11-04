@@ -9,6 +9,7 @@ import Menu from './Menu'
 
 import Profile from '../profile/Profile'
 import ServiceProvMain from '../serviceProviders/serviceProvMain'
+import Charts from '../charts/Charts'
 
 const useStyles = makeStyles((theme) => ({
     homeContainer: {
@@ -41,10 +42,8 @@ const Container = inject('user')(observer((props) => {
     }
 
     return (
-        <Router>
             <Grid item xs={12} container className={classes.container} alignItems='flex-start'>
                 <Menu handleLogout={handleLogout} />
-                <Redirect to={localStorage.currentRoute}/>
                 <Grid
                     item
                     xs={12}
@@ -53,24 +52,23 @@ const Container = inject('user')(observer((props) => {
 
                 >
                     <Route
-                        path='/home/properties'
-                        exact render={({ match }) =>
-                            <Properties
-                                match={match}
-                            />
-                        }
+                    exact path='/home/properties'
+                    render={({ match }) =>
+                        <Properties
+                            match={match}
+                        />
+                    }
                     />
                     <Route
                         path='/home/properties/:propertyId'
-                        exact render={({ match }) =>
+                        render={({ match }) =>
                             <Properties
                                 match={match}
                             />
                         }
                     />
-
                     <Route
-                        path='/calendar'
+                        path='/home/calendar'
                         exact render={({ match }) =>
                             <Calendar
                                 match={match}
@@ -78,21 +76,25 @@ const Container = inject('user')(observer((props) => {
                         }
                     />
                     <Route
-                        path='/profile'
+                        path='/home/profile'
                         exact render={() =>
                             <Profile />
                         }
                     />
                     <Route
-                        path='/serviceproviders'
+                        path='/home/serviceproviders'
                         exact render={() => 
                             <ServiceProvMain />
                         } 
                     />
-
+                    <Route
+                        path='/home/charts'
+                        exact render={() => 
+                            <Charts />
+                        } 
+                    />
                 </Grid>
             </Grid>
-        </Router>
     )
 
 }))

@@ -109,8 +109,8 @@ const Menu = inject('user')(observer((props) => {
     <div>
         <div className={classes.toolbar} />
         <List>
-        <Link to='/profile'
-        onClick={() => localStorage.setItem('currentRoute', '/profile')}
+        <Link to='/home/profile'
+        onClick={() => localStorage.setItem('currentRoute', '/home/profile')}
         className={classes.link}>
           <ListItem button key='img'>
             <ListItemIcon>
@@ -133,8 +133,8 @@ const Menu = inject('user')(observer((props) => {
                     <ListItemText primary='Home'/>
                 </ListItem>
             </Link>
-            <Link to='/calendar'
-            onClick={() => localStorage.setItem('currentRoute', '/calendar')}
+            <Link to='/home/calendar'
+            onClick={() => localStorage.setItem('currentRoute', '/home/calendar')}
             className={classes.link}>
                 <ListItem button key='Calendar'>
                     <ListItemIcon>
@@ -144,8 +144,8 @@ const Menu = inject('user')(observer((props) => {
                 </ListItem>
             </Link>
             {user.type.id === 1 ?
-            <><Link to='/serviceproviders'
-            onClick={() => localStorage.setItem('currentRoute', '/serviceproviders')}
+            <Link to='/home/serviceproviders'
+            onClick={() => localStorage.setItem('currentRoute', '/home/serviceproviders')}
             className={classes.link}>
                 <ListItem button key='Service-Providers'>
                     <ListItemIcon>
@@ -154,8 +154,8 @@ const Menu = inject('user')(observer((props) => {
                     <ListItemText primary='Service Providers'/>
                 </ListItem>
             </Link>
-            <Link to='/charts'
-            onClick={() => localStorage.setItem('currentRoute', '/charts')}
+            <Link to='/home/charts'
+            onClick={() => localStorage.setItem('currentRoute', '/home/charts')}
             className={classes.link}>
                 <ListItem button key='Analytics'>
                     <ListItemIcon>
