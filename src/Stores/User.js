@@ -22,7 +22,7 @@ export default class User {
         this.email = ''
         this.phone = ''
         this.dateJoin = ''
-        this.type = null
+        this.type = {id: null, type: null}
         this.properties = []
         this.serviceWorkers = []
 
@@ -45,6 +45,8 @@ export default class User {
             loadUserTypes: action,
             loadUserServiceProviders: action,
             getOwnerList: action,
+            getMostBookingForUser: action,
+            getAllTodoStatus: action,
             addNewUserType: action,
             addNewProperty: action,
             addNewTodo: action,
@@ -154,13 +156,23 @@ export default class User {
         const allTypes = await UserService().getUserTypes(id)
         return allTypes
     };
+
     getOwnerList = async () => {
         const ownerList = await UserService().getOwnerList(this.id)
         return ownerList;
     }
+    getAllTodoStatus = async () => {
+        const ownerList = await UserService().getTodoStatus(this.id)
+        return ownerList;
+    }
+
+    getMostBookingForUser = async () => {
+        // console.log(this.id);
+        const BookingSourceList = await UserService().getMostBookingAppetenceForUser(this.id)
+        return BookingSourceList;
+    }
 
     addNewUser = async (user) => {
-        console.log(user);
         this.id = await UserService().addNewUser(user)
         this.img = user.img
         this.firstName = user.firstName
@@ -247,7 +259,7 @@ export default class User {
 
     addNewBooking = async (bookingDetails) => {
         if (this.type.id === 1) {
-            const property = this.properties.find(p => p.name === bookingDetails.property)
+            const property = this.properties.find(p => p.id === bookingDetails.property)
             bookingDetails.id = await UserService().addNewBooking(bookingDetails)
             property.booking.push(new Booking(bookingDetails))
             return bookingDetails.id

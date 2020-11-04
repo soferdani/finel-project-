@@ -7,7 +7,7 @@ import {
     Scheduler,
     WeekView,
     Appointments,
-  } from '@devexpress/dx-react-scheduler-material-ui'
+} from '@devexpress/dx-react-scheduler-material-ui'
 import { useEffect } from 'react'
 
 const useStyles = makeStyles((theme) => ({
@@ -21,50 +21,73 @@ const useStyles = makeStyles((theme) => ({
         height: 510
     }
     }
-  }))
+}))
 
 const PropertyCalendar = inject('user')(observer((props) => {
 
     const { user, bookings, value } = props
-    const [bookingData, setBookingData ]= useState([])
+    const [bookingData, setBookingData] = useState([])
     const classes = useStyles()
 
     const currentDate = moment()
     let date = currentDate.date()
 
     const makeTodayAppointment = (startDate, endDate) => {
-        const days = moment(startDate).diff(endDate, 'days');
-        const nextStartDate = moment(startDate)
-            .year(currentDate.year())
-            .month(currentDate.month())
-            .date(date);
-        const nextEndDate = moment(endDate)
-            .year(currentDate.year())
-            .month(currentDate.month())
-            .date(date + days)
-
-        return {
-            startDate: nextStartDate.toDate(),
-            endDate: nextEndDate.toDate()
+        const diff = moment(endDate).diff(moment(startDate), "days")
+        const meetings = []
+        for (let i = 0; i < diff; i++) {
+            let newEndDate = moment(startDate).add(12, 'hours').format('YYYY/MM/DD HH:mm:ss')
+          if( i === diff-1){
+              newEndDate = endDate
+            }
+            meetings.push({ startDate, endDate: newEndDate })
+            if(i > 0){
+                startDate = moment(startDate).add(1, 'days').format('YYYY/MM/DD HH:mm:ss')
+                console.log(startDate);
+            }else{
+                startDate = moment(startDate).startOf('day').add(32, 'hours').format('YYYY/MM/DD HH:mm:ss')
+                console.log(startDate);
+            }
         }
+        return meetings
     }
 
-    useEffect(()=>{
-        const newBookingData = bookings.map(({startDate, endDate, name, ...restArgs }) => {
-            const result = {
-            ...makeTodayAppointment(),
-            title: name,
-            ...restArgs,
+    useEffect(() => {
+        const spliData = []
+        const newBookingData = bookings.map(({ startDate, endDate, name, ...restArgs }) => {
+            if (moment(startDate).diff(moment(endDate), "days") === 0) {
+                return {
+                    startDate,
+                    endDate,
+                    title: name,
+                    ...restArgs,
+                }
+            } else {
+                makeTodayAppointment(startDate, endDate).map(({startDate, endDate}) => {
+                    spliData.push({startDate, endDate, title: name, ...restArgs })
+                    return {startDate, endDate, title: name, ...restArgs }
+                })
+                return 'hello'
             }
-            date += 1;
-            if (date > 31) date = 1
-                return result
         })
+        spliData.forEach(s=> newBookingData.push(s))
         setBookingData(newBookingData)
-    }, [])
-    
+    }, [bookings])
 
-    console.log(bookingData);
+    // console.log(bookingData)
+
+    // const meeting = [
+    //     {
+    //         endDate: "2020/11/02 18:00:00",
+    //         guests: undefined,
+    //         id: 54,
+    //         phone: "fff",
+    //         property: 3,
+    //         startDate: "2020/11/02 08:00:00",
+    //         title: "fffaa"
+    //     }
+    // ]
+    
     return (
         <Fragment>
             <Typography variant='h6'>
@@ -76,8 +99,8 @@ const PropertyCalendar = inject('user')(observer((props) => {
                     height='100%'
                 >
                     <WeekView
-                        startDayHour={1}
-                        endDayHour={23}
+                        startDayHour={7}
+                        endDayHour={19}
                     />
                     <Appointments />
                 </Scheduler>

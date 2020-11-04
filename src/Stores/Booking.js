@@ -9,7 +9,7 @@ export default class Booking {
         this.channel = booking.channel
         this.name = booking.name
         this.phone = booking.phone
-        this.emali = booking.email
+        this.email = booking.email
         this.property = booking.property
 
         makeObservable(this, {
@@ -19,7 +19,7 @@ export default class Booking {
             guests: observable,
             channel: observable,
             phone: observable,
-            emali: observable,
+            email: observable,
             name: observable,
             property: observable
         })
