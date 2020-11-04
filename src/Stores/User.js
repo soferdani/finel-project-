@@ -45,6 +45,7 @@ export default class User {
             loadUserTypes: action,
             loadUserServiceProviders: action,
             getOwnerList: action,
+            getMostBookingForUser: action,
             addNewUserType: action,
             addNewProperty: action,
             addNewTodo: action,
@@ -154,13 +155,19 @@ export default class User {
         const allTypes = await UserService().getUserTypes(id)
         return allTypes
     };
+
     getOwnerList = async () => {
         const ownerList = await UserService().getOwnerList(this.id)
         return ownerList;
     }
 
+    getMostBookingForUser = async () => {
+        console.log(this.id);
+        const BookingSourceList = await UserService().getMostBookingAppetenceForUser(this.id)
+        return BookingSourceList;
+    }
+
     addNewUser = async (user) => {
-        console.log(user);
         this.id = await UserService().addNewUser(user)
         this.img = user.img
         this.firstName = user.firstName

@@ -9,7 +9,7 @@ import Menu from './Menu'
 
 import Profile from '../profile/Profile'
 import ServiceProvMain from '../serviceProviders/serviceProvMain'
-import { useEffect } from 'react'
+import Charts from '../charts/Charts'
 
 const useStyles = makeStyles((theme) => ({
     homeContainer: {
@@ -85,6 +85,12 @@ const Container = inject('user')(observer((props) => {
                         path='/home/serviceproviders'
                         exact render={() => 
                             <ServiceProvMain />
+                        } 
+                    />
+                    <Route
+                        path='/home/charts'
+                        exact render={() => 
+                            <Charts />
                         } 
                     />
                 </Grid>
