@@ -9,6 +9,7 @@ import Menu from './Menu'
 
 import Profile from '../profile/Profile'
 import ServiceProvMain from '../serviceProviders/serviceProvMain'
+import Charts from '../charts/Charts'
 
 const useStyles = makeStyles((theme) => ({
     homeContainer: {
@@ -87,6 +88,12 @@ const Container = inject('user')(observer((props) => {
                         path='/serviceproviders'
                         exact render={() => 
                             <ServiceProvMain />
+                        } 
+                    />
+                    <Route
+                        path='/charts'
+                        exact render={() => 
+                            <Charts />
                         } 
                     />
 
