@@ -143,7 +143,8 @@ const Menu = inject('user')(observer((props) => {
                     <ListItemText primary='Calendar'/>
                 </ListItem>
             </Link>
-            <Link to='/serviceproviders'
+            {user.type.id === 1 ?
+            <><Link to='/serviceproviders'
             onClick={() => localStorage.setItem('currentRoute', '/serviceproviders')}
             className={classes.link}>
                 <ListItem button key='Service-Providers'>
@@ -162,7 +163,7 @@ const Menu = inject('user')(observer((props) => {
                     </ListItemIcon>
                     <ListItemText primary='Analytics'/>
                 </ListItem>
-            </Link>
+            </Link></>: null}
         </List>
       <Divider />
         <List>

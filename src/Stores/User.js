@@ -22,7 +22,7 @@ export default class User {
         this.email = ''
         this.phone = ''
         this.dateJoin = ''
-        this.type = null
+        this.type = {id: null, type: null}
         this.properties = []
         this.serviceWorkers = []
 
@@ -247,7 +247,7 @@ export default class User {
 
     addNewBooking = async (bookingDetails) => {
         if (this.type.id === 1) {
-            const property = this.properties.find(p => p.name === bookingDetails.property)
+            const property = this.properties.find(p => p.id === bookingDetails.property)
             bookingDetails.id = await UserService().addNewBooking(bookingDetails)
             property.booking.push(new Booking(bookingDetails))
             return bookingDetails.id

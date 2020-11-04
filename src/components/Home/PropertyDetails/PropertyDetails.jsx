@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import { 
-    Card, 
-    CardContent, 
-    CardMedia, 
-    Typography, 
+import {
+    Card,
+    CardContent,
+    CardMedia,
+    Typography,
     Grid,
     Divider,
     Tabs,
@@ -50,8 +50,8 @@ const useStyles = makeStyles((theme) => ({
     }
 }))
 
-const PropertyDetails = inject('user')(observer((props) => {  
-    
+const PropertyDetails = inject('user')(observer((props) => {
+
     const classes = useStyles()
 
     const { user, propertyId } = props
@@ -82,7 +82,7 @@ const PropertyDetails = inject('user')(observer((props) => {
         <Grid item xs={12} container className={classes.detailsContainer}>
             <Card className={classes.root}>
                 <CardContent>
-                    <Grid item xs={12} container direction='row' className={classes.cardHead} alignItems='flex-end'> 
+                    <Grid item xs={12} container direction='row' className={classes.cardHead} alignItems='flex-end'>
                         <Grid item xs={7}>
                             <Typography variant='h5'>
                                 {property.name}
@@ -90,8 +90,11 @@ const PropertyDetails = inject('user')(observer((props) => {
                             <Typography variant='body2'>
                                 {property.address}
                             </Typography>
-                            <Button className={classes.deleteButton} size='small' onClick={handleDelete}>DELETE PROPERTY</Button> 
-                        </Grid> 
+                            {user.type.id === 1 ?
+                            <Button className={classes.deleteButton} size='small' onClick={handleDelete}>
+                                DELETE PROPERTY
+                                </Button>: null}
+                        </Grid>
                         <Grid item xs={5} container justify='flex-end'>
                             <CardMedia
                                 component="img"
@@ -116,39 +119,39 @@ const PropertyDetails = inject('user')(observer((props) => {
                         <Tab label="To Dos" {...a11yProps(2)} />
                         <Tab label="Service Providers" {...a11yProps(3)} />
                     </Tabs>
-                    <Grid 
+                    <Grid
                         hidden={value !== 0}
-                        item 
-                        xs={12} 
+                        item
+                        xs={12}
                         className={classes.cardDetails}
                     >
                         <DetailsCard property={property} />
                     </Grid>
-                    <Grid 
+                    <Grid
                         hidden={value !== 1}
-                        item 
-                        xs={12} 
+                        item
+                        xs={12}
                         className={classes.cardDetails}
                     >
                         <PropertyCalendar value={value} bookings={property.booking}/>
                     </Grid>
-                    <Grid 
+                    <Grid
                         hidden={value !== 2}
-                        item 
-                        xs={12} 
+                        item
+                        xs={12}
                         className={classes.cardDetails}
                     >
                         <ToDos toDos={property.todoList} property={property} />
                     </Grid>
-                    <Grid 
+                    <Grid
                         hidden={value !== 3}
-                        item 
-                        xs={12} 
+                        item
+                        xs={12}
                         className={classes.cardDetails}
                     >
                         <PropertyServiceProviders property={property}/>
-                    </Grid>           
-                </CardContent> 
+                    </Grid>
+                </CardContent>
             </Card>
         </Grid>
     )
