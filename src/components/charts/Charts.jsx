@@ -6,12 +6,6 @@ import moment from 'moment'
 import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts';
 
 
-
-const data = [{name: 'Page A', uv: 400, pv: 2400, amt: 2400}];
-
-
-
-
 const useStyles = makeStyles((theme) => ({
     profileContainer: {
         maxWidth: '100%',
@@ -30,30 +24,41 @@ const Charts = inject('user')(observer((props) => {
     const classes = useStyles()
 
     const [bookingDistribution, setBookingDistribution] = useState ([])
+    const [allTodoStatus, setAllTodoStatus] = useState ([])
 
     useEffect(() => {
         const feachDataFromDB = async () => {
             const mostBookingForUser = await user.getMostBookingForUser()
-            // mostBookingForUser.forEach(t => tempArry.push({t.channel}))
-            // setBookingDistribution(...mostBookingForUser)
-            // console.log(bookingDistribution);
+            const allUserTodos = await user.getAllTodoStatus()
+            setAllTodoStatus(allUserTodos)
+            setBookingDistribution(mostBookingForUser)
         }
         feachDataFromDB()
     }, []) 
     
 
+    console.log(allTodoStatus);
+    // console.log(bookingDistribution);
+
+
+    
+
+
 
 
     return (
-        <Grid className={classes.profileContainer} item xs={12} container>
+        <Grid className={classes.profileContainer} container item xs={12} >
         <BarChart width={600} height={300} data={bookingDistribution}>
-            <XAxis dataKey="name" stroke="#8884d8" />
+            <XAxis dataKey="channel" stroke="#8884d8" />
             <YAxis />
             <Tooltip />
             <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-            <Bar dataKey="uv" fill="#8884d8" barSize={30} />
+            <Bar dataKey="numberOfBooking" fill="#8884d8" barSize={30} />
     </BarChart>
 
+
+        <div>Total mission complete in your account :  </div>
+        <div>Total mission incomplete in your account :   </div>
     
         </Grid>
     )
