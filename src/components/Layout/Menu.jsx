@@ -144,6 +144,7 @@ const Menu = inject('user')(observer((props) => {
                 </ListItem>
             </Link>
             {user.type.id === 1 ?
+          <>
             <Link to='/home/serviceproviders'
             onClick={() => localStorage.setItem('currentRoute', '/home/serviceproviders')}
             className={classes.link}>

@@ -60,6 +60,9 @@ export default class User {
             deleteTodo: action,
             deleteServiceWorkerFromProperty: action,
             deleteServiceWorkerFromUser: action,
+            todosCompleted: computed,
+            todosNotCompleted: computed,
+            mostBookingApartment: computed
         })
     }
 
@@ -386,4 +389,34 @@ export default class User {
             console.log('You dont have prommision');
         }
     };
+
+    get todosCompleted() {
+        let counter = 0
+        for (let property of this.properties) {
+            for (let todo of property.todoList) {
+                if (todo.complete) {
+                    counter++
+                }                
+            }
+        }
+    
+        return counter
+    }
+
+    get todosNotCompleted() {
+        let counter = 0
+        for (let property of this.properties) {
+            for (let todo of property.todoList) {
+                if (!todo.complete) {
+                    counter++
+                }                
+            }
+        }
+        return counter
+    }
+
+    get mostBookingApartment() {
+        console.log( this.properties)
+    }
+
 };
