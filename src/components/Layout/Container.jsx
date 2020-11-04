@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
         height: '88vh',
         marginBottom: '10px',
         [theme.breakpoints.up('md')]: {
-            marginLeft: 350,
+            marginLeft: 160,
             paddingTop: '40px',
             padding: '30px',
             height: '90vh'

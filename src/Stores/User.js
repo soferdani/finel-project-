@@ -72,10 +72,10 @@ export default class User {
             if (this.isAuthenticated && email) {
                 await this.loadUserDetails(email)
                 await this.loadUserProperties()
+                await this.loadUserServiceProviders()
+                await this.loadProperteisBooking()
                 await this.loadPropertiesWorkers()
                 await this.loadProperteisTodos()
-                await this.loadProperteisBooking()
-                await this.loadUserServiceProviders()
             }
             else {
                 this.isAuthenticated = false
@@ -131,9 +131,11 @@ export default class User {
     loadProperteisTodos = async () => {
         for (let property of this.properties) {
             let todoList = await UserService().getPropertyTodo(property.id)
-            todoList.forEach(todo => {
-                property.todoList.push(new Todo(todo))
-            })
+            todoList
+                .filter(t => this.type.id !== 1 && t.seviceProvider === this.id)
+                .forEach(todo => {
+                    property.todoList.push(new Todo(todo))
+                })
         }
     };
 
@@ -170,7 +172,6 @@ export default class User {
     }
 
     getMostBookingForUser = async () => {
-        // console.log(this.id);
         const BookingSourceList = await UserService().getMostBookingAppetenceForUser(this.id)
         return BookingSourceList;
     }
