@@ -17,6 +17,7 @@ import PropertyCalendar from './Tabs/PropertyCalendar'
 import DetailsCard from './Tabs/Details/DetailsCard'
 import PropertyServiceProviders from './Tabs/ServiceProviders/PropertyServiceProviders'
 import { Redirect, useHistory } from 'react-router-dom';
+import Loader from '../../Layout/Loader';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -78,80 +79,86 @@ const PropertyDetails = inject('user')(observer((props) => {
         history.push('/home/properties')
     }
 
-    return (
-        <Grid item xs={12} container className={classes.detailsContainer}>
-            <Card className={classes.root}>
-                <CardContent>
-                    <Grid item xs={12} container direction='row' className={classes.cardHead} alignItems='flex-end'> 
-                        <Grid item xs={7}>
-                            <Typography variant='h5'>
-                                {property.name}
-                            </Typography>
-                            <Typography variant='body2'>
-                                {property.address}
-                            </Typography>
-                            <Button className={classes.deleteButton} size='small' onClick={handleDelete}>DELETE PROPERTY</Button> 
-                        </Grid> 
-                        <Grid item xs={5} container justify='flex-end'>
-                            <CardMedia
-                                component="img"
-                                alt="Contemplative Reptile"
-                                className={classes.img}
-                                image={property.img}
-                                title="Contemplative Reptile"
-                            />
+    
+    if(user.properties.length > 0)
+        { return (
+            <Grid item xs={12} container className={classes.detailsContainer}>
+                <Card className={classes.root}>
+                    <CardContent>
+                        <Grid item xs={12} container direction='row' className={classes.cardHead} alignItems='flex-end'> 
+                            <Grid item xs={7}>
+                                <Typography variant='h5'>
+                                    {property.name}
+                                </Typography>
+                                <Typography variant='body2'>
+                                    {property.address}
+                                </Typography>
+                                <Button className={classes.deleteButton} size='small' onClick={handleDelete}>DELETE PROPERTY</Button> 
+                            </Grid> 
+                            <Grid item xs={5} container justify='flex-end'>
+                                <CardMedia
+                                    component="img"
+                                    alt="Contemplative Reptile"
+                                    className={classes.img}
+                                    image={property.img}
+                                    title="Contemplative Reptile"
+                                />
+                            </Grid>
+                        </ Grid>
+                        <Divider />
+                        <Tabs
+                            value={value}
+                            onChange={handleChange}
+                            indicatorColor="primary"
+                            textColor="primary"
+                            variant="fullWidth"
+                            aria-label="full width tabs example"
+                        >
+                            <Tab label="Details" {...a11yProps(0)} />
+                            <Tab label="Calendar" {...a11yProps(1)} />
+                            <Tab label="To Dos" {...a11yProps(2)} />
+                            <Tab label="Service Providers" {...a11yProps(3)} />
+                        </Tabs>
+                        <Grid 
+                            hidden={value !== 0}
+                            item 
+                            xs={12} 
+                            className={classes.cardDetails}
+                        >
+                            <DetailsCard property={property} />
                         </Grid>
-                    </ Grid>
-                    <Divider />
-                    <Tabs
-                        value={value}
-                        onChange={handleChange}
-                        indicatorColor="primary"
-                        textColor="primary"
-                        variant="fullWidth"
-                        aria-label="full width tabs example"
-                    >
-                        <Tab label="Details" {...a11yProps(0)} />
-                        <Tab label="Calendar" {...a11yProps(1)} />
-                        <Tab label="To Dos" {...a11yProps(2)} />
-                        <Tab label="Service Providers" {...a11yProps(3)} />
-                    </Tabs>
-                    <Grid 
-                        hidden={value !== 0}
-                        item 
-                        xs={12} 
-                        className={classes.cardDetails}
-                    >
-                        <DetailsCard property={property} />
-                    </Grid>
-                    <Grid 
-                        hidden={value !== 1}
-                        item 
-                        xs={12} 
-                        className={classes.cardDetails}
-                    >
-                        <PropertyCalendar value={value} bookings={property.booking}/>
-                    </Grid>
-                    <Grid 
-                        hidden={value !== 2}
-                        item 
-                        xs={12} 
-                        className={classes.cardDetails}
-                    >
-                        <ToDos toDos={property.todoList} property={property} />
-                    </Grid>
-                    <Grid 
-                        hidden={value !== 3}
-                        item 
-                        xs={12} 
-                        className={classes.cardDetails}
-                    >
-                        <PropertyServiceProviders property={property}/>
-                    </Grid>           
-                </CardContent> 
-            </Card>
-        </Grid>
-    )
+                        <Grid 
+                            hidden={value !== 1}
+                            item 
+                            xs={12} 
+                            className={classes.cardDetails}
+                        >
+                            <PropertyCalendar value={value} bookings={property.booking}/>
+                        </Grid>
+                        <Grid 
+                            hidden={value !== 2}
+                            item 
+                            xs={12} 
+                            className={classes.cardDetails}
+                        >
+                            <ToDos toDos={property.todoList} property={property} />
+                        </Grid>
+                        <Grid 
+                            hidden={value !== 3}
+                            item 
+                            xs={12} 
+                            className={classes.cardDetails}
+                        >
+                            <PropertyServiceProviders property={property}/>
+                        </Grid>           
+                    </CardContent> 
+                </Card>
+            </Grid>
+        )}
+    else {
+        return <Loader />
+    }
+
 }))
 
 export default PropertyDetails

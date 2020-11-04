@@ -9,6 +9,7 @@ import Menu from './Menu'
 
 import Profile from '../profile/Profile'
 import ServiceProvMain from '../serviceProviders/serviceProvMain'
+import { useEffect } from 'react'
 
 const useStyles = makeStyles((theme) => ({
     homeContainer: {
@@ -41,10 +42,8 @@ const Container = inject('user')(observer((props) => {
     }
 
     return (
-        <Router>
             <Grid item xs={12} container className={classes.container} alignItems='flex-start'>
                 <Menu handleLogout={handleLogout} />
-                {/* <Redirect to={localStorage.currentRoute}/> */}
                 <Grid
                     item
                     xs={12}
@@ -53,7 +52,15 @@ const Container = inject('user')(observer((props) => {
 
                 >
                     <Route
-                        exact path='/home/properties'
+                    exact path='/home/properties'
+                    render={({ match }) =>
+                        <Properties
+                            match={match}
+                        />
+                    }
+                    />
+                    <Route
+                        path='/home/properties/:propertyId'
                         render={({ match }) =>
                             <Properties
                                 match={match}
@@ -61,16 +68,7 @@ const Container = inject('user')(observer((props) => {
                         }
                     />
                     <Route
-                        path='/home/properties/:propertyId'
-                        exact render={({ match }) =>
-                            <Properties
-                                match={match}
-                            />
-                        }
-                    />
-
-                    <Route
-                        path='/calendar'
+                        path='/home/calendar'
                         exact render={({ match }) =>
                             <Calendar
                                 match={match}
@@ -78,21 +76,19 @@ const Container = inject('user')(observer((props) => {
                         }
                     />
                     <Route
-                        path='/profile'
+                        path='/home/profile'
                         exact render={() =>
                             <Profile />
                         }
                     />
                     <Route
-                        path='/serviceproviders'
+                        path='/home/serviceproviders'
                         exact render={() => 
                             <ServiceProvMain />
                         } 
                     />
-
                 </Grid>
             </Grid>
-        </Router>
     )
 
 }))

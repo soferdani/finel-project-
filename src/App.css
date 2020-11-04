@@ -19,3 +19,27 @@
   }
 
 }
+
+#loading-logo {
+  height: 300px;
+  width:250px;
+  animation: loader 6s infinite ease-in-out;
+}
+
+@keyframes loader {
+	0% {
+		transform: perspective(100px) rotateX(0deg) rotateY(0deg);
+  }
+  25% {
+		transform: perspective(100px) rotateX(0deg) rotateY(-179.9deg);
+	}
+	50% {
+		transform: perspective(100px) rotateX(0deg) rotateY(0deg);
+  }
+  75% {
+		transform: perspective(100px) rotateX(0deg) rotateY(-179.9deg);
+	}
+	100% {
+		transform: perspective(100px) rotateX(0deg) rotateY(0deg);
+	}
+}
