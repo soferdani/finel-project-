@@ -32,6 +32,15 @@ const UserService = function () {
         return serviceWorkers.data
     }
 
+    const getMostBookingAppetenceForUser = async (managerId) => {
+        const serviceWorkers = await axios.get(`http://localhost:3001/analytics/bookingchannels/${managerId}`)        
+        return serviceWorkers.data
+    }
+    const getTodoStatus = async (managerId) => {
+        const serviceWorkers = await axios.get(`http://localhost:3001/analytics/openTasks/${managerId}`)        
+        return serviceWorkers.data
+    }
+
     const getPropertyServiceProviders = async (propertyId) => {
         const serviceWorkers = await axios.get(`http://localhost:3001/service/${propertyId}`)
         return serviceWorkers.data
@@ -142,7 +151,9 @@ const UserService = function () {
         getPropertyServiceProviders,
         getUserServiceProviders,
         getOwnerList,
+        getMostBookingAppetenceForUser,
         getBooking,
+        getTodoStatus,
         getUserTypes,
         addNewUser,
         addNewUserType,

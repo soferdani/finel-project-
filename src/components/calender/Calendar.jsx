@@ -1,4 +1,4 @@
-import { Grid, makeStyles, Typography } from '@material-ui/core'
+import { Grid, makeStyles, Typography, MenuItem } from '@material-ui/core'
 import { inject, observer } from 'mobx-react'
 import React, { useEffect, useState } from 'react'
 import Paper from '@material-ui/core/Paper';
@@ -15,6 +15,7 @@ import {
   AppointmentTooltip,
   ConfirmationDialog
 } from '@devexpress/dx-react-scheduler-material-ui';
+import moment from 'moment'
 
 const useStyles = makeStyles((theme) => ({
   cardDetails: {
@@ -39,6 +40,104 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
+const TextEditor = (props) => {
+  if (props.type === 'multilineTextEditor') {
+    return null;
+  } return <AppointmentForm.TextEditor {...props} />;
+};
+
+const BasicLayout = ({ onFieldChange, appointmentData, ...restProps }, user) => {
+  const usercopy = {...user}
+  const onCustomFieldChange = (e) => {
+    const key = e.target.name
+    onFieldChange({ [key]: e.target.value });
+  };
+
+  return (
+    <AppointmentForm.BasicLayout
+      appointmentData={appointmentData}
+      onFieldChange={onFieldChange}
+      {...restProps}
+    >
+      <AppointmentForm.Label
+        text="Name"
+        type="title"
+      />
+      <AppointmentForm.TextEditor
+        value={appointmentData.name}
+        name="name"
+        key="name"
+        onChange={onCustomFieldChange}
+        placeholder="Custom field"
+      />
+      {appointmentData.channel ? <>
+      <AppointmentForm.Label
+        text="Number of guests"
+        type="title"
+      />
+      <AppointmentForm.TextEditor
+        value={appointmentData.guests}
+        name="guests"
+        key="guests"
+        onChange={onCustomFieldChange}
+        placeholder="Guests"
+      />
+      <AppointmentForm.Label
+        text="Channel"
+        type="title"
+      />
+      <AppointmentForm.TextEditor
+        value={appointmentData.channel}
+        name="channel"
+        key="channel"
+        onChange={onCustomFieldChange}
+        placeholder="Channel"
+      />
+      </> : null}
+      <AppointmentForm.Label
+        text="Property"
+        type="title"
+      />
+      <AppointmentForm.TextEditor
+        value={appointmentData.property}
+        select
+        name="property"
+        key="property"
+        onChange={onCustomFieldChange}
+        placeholder="Property"
+      >
+        {usercopy.properties.map(p => {
+          return (<MenuItem key={p.id} value={p.id}>
+            {p.name}
+          </MenuItem>)
+        })}
+        </AppointmentForm.TextEditor>
+      <AppointmentForm.Label
+        text="Phone"
+        type="title"
+      />
+      <AppointmentForm.TextEditor
+        value={appointmentData.phone}
+        name='phone'
+        key='phone'
+        onChange={onCustomFieldChange}
+        placeholder="Phone"
+      />
+      <AppointmentForm.Label
+        text="Email"
+        type="title"
+      />
+      <AppointmentForm.TextEditor
+        value={appointmentData.email}
+        name='email'
+        key='email'
+        onChange={onCustomFieldChange}
+        placeholder="Email"
+      />
+    </AppointmentForm.BasicLayout>
+  );
+};
+
 const Calendar = inject('user')(observer((props) => {
   const { user } = props
   const classes = useStyles()
@@ -51,24 +150,33 @@ const Calendar = inject('user')(observer((props) => {
     const newBooking = []
     user.properties.forEach(p => {
       p.booking.forEach(b => {
+        if(b.channel){
         newBooking.push({
-          startDate: b.startDate,
-          endDate: b.endDate,
-          title: b.name + " in " + p.name,
-          id: b.id
+          title: "Booking",
+          ...b
         })
+      }else{
+        newBooking.push({
+          title: "Mission",
+          ...b
+        })
+      }
       })
     })
     setBooking(newBooking)
-  }, [user])
+  }, [])
+
+  const messages = {
+    moreInformationLabel: '',
+  };
+
 
   async function commitChanges({ added, changed, deleted }) {
       if (added) {
-        added.id = await user.addNewBooking({
-          startDate: added.startDate,
-          endDate: added.endDate,
-          name: added.title,
-          property: added.notes})
+        added.startDate = moment(added.startDate).format('YYYY/MM/DD HH:mm:ss')
+        added.endDate = moment(added.endDate).format('YYYY/MM/DD HH:mm:ss')
+        // console.log(added);
+        added.id = await user.addNewBooking(added)
         setBooking([...booking,  added ]);
       }
       if (changed) {
@@ -83,9 +191,9 @@ const Calendar = inject('user')(observer((props) => {
           setBooking(newBooking)
           const bookingToDB = {}
           for(let key in changed[id]){
-            const newKey = key === 'title' ? 'name' : key === 'notes' ? 'property' : key === 'startDate' ? 'start_date' : key === 'endDate' ? "end_date" : key
-            if(newKey !== key){
-              changed[id][key] = newKey === 'property' ? parseInt(changed[id][key]) : changed[id][key]
+            const newKey = key === 'startDate' ? 'start_date' : key === 'endDate' ? "end_date" : key
+            if(key !== 'allDay' && key !== 'title'){
+              changed[id][key] = newKey === 'start_date' || newKey === 'end_date' ? moment(changed[id][key]).format('YYYY/MM/DD HH:mm:ss') : changed[id][key]
               bookingToDB[newKey] = changed[id][key]
             }
           }
@@ -147,7 +255,11 @@ const Calendar = inject('user')(observer((props) => {
             showOpenButton
             showDeleteButton
           />
-        <AppointmentForm />
+        <AppointmentForm
+        basicLayoutComponent={(e) => BasicLayout(e, user)}
+        textEditorComponent={TextEditor}
+        messages={messages}
+        />
         </Scheduler>
       </Paper>
     </Grid >
