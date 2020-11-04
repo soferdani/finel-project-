@@ -9,15 +9,15 @@ import {
 } from '@devexpress/dx-react-scheduler-material-ui'
 
 const useStyles = makeStyles((theme) => ({
-    calendarContainer: {
-        maxWidth: '100%',
-        height: 270,
-        [theme.breakpoints.up('md')]: {
-            height: 340
-        },
-        [theme.breakpoints.up('xl')]: {
-            height: 500
-        }
+    calendarContainer:{
+      maxWidth: '100%',
+      height:270,
+      [theme.breakpoints.up('md')]: {
+          height: 340
+      },
+      [theme.breakpoints.up('xl')]: {
+        height: 510
+    }
     }
 }))
 

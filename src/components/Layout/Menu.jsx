@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { Fragment, useState } from 'react'
 import PropTypes from 'prop-types'
 import {
     CssBaseline,
@@ -144,37 +144,31 @@ const Menu = inject('user')(observer((props) => {
                     <ListItemText primary='Calendar'/>
                 </ListItem>
             </Link>
-            {user.type.id === 1 ?
-            <><Link to='/home/serviceproviders'
-            onClick={() => localStorage.setItem('currentRoute', '/home/serviceproviders')}
-            className={classes.link}>
-                <ListItem button key='Service-Providers'>
-                    <ListItemIcon>
-                        <GroupIcon />
-                    </ListItemIcon>
-                    <ListItemText primary='Service Providers'/>
-                </ListItem>
-            </Link>
-            <Link to='/home/charts'
-            onClick={() => localStorage.setItem('currentRoute', '/home/charts')}
-            className={classes.link}>
-                <ListItem button key='Analytics'>
-                    <ListItemIcon>
-                        <TrendingUpIcon />
-                    </ListItemIcon>
-                    <ListItemText primary='Analytics'/>
-                </ListItem>
-            </Link></>: null}
-            <Link to='/home/chat'
-            onClick={() => localStorage.setItem('currentRoute', '/home/chat')}
-            className={classes.link}>
-                <ListItem button key='chat'>
-                    <ListItemIcon>
-                        <Chat />
-                    </ListItemIcon>
-                    <ListItemText primary='Chat'/>
-                </ListItem>
-            </Link>
+            {user.type.id === 1 
+              && 
+              <Fragment>
+                <Link to='/home/serviceproviders'
+                  onClick={() => localStorage.setItem('currentRoute', '/home/serviceproviders')}
+                  className={classes.link}>
+                      <ListItem button key='Service-Providers'>
+                          <ListItemIcon>
+                              <GroupIcon />
+                          </ListItemIcon>
+                          <ListItemText primary='Service Providers'/>
+                      </ListItem>
+                  </Link>
+                  <Link to='/home/charts'
+                  onClick={() => localStorage.setItem('currentRoute', '/home/charts')}
+                  className={classes.link}>
+                      <ListItem button key='Analytics'>
+                          <ListItemIcon>
+                              <TrendingUpIcon />
+                          </ListItemIcon>
+                          <ListItemText primary='Analytics'/>
+                      </ListItem>
+                  </Link> 
+              </Fragment>
+            }
         </List>
       <Divider />
       <List>

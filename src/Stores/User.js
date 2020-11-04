@@ -83,7 +83,7 @@ export default class User {
                 this.email = ''
                 this.phone = ''
                 this.dateJoin = ''
-                this.type = null
+                this.type = {id: null, type: null}
                 this.properties = []
             }
         } catch (error) {

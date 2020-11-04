@@ -1,16 +1,23 @@
 import { inject, observer } from 'mobx-react';
 import React, { useState, useEffect } from 'react'
-import { MenuItem } from '@material-ui/core'
-import Button from '@material-ui/core/Button'
+import { Grid, makeStyles, MenuItem } from '@material-ui/core'
 import TextField from '@material-ui/core/TextField'
+import Button from '@material-ui/core/Button'
 import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 
+const useStyles = makeStyles({
+    textField: {
+        marginBottom: '15px'
+    }
+})
+
 const AddServicer = inject('user')(observer((props) => {
 
+    const classes = useStyles()
     const { user, handleCloseAddDialog, open} = props
     const [allUesrType, setAllUesrType] = useState([])
     const [firstName, setFirstName] = useState('')
@@ -55,66 +62,74 @@ const AddServicer = inject('user')(observer((props) => {
                 <DialogContentText>
                     Fiil the Servicer details in the form below
             </DialogContentText>
+            <Grid item xs={12} container>
+                <Grid item xs={6}>
+                    <TextField
+                        id='outlined-multiline-static'
+                        className={classes.textField}
+                        fullWidth
+                        variant='outlined'
+                        autoFocus
+                        variant="outlined"
+                        label="First Name"
+                        type="text"
+                        onChange={(e) => { setFirstName(e.target.value) }}
+                    />
+                </Grid>
+                <Grid item xs={6}>
+                    <TextField
+                        id='outlined-multiline-static'
+                        fullWidth
+                        className={classes.textField}
+                        variant='outlined'
+                        label="Last Name"
+                        type="text"
+                        onChange={(e) => { setLastName(e.target.value) }}
+                    />
+                </Grid>
+            </Grid>
             <TextField
-                    id='outlined-multiline-static'
-                    variant='outlined'
-                    autoFocus
-                    variant="outlined"
-                    label="First Name"
-                    type="text"
-                    onChange={(e) => { setFirstName(e.target.value) }}
-                />
+                id='outlined-multiline-static'
+                className={classes.textField}
+                variant='outlined'
+                label="Email"
+                type="text"
+                fullWidth
+                onChange={(e) => { setEmail(e.target.value) }}
+            />
             <TextField
-                    id='outlined-multiline-static'
-                    variant='outlined'
-                    autoFocus
-                    variant="outlined"
-                    label="Last Name"
-                    type="text"
-                    onChange={(e) => { setLastName(e.target.value) }}
-                />
+                id='outlined-multiline-static'
+                className={classes.textField}
+                variant='outlined'
+                label="Phone"
+                type="text"
+                fullWidth
+                onChange={(e) => { setPhone(e.target.value) }}
+            />
             <TextField
-                    id='outlined-multiline-static'
-                    variant='outlined'
-                    autoFocus
-                    variant="outlined"
-                    label="Email"
-                    type="text"
-                    fullWidth
-                    onChange={(e) => { setEmail(e.target.value) }}
-                />
-            <TextField
-                    id='outlined-multiline-static'
-                    variant='outlined'
-                    autoFocus
-                    variant="outlined"
-                    label="Phone"
-                    type="text"
-                    fullWidth
-                    onChange={(e) => { setPhone(e.target.value) }}
-                />
-                <TextField
-                    id="outlined-select-currency"
-                    select
-                    label="Select Type"
-                    name='type'
-                    onChange={(e) => { setType(e.target.value) }}
-                    fullWidth
-                    SelectProps={{
-                        MenuProps: {
-                            anchorOrigin: {
-                                vertical: "bottom",
-                                horizontal: "left"
-                            },
-                            getContentAnchorEl: null
-                        }
-                    }}>
-                    {allUesrType.map(t => (
-                        <MenuItem id={t.id} value={t.id}>
-                            {t.type}
-                        </MenuItem>
-                    ))}
-                </TextField>
+                id="outlined-select-currency"
+                className={classes.textField}
+                select
+                label="Select Type"
+                name='type'
+                onChange={(e) => { setType(e.target.value) }}
+                fullWidth
+                SelectProps={{
+                    MenuProps: {
+                        anchorOrigin: {
+                            vertical: "bottom",
+                            horizontal: "left"
+                        },
+                        getContentAnchorEl: null
+                    }
+                }}
+            >
+                {allUesrType.map(t => (
+                    <MenuItem id={t.id} value={t.id}>
+                        {t.type}
+                    </MenuItem>
+                ))}
+            </TextField>
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleClosePropertyDialog} color="primary">
