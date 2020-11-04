@@ -9,6 +9,7 @@ import Menu from './Menu'
 import Profile from '../profile/Profile'
 import ServiceProvMain from '../serviceProviders/serviceProvMain'
 import Charts from '../charts/Charts'
+import SettingComponent from '../settings/SettingComponent'
 
 const useStyles = makeStyles((theme) => ({
     homeContainer: {
@@ -90,6 +91,12 @@ const Container = inject('user')(observer((props) => {
                         path='/home/charts'
                         exact render={() => 
                             <Charts />
+                        } 
+                    />
+                    <Route
+                        path='/home/settings'
+                        exact render={() => 
+                            <SettingComponent />
                         } 
                     />
                 </Grid>
