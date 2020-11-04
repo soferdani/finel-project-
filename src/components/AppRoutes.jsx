@@ -16,7 +16,7 @@ const Routes = inject('user')(observer((props) => {
     return (
         <Router>
             {user.isAuthenticated === true
-                ?   <Redirect from='/' to='/home' />
+                ?   <Redirect from='/' to={localStorage.currentRoute} />
                 :   <Redirect from='/' to='/login' />
             }
             <Route
@@ -36,8 +36,8 @@ const Routes = inject('user')(observer((props) => {
                 }
             />
             <Route
-                path='/home'
-                exact render={({ match }) =>
+                exact path='/home/properties'
+                render={({ match }) =>
                 <Container
                     match={match}
                 />
