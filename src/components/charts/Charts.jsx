@@ -50,14 +50,10 @@ const Charts = inject('user')(observer((props) => {
             const mostBookingForUser = await user.getMostBookingForUser()
             const allUserTodos = await user.getAllTodoStatus()
             setAllTodoStatus(allUserTodos)
-            setBookingDistribution(mostBookingForUser)
+            setBookingDistribution(mostBookingForUser.filter(b => b.channel !== 'undefined' && b.channel !== null))
         }
         feachDataFromDB()
     }, []) 
-    
-
-    console.log(allTodoStatus);
-    // console.log(bookingDistribution);
 
     const [product] = useState({
         name: "monthly subscription",
@@ -83,7 +79,7 @@ const Charts = inject('user')(observer((props) => {
         <Card className={classes.badge1}> Total todos left: </Card>
         
         <Card className={classes.badge2}> info2 </Card>
-            
+
         </Grid>
     )
 

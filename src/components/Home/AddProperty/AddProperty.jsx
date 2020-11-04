@@ -9,7 +9,7 @@ import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import { makeStyles } from '@material-ui/core/styles';
 import { OwnerDetails } from './OwnerDetails';
-import { Checkbox, Grid, MenuItem } from '@material-ui/core';
+import { Checkbox, FormControlLabel, Grid, MenuItem, Typography } from '@material-ui/core';
 import { useEffect } from 'react';
 
 
@@ -19,6 +19,13 @@ const useStyles = makeStyles((theme) => ({
             margin: theme.spacing(1),
         },
     },
+    textField: {
+        marginBottom: '15px'
+    },
+    addOwner: {
+        height: '100%',
+        width: '100%'
+    }
 }));
 
 const AddProperty = inject('user')(observer((props) => {
@@ -49,11 +56,12 @@ const AddProperty = inject('user')(observer((props) => {
     })
 
     const handleChange = event => {
-        if (event.target.value) {
-            setPropertyDitails({ ...propertyDetails, [event.target.name]: event.target.value })
-        }
-        if (event.target.checked) {
-            console.log(setPropertyDitails({ ...propertyDetails, [event.target.name]: event.target.checked }))
+        const key = event.target.name
+        const value = propertyDetails[key]
+        if(key === 'pool' || key === 'ac' || key === 'wifi' || key === 'kitchen') {
+            setPropertyDitails({ ...propertyDetails, [key]: !value  })
+        } else {
+            setPropertyDitails({ ...propertyDetails, [key]: event.target.value  })
         }
 
     }
@@ -99,24 +107,19 @@ const AddProperty = inject('user')(observer((props) => {
             </DialogContentText>
                 <TextField
                     id='outlined-multiline-static'
+                    className={classes.textField}
                     variant='outlined'
                     autoFocus
-                    multiline
-                    rows={3}
-                    variant="outlined"
                     name="name"
-                    label="Property Name"
+                    label=" Name"
                     type="text"
                     fullWidth
                     onChange={handleChange}
                 />
                 <TextField
                     id='outlined-multiline-static'
+                    className={classes.textField}
                     variant='outlined'
-                    autoFocus
-                    multiline
-                    rows={3}
-                    variant="outlined"
                     name="address"
                     label="address"
                     type="text"
@@ -125,26 +128,32 @@ const AddProperty = inject('user')(observer((props) => {
                 />
                 <TextField
                     id='outlined-multiline-static'
+                    className={classes.textField}
                     variant='outlined'
-                    autoFocus
                     multiline
-                    rows={3}
-                    variant="outlined"
+                    rows={2}
                     name="img"
-                    label="Property Imag URL"
+                    label="Imag URL"
                     type="text"
                     fullWidth
                     onChange={handleChange}
                 />
-                <Grid container direction="row"
+                <Grid 
+                    item
+                    xs={12}
+                    container 
+                    direction="row"
                     justify="space-between"
-                    alignItems="center">
-                    <Grid xs={6}>
+                    alignItems="center"
+                    className={classes.textField}
+                >
+                    <Grid xs={5}>
                         <TextField
                             id="outlined-select-currency"
                             select
-                            label="Select Owner From List"
-                            name='type'
+                            variant='outlined'
+                            label="Select owner from a list"
+                            name='owner'
                             onChange={handleChangeOwner}
                             fullWidth
                             SelectProps={{
@@ -155,7 +164,8 @@ const AddProperty = inject('user')(observer((props) => {
                                     },
                                     getContentAnchorEl: null
                                 }
-                            }}>
+                            }}
+                        >
                             {ownersList.map(owner => (
                                 <MenuItem id={owner.id} value={owner.name}>
                                     {owner.name}
@@ -163,8 +173,12 @@ const AddProperty = inject('user')(observer((props) => {
                             ))}
                         </TextField>
                     </Grid>
-                    OR
-                    <Grid>
+                    <Grid xs={2} container justify='center'>
+                        <Typography variant='subtitle1'>
+                            OR
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={5}>
                         {openOwnerDialog ?
                             <OwnerDetails
                                 open={openOwnerDialog}
@@ -174,79 +188,124 @@ const AddProperty = inject('user')(observer((props) => {
                             <Button
                                 variant="contained"
                                 color="primary"
-                                onClick={handleOpenOwnerDialog}>
+                                onClick={handleOpenOwnerDialog}
+                                className={classes.addOwner}
+                            >
                                 Create New Owner
-                    </Button>
+                            </Button>
                         }
                     </Grid>
                 </Grid>
-                <TextField
-                    id='outlined-multiline-static'
-                    variant='outlined'
-                    autoFocus
-                    multiline
-                    rows={3}
-                    variant="outlined"
-                    name="rooms"
-                    label="Room Number"
-                    type="number"
-                    fullWidth
-                    onChange={handleChange}
-                />
-                <TextField
-                    id='outlined-multiline-static'
-                    variant='outlined'
-                    autoFocus
-                    multiline
-                    rows={3}
-                    variant="outlined"
-                    name="bathrooms"
-                    label="Bathroom Number"
-                    type="number"
-                    fullWidth
-                    onChange={handleChange}
-                />
-                <TextField
-                    id='outlined-multiline-static'
-                    variant='outlined'
-                    autoFocus
-                    multiline
-                    rows={3}
-                    variant="outlined"
-                    name="guests"
-                    label="Max guests in Property"
-                    type="number"
-                    fullWidth
-                    onChange={handleChange}
-                />
-               Kitchen <Checkbox
-                    checked={propertyDetails.kitchen}
-                    label="Max guests in Property"
-                    name='kitchen'
-                    onChange={handleChange}
-                    inputProps={{ 'aria-label': 'primary checkbox' }}
-                />
-                AC <Checkbox
-                    checked={propertyDetails.ac}
-                    label="Max guests in Property"
-                    name='ac'
-                    onChange={handleChange}
-                    inputProps={{ 'aria-label': 'primary checkbox' }}
-                />
-                Wifi <Checkbox
-                    checked={propertyDetails.wifi}
-                    name='wifi'
-                    label="Max guests in Property"
-                    onChange={handleChange}
-                    inputProps={{ 'aria-label': 'primary checkbox' }}
-                />
-                Pool<Checkbox
-                    checked={propertyDetails.pool}
-                    label="Max guests in Property"
-                    name='pool'
-                    onChange={handleChange}
-                    inputProps={{ 'aria-label': 'primary checkbox' }}
-                />
+                <Grid 
+                    item 
+                    xs={12} 
+                    container 
+                    direction='row' 
+                    className={classes.textField}
+                >
+                    <Grid item xs={4}>
+                        <TextField
+                            id='outlined-multiline-static'
+                            variant='outlined'
+                            name="rooms"
+                            label="Rooms"
+                            type="number"
+                            fullWidth
+                            onChange={handleChange}
+                        />
+                    </Grid>
+                    <Grid item xs={4}>
+                        <TextField
+                            id='outlined-multiline-static'
+                            variant='outlined'
+                            name="bathrooms"
+                            label="Bathrooms"
+                            type="number"
+                            fullWidth
+                            onChange={handleChange}
+                        />
+                    </Grid>
+                    <Grid item xs={4}>
+                        <TextField
+                            id='outlined-multiline-static'
+                            variant='outlined'
+                            name="guests"
+                            label="Guests"
+                            type="number"
+                            fullWidth
+                            onChange={handleChange}
+                        />
+                    </Grid>
+                </Grid>
+                <Grid 
+                    item 
+                    xs={12} 
+                    container 
+                    direction='row' 
+                    className={classes.textField}
+                    align='center'
+                >
+                    <Grid item xs={3}>
+                        <FormControlLabel
+                            value="bottom"
+                            control={
+                                <Checkbox 
+                                    name="kitchen"
+                                    color="primary" 
+                                    onChange={handleChange}
+                                    checked={propertyDetails.kitchen}
+                                />
+                            }
+                            label="Kitchen"
+                            labelPlacement="bottom"
+                        /> 
+                    </Grid>
+                    <Grid item xs={3}>
+                        <FormControlLabel
+                            value="bottom"
+                            control={
+                                <Checkbox 
+                                    name="pool"
+                                    color="primary" 
+                                    onChange={handleChange}
+                                    checked={propertyDetails.pool}
+                                />
+                            }
+                            label="Pool"
+                            labelPlacement="bottom"
+                        /> 
+                    </Grid>
+                    <Grid item xs={3}>
+                        <FormControlLabel
+                            value="bottom"
+                            control={
+                                <Checkbox 
+                                    name="ac"
+                                    color="primary" 
+                                    onChange={handleChange}
+                                    checked={propertyDetails.ac}
+                                />
+                            }
+                            label="AC"
+                            labelPlacement="bottom"
+                        /> 
+                    </Grid>
+                    <Grid item xs={3}>
+                        <FormControlLabel
+                            value="bottom"
+                            control={
+                                <Checkbox 
+                                    name="wifi"
+                                    color="primary" 
+                                    onChange={handleChange}
+                                    checked={propertyDetails.wifi}
+                                />
+                            }
+                            label="Wifi"
+                            labelPlacement="bottom"
+                        /> 
+                    </Grid>
+                </Grid>
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleClosePropertyDialog} color="primary">

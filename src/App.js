@@ -5,6 +5,7 @@ import './App.css'
 import { inject, observer } from 'mobx-react'
 import Routes from './components/AppRoutes'
 import { Redirect, useHistory } from 'react-router-dom';
+import Loader from './components/Layout/Loader';
 
 const App = inject('user')(observer((props) => {
 
@@ -33,7 +34,10 @@ const App = inject('user')(observer((props) => {
 
   return (
     <Grid item xs={12} container >
-      <Routes IsAuthenticating={IsAuthenticating} />
+      {IsAuthenticating
+        ? <Loader />
+        : <Routes />
+      }     
     </Grid>
   )
 }))
