@@ -9,7 +9,7 @@ import Menu from './Menu'
 import Profile from '../profile/Profile'
 import ServiceProvMain from '../serviceProviders/serviceProvMain'
 import Charts from '../charts/Charts'
-import { Chat } from '@material-ui/icons'
+import Chat from '../chat/Chat'
 import SettingComponent from '../settings/SettingComponent'
 
 const useStyles = makeStyles((theme) => ({
@@ -102,9 +102,9 @@ const Container = inject('user')(observer((props) => {
                     />
                     <Route
                         path='/home/settings'
-                        exact render={() => 
+                        exact render={() =>
                             <SettingComponent />
-                        } 
+                        }
                     />
                 </Grid>
             </Grid>

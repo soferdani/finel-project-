@@ -24,7 +24,8 @@ import {
     TrendingUp as TrendingUpIcon,
     ExitToApp as ExitToAppIcon,
     Settings as SettingsIcon,
-    Group as GroupIcon
+    Group as GroupIcon,
+    Chat
 } from '@material-ui/icons'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { Link } from 'react-router-dom'
