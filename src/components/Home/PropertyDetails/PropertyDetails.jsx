@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import { 
-    Card, 
-    CardContent, 
-    CardMedia, 
-    Typography, 
+import {
+    Card,
+    CardContent,
+    CardMedia,
+    Typography,
     Grid,
     Divider,
     Tabs,
@@ -51,8 +51,8 @@ const useStyles = makeStyles((theme) => ({
     }
 }))
 
-const PropertyDetails = inject('user')(observer((props) => {  
-    
+const PropertyDetails = inject('user')(observer((props) => {
+
     const classes = useStyles()
 
     const { user, propertyId } = props
@@ -78,8 +78,6 @@ const PropertyDetails = inject('user')(observer((props) => {
         user.deleteProperty(property.id)
         history.push('/home/properties')
     }
-
-    
     if(user.properties.length > 0)
         { return (
             <Grid item xs={12} container className={classes.detailsContainer}>
@@ -158,7 +156,6 @@ const PropertyDetails = inject('user')(observer((props) => {
     else {
         return <Loader />
     }
-
 }))
 
 export default PropertyDetails

@@ -2,7 +2,7 @@ import { Button, Divider, Grid, makeStyles, Snackbar, Typography } from '@materi
 import { inject, observer } from 'mobx-react'
 import React, { Fragment, useState } from 'react'
 import {
-    Check as CheckIcon, 
+    Check as CheckIcon,
     Close as CloseIcon
 } from '@material-ui/icons'
 import EditDetails from './EditDetails'
@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }))
 
-const DetailsCard = inject('user')(observer((props) => {  
+const DetailsCard = inject('user')(observer((props) => {
 
     const { user, property } = props
 
@@ -77,14 +77,17 @@ const DetailsCard = inject('user')(observer((props) => {
                 <Typography variant='h6' className={classes.cardTitle}>
                     Details
                 </Typography>
-                <Button className={classes.addButton} onClick={handleOpenEdit}>EDIT</Button> 
+                {user.type.id === 1 ?
+                <Button className={classes.addButton} onClick={handleOpenEdit}>
+                    EDIT
+                </Button>: null}
             </Grid>
-            <EditDetails 
-                key={property.id} 
-                open={open} 
-                handleCloseEdit={handleCloseEdit} 
-                handleSubmitEdit={handleSubmitEdit} 
-                property={property} 
+            <EditDetails
+                key={property.id}
+                open={open}
+                handleCloseEdit={handleCloseEdit}
+                handleSubmitEdit={handleSubmitEdit}
+                property={property}
             />
             <Grid item xs={12} container direction='row' className={classes.detailsContainer}>
                 <Grid item xs={5} >

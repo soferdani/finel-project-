@@ -19,7 +19,7 @@ const Properties = inject('user')(observer((props) => {
     const handleCloseAddDialog = () => {
         setAddDialogOpen(false)
     }
-
+    console.log(user.type.id);
     return (
         <Fragment>
             {
@@ -27,7 +27,9 @@ const Properties = inject('user')(observer((props) => {
                     ? <PropertyDetails propertyId={propertyId} />
                     : user.properties.map(p => <PropertyCard key={p.id} property={p} />)
             }
+            {user.type.id === 1 ?
             <AddButton label={"Add Property"} handleOpenAddDialog={handleOpenAddDialog} />
+            : null }
             <AddProperty
                 open={addDialogOpen}
                 handleCloseAddDialog={handleCloseAddDialog}
