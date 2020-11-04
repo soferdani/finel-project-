@@ -1,7 +1,8 @@
 import { Grid, makeStyles, Typography, MenuItem, TextField, Button } from '@material-ui/core'
 import { inject, observer } from 'mobx-react'
 import React, { useEffect, useState } from 'react'
-import io from 'socket.io'
+import socketIOClient from "socket.io-client";
+const ENDPOINT = "http://localhost:3001";
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -18,24 +19,28 @@ const useStyles = makeStyles((theme) => ({
 const Chat = inject('user')(observer((props) => {
     const { user } = props
     const classes = useStyles()
+    const [messages, setMessages] = useState([])
     const [msg, setMsg] = useState({
         text: '',
         sender: user.id,
         getter: '',
         date: Date.now()
     })
+    const socket = socketIOClient(ENDPOINT);
     useEffect(() => {
-        const socket = io();
-        socket.on('get', function (msg) {
-            setMsg(msg)
+        socket.on('send', function (msg) {
+            if(msg.getter === user.id){
+                setMessages([...messages, msg])
+                console.log(msg);
+            }
         });
 
     })
 
-    const handleSend = (msg) => {
-        console.log(msg);
+    const handleSend = () => {
+        socket.emit('send', msg)
+        setMsg({...msg, text: ''})
     }
-
     return (
         <Grid
             item
@@ -60,7 +65,7 @@ const Chat = inject('user')(observer((props) => {
                 }}>
                 {user.serviceWorkers.map(s => (
                     <MenuItem id={s.id} value={s.id}>
-                        {s.name}
+                        {s.firstName + " " + s.lastName}
                     </MenuItem>
                 ))}
             </TextField>
@@ -71,7 +76,7 @@ const Chat = inject('user')(observer((props) => {
                     variant='outlined'
                     autoFocus
                     multiline
-                    rows={3}
+                    rows={1}
                     variant="outlined"
                     name="img"
                     label="Property Imag URL"
@@ -82,7 +87,7 @@ const Chat = inject('user')(observer((props) => {
             </Grid>
 
             <Grid item xs={12}>
-            <Button onClick={handleSend}>Click</Button>
+            <Button onClick={handleSend}>Send</Button>
             </Grid>
 
         </Grid >
