@@ -1,7 +1,7 @@
-import { Grid, List, ListItem, Divider, ListItemText, TextField, makeStyles, Snackbar, Typography } from '@material-ui/core'
+import { Grid, List, makeStyles, Snackbar, Typography } from '@material-ui/core'
 import { Alert } from '@material-ui/lab';
 import { inject, observer } from 'mobx-react'
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import UpdateUserForm from './UpdateUserForm'
 import UpdateImg from './UpdateImg'
 import DetailField from './DetailField'

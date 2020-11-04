@@ -122,7 +122,8 @@ const AddServicer = inject('user')(observer((props) => {
                         },
                         getContentAnchorEl: null
                     }
-                }}>
+                }}
+            >
                 {allUesrType.map(t => (
                     <MenuItem id={t.id} value={t.id}>
                         {t.type}

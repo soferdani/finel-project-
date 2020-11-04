@@ -15,19 +15,22 @@ import { Link } from 'react-router-dom'
 
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    marginBottom: '30px',
-    maxHeight: '100%',
-    [theme.breakpoints.up('md')]: {
-        marginLeft: 40
+    rootContainer:{
+        marginBottom: '30px',
     },
-  },
-  link: {
-    textDecoration: 'none'
-  },
-  cardTitle: {
-      marginBottom: '10px'
-  }
+    root: {
+        height: '100%',
+        maxWidth: '100%',
+        [theme.breakpoints.up('md')]: {
+            marginLeft: 40
+        },
+    },
+    link: {
+        textDecoration: 'none'
+    },
+    cardTitle: {
+        marginBottom: '10px'
+    }
 }))
 
 const PropertyCard = inject('user')(observer((props) => {
@@ -37,8 +40,12 @@ const PropertyCard = inject('user')(observer((props) => {
     const { property } = props
 
     return (
-        <Grid item xs={12} md={4} container >
-            <Link to={`/home/properties/${property.id}`} className={classes.link} onClick={() => localStorage.setItem('currentRoute', `/home/properties/${property.id}`)}>
+        <Grid item xs={12} md={4} container className={classes.rootContainer}>
+            <Link 
+                to={`/home/properties/${property.id}`} 
+                className={classes.link} 
+                onClick={() => localStorage.setItem('currentRoute', `/home/properties/${property.id}`)}
+            >
                 <Card className={classes.root}>
                     <CardActionArea>
                         <CardMedia
