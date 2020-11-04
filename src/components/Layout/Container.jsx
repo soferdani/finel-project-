@@ -11,6 +11,7 @@ import Profile from '../profile/Profile'
 import ServiceProvMain from '../serviceProviders/serviceProvMain'
 import Charts from '../charts/Charts'
 import { Chat } from '@material-ui/icons'
+import SettingComponent from '../settings/SettingComponent'
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -99,6 +100,12 @@ const Container = inject('user')(observer((props) => {
                         exact render={() =>
                             <Chat />
                         }
+                    />
+                    <Route
+                        path='/home/settings'
+                        exact render={() => 
+                            <SettingComponent />
+                        } 
                     />
                 </Grid>
             </Grid>
