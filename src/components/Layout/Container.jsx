@@ -6,7 +6,6 @@ import { useHistory, BrowserRouter as Router, Route, Redirect, IndexRoute } from
 import Calendar from '../calender/Calendar'
 import Properties from '../Home/Properties'
 import Menu from './Menu'
-
 import Profile from '../profile/Profile'
 import ServiceProvMain from '../serviceProviders/serviceProvMain'
 import Charts from '../charts/Charts'
@@ -36,9 +35,9 @@ const Container = inject('user')(observer((props) => {
 
     async function handleLogout() {
         await Auth.signOut()
-        user.userHasAuthenticated(false)
+        await user.userHasAuthenticated(false)
+        history.push('/login')  
         localStorage.clear()
-        history.push('/login')
     }
 
     return (

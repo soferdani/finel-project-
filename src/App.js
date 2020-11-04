@@ -37,8 +37,7 @@ const App = inject('user')(observer((props) => {
       {IsAuthenticating
         ? <Loader />
         : <Routes />
-      }
-      
+      }     
     </Grid>
   )
 }))
