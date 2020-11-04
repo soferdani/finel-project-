@@ -73,7 +73,7 @@ const Login = inject('user')(observer((props) => {
             err.message && setError(err.message)
         }
     }
- 
+
 
     return (
         <div id='login-signup-card'>
