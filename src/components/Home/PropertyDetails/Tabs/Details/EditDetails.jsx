@@ -49,7 +49,7 @@ const EditDetails = inject('user')(observer((props) => {
         setIsChanged(false)
         const key = event.target.name
         const value = input[key]
-        if(key === 'pool' || key == 'ac' || key === 'wifi' || key === 'kitchen') {
+        if(key === 'pool' || key === 'ac' || key === 'wifi' || key === 'kitchen') {
             setInput({ ...input, [key]: !value  })
         } else {
             setInput({ ...input, [key]: event.target.value  })

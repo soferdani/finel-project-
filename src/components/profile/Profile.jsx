@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
     profileContainer: {
         maxWidth: '100%',
         [theme.breakpoints.up('sm')]: {
-            marginLeft: 200,
+            marginLeft: 40,
             maxWidth: '70%'
         }
     },

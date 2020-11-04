@@ -6,8 +6,17 @@ import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
+import { makeStyles } from '@material-ui/core'
+
+const useStyles = makeStyles({
+    textField: {
+        marginBottom: '15px'
+    }
+})
 
 export const OwnerDetails = (props) => {
+
+    const classes = useStyles()
 
     const { open, handleChange, handleCloseDialog } = props
     const [ownerDetails, setOwnerDetails] = useState({
@@ -33,61 +42,59 @@ export const OwnerDetails = (props) => {
         handleCloseDialog()
     }
 
+    const validateForm = () => {
+        return ( 
+            ownerDetails.name.length > 0 &&
+            ownerDetails.phone.length > 0 &&
+            ownerDetails.country.length > 0 &&
+            ownerDetails.email.length > 0
+        )
+    }
+
     return (
         <Dialog open={open} onClose={closeOwnerDialog} aria-labelledby="form-dialog-title">
             <DialogTitle id="form-dialog-title">Add Owner</DialogTitle>
             <DialogContent>
                 <DialogContentText>
                     Fiil the Owner details
-        </DialogContentText>
+                </DialogContentText>
                 <TextField
                     id='outlined-multiline-static'
+                    className={classes.textField}
                     variant='outlined'
                     autoFocus
-                    multiline
-                    rows={3}
-                    variant="outlined"
                     name="name"
-                    label="Owner Name"
+                    label="Name"
                     type="text"
                     fullWidth
                     onChange={handleOwnerChange}
                 />
                 <TextField
                     id='outlined-multiline-static'
+                    className={classes.textField}
                     variant='outlined'
-                    autoFocus
-                    multiline
-                    rows={3}
-                    variant="outlined"
                     name="phone"
-                    label="Owner Phone Number"
+                    label="Phone Number"
                     type="text"
                     fullWidth
                     onChange={handleOwnerChange}
                 />
                 <TextField
                     id='outlined-multiline-static'
+                    className={classes.textField}
                     variant='outlined'
-                    autoFocus
-                    multiline
-                    rows={3}
-                    variant="outlined"
                     name="country"
-                    label="Owner Country"
+                    label="Country"
                     type="text"
                     fullWidth
                     onChange={handleOwnerChange}
                 />
                 <TextField
                     id='outlined-multiline-static'
+                    className={classes.textField}
                     variant='outlined'
-                    autoFocus
-                    multiline
-                    rows={3}
-                    variant="outlined"
                     name="email"
-                    label="Owner Email"
+                    label="Email"
                     type="text"
                     fullWidth
                     onChange={handleOwnerChange}
@@ -97,7 +104,7 @@ export const OwnerDetails = (props) => {
                 <Button onClick={closeOwnerDialog} color="primary">
                     Cancel
             </Button>
-                <Button onClick={addOwner} color="primary">
+                <Button onClick={addOwner} color="primary" disabled={!validateForm()}>
                     ADD OWNER
             </Button>
             </DialogActions>

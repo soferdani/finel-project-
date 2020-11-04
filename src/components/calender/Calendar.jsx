@@ -18,15 +18,23 @@ import {
 
 const useStyles = makeStyles((theme) => ({
   cardDetails: {
-    marginTop: '15px'
+    [theme.breakpoints.up('md')]: {
+      marginLeft: 40,
+    },
+  },
+  title: {
+    marginBottom: '10px'
   },
   calendarContainer: {
-    maxWidth: '90%',
-    height: '100%',
+    maxWidth: '100%',
     [theme.breakpoints.up('sm')]: {
-      marginLeft: 100,
-      maxWidth: '90%',
-      height: 600
+      height: 100
+    },
+    [theme.breakpoints.up('md')]: {
+      height: 550
+    },
+    [theme.breakpoints.up('xl')]: {
+      height: 700
     }
   }
 }))
@@ -95,20 +103,18 @@ const Calendar = inject('user')(observer((props) => {
     <Grid
       item
       xs={12}
-      className={classes.cardDetails}>
-
+      className={classes.cardDetails}
+    >
       <Grid
         container
         item
         xs={12}
-        justify="center">
-        <Typography variant='h5'>
+      >
+        <Typography variant='h5' className={classes.title}>
           All properties Schedule
         </Typography>
-  </Grid>
-
+      </Grid>
       <Paper className={classes.calendarContainer}>
-
         <Scheduler
           data={booking}
           height='100%'

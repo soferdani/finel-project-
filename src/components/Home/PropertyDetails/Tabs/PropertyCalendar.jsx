@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
           height: 340
       },
       [theme.breakpoints.up('xl')]: {
-        height: 500
+        height: 510
     }
     }
   }))
