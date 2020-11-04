@@ -22,20 +22,18 @@ const App = inject('user')(observer((props) => {
     try {
       const session = await Auth.currentSession()
       await user.userHasAuthenticated(session.idToken.payload.email, true)
-      return <Redirect to={`${localStorage.currentRoute}`} />
     }
     catch(e) {
       if (e !== 'No current user') {
         alert(e)
       }
     }
-  
     await setIsAuthenticating(false)
   }
 
   return (
     <Grid item xs={12} container >
-      <Routes />
+      <Routes IsAuthenticating={IsAuthenticating} />
     </Grid>
   )
 }))
