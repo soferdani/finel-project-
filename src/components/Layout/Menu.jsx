@@ -165,13 +165,17 @@ const Menu = inject('user')(observer((props) => {
             </Link>
         </List>
       <Divider />
-        <List>
-            <ListItem button key={'Settings'}>
-                <ListItemIcon>
-                    <SettingsIcon />
-                </ListItemIcon>
-                <ListItemText primary={'Settings'} />
-            </ListItem>
+      <List>
+        <Link to='/home/settings'
+            onClick={() => localStorage.setItem('currentRoute', '/home/settings')}
+            className={classes.link}>
+                <ListItem button key='Analytics'>
+                    <ListItemIcon>
+                      <SettingsIcon />
+                    </ListItemIcon>
+                    <ListItemText primary='Settings'/>
+                </ListItem>
+          </Link>
             <ListItem button key={'Log Out'} onClick={handleLogout}>
                 <ListItemIcon>
                     <ExitToAppIcon />
