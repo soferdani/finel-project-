@@ -158,19 +158,6 @@ const Menu = inject('user')(observer((props) => {
                 <ListItemText primary='Service Providers' />
               </ListItem>
             </Link>
-            <Link to='/home/charts'
-              onClick={() => localStorage.setItem('currentRoute', '/home/charts')}
-              className={classes.link}>
-              <ListItem button key='Analytics'>
-                <ListItemIcon>
-                  <TrendingUpIcon />
-                </ListItemIcon>
-                <ListItemText primary='Analytics' />
-              </ListItem>
-            </Link>
-          </Fragment>
-        }
-
         <Link to='/home/chat'
           onClick={() => localStorage.setItem('currentRoute', '/home/chat')}
           className={classes.link}>

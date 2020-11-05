@@ -1,4 +1,4 @@
-import { makeObservable, observable } from 'mobx'
+import { action, makeObservable, observable } from 'mobx'
 
 export default class Property {
     constructor(property) {
@@ -40,7 +40,12 @@ export default class Property {
             owner: observable,
             serviceWorkers: observable,
             booking: observable,
-            todoList: observable
+            todoList: observable,
+            addServiceWorker: action
         })
+    }
+
+    addServiceWorker = (serviceWorker) => {
+        this.serviceWorkers.push(serviceWorker)
     }
 }
