@@ -21,24 +21,24 @@ const useStyles = makeStyles((theme) => ({
 const Todos = inject('user')(observer((props) => {
     const { user } = props
     const classes = useStyles()
-    
+
 
     const [allTodos, setAllTodos] = useState ([])
-    
+
     useEffect(() => {
         const feachDataFromDB = async () => {
-            const allTodos = await user.loadUserAllTodos()
-            console.log(allTodos);
+            await user.loadUserAllTodos()
+            console.log(user.allTodos);
         }
         feachDataFromDB()
-    }, []) 
-    
+    }, [])
+
 
 
 
     return (
         <Grid className={classes.profileContainer} item xs={12} container>
-            this is todos 
+            this is todos
         </Grid>
     )
 

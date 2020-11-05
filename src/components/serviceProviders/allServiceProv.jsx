@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
 
 const AllServiceProv = inject('user')(observer((props) => {
 
-    const { user } = props
+    const { user, filterEmployee } = props
     const classes = useStyles()
     const [allUserServicers, setAllUserServicers] = useState([])
 
@@ -70,7 +70,7 @@ const AllServiceProv = inject('user')(observer((props) => {
                   </Typography>
               </Grid>
           </Grid>
-          {user.serviceWorkers.map((row) => (
+          {filterEmployee.map((row) => (
             <ServiceProvidersRow
                             key={row.id}
                             serviceProvider={row}
