@@ -25,8 +25,7 @@ const SettingComponent = inject('user')(observer((props) => {
     const { user } = props
 
     const classes = useStyles()
-
-
+    
     const [product] = useState({
         name: "monthly subscription",
         price: 1.00
@@ -35,16 +34,15 @@ const SettingComponent = inject('user')(observer((props) => {
     const handelToken = (token, address) => {
         console.log(token, address );
     }
-    
 
     return (
-        <Grid className={classes.profileContainer} item xs={12} container>
+        <Grid id='about' className={classes.profileContainer} item xs={12} container>
            <StripeCheckout
                 stripeKey="pk_test_3WjYq4hBoeSnhJArTXu73fjg002EzDTEkj"
                 token={handelToken}
                 billingAddress
                 amount = {product.price} 
-            />
+            /> 
         </Grid>
     )
 

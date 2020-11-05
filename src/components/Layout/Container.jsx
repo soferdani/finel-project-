@@ -12,6 +12,7 @@ import Charts from '../charts/Charts'
 import Chat from '../chat/Chat'
 import SettingComponent from '../settings/SettingComponent'
 import Todos from '../allTodos/AllTodos'
+import About from '../About/About'
 
 const useStyles = makeStyles((theme) => ({
     homeContainer: {
@@ -113,6 +114,12 @@ const Container = inject('user')(observer((props) => {
                             <Todos />
                         }
                     />
+                    <Route 
+                        path='/home/aboutus'
+                        exact render={() =>
+                            <About />
+                        }
+                    />     
                 </Grid>
             </Grid>
     )
