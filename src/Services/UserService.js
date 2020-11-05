@@ -34,23 +34,24 @@ const UserService = function () {
         return userTypes.data
     }
 
-    const getUserServiceProviders = async (managerId) => {
-        const serviceWorkers = await axios.get(`http://localhost:3001/useremployee/${managerId}`)
+    const getUserServiceProviders = async (managerId, typeId) => {
+        const serviceWorkers = await axios.get(`http://localhost:3001/useremployee/${managerId}/${typeId}`)
+        console.log(serviceWorkers.data);
         return serviceWorkers.data
     }
 
-    
+
     const getMostBookingAppetenceForUser = async (managerId) => {
-        const serviceWorkers = await axios.get(`http://localhost:3001/analytics/bookingchannels/${managerId}`)        
+        const serviceWorkers = await axios.get(`http://localhost:3001/analytics/bookingchannels/${managerId}`)
         return serviceWorkers.data
     }
     const getTodoStatus = async (managerId) => {
-        const serviceWorkers = await axios.get(`http://localhost:3001/analytics/openTasks/${managerId}`)        
+        const serviceWorkers = await axios.get(`http://localhost:3001/analytics/openTasks/${managerId}`)
         return serviceWorkers.data
     }
 
-    const getPropertyServiceProviders = async (propertyId) => {
-        const serviceWorkers = await axios.get(`http://localhost:3001/service/${propertyId}`)
+    const getPropertyServiceProviders = async (propertyId, userId) => {
+        const serviceWorkers = await axios.get(`http://localhost:3001/service/${propertyId}/${userId}`)
         return serviceWorkers.data
     }
     const getOwnerList = async (managerId) => {
@@ -128,7 +129,7 @@ const UserService = function () {
     }
 
     const deleteProperty = async (propertyId) => {
-  
+
         const property = await axios.delete(`http://localhost:3001/property/${propertyId}`)
         return property.data
     }
