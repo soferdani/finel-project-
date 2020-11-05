@@ -67,7 +67,6 @@ const PropertyCalendar = inject('user')(observer((props) => {
     }
 
     const bookingData = getBookings()
-    console.log(bookingData)
 
     return (
         <Fragment>

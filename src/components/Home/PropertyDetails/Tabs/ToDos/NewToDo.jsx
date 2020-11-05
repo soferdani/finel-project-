@@ -6,9 +6,8 @@ import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
-import { MenuItem, Snackbar } from '@material-ui/core'
+import { MenuItem } from '@material-ui/core'
 import { inject, observer } from 'mobx-react'
-import { Alert } from '@material-ui/lab'
 
 const NewToDo = inject('user')(observer((props) => {
 
@@ -42,7 +41,7 @@ const NewToDo = inject('user')(observer((props) => {
     const handleFormIsValid = () => {
         return (input.task.length > 0 && input.typeId !== '')
     }
-    
+
     async function handleSubmitTodo() {
         const type = allUesrType.find(t => t.id === input.typeId)
         input.type = type.type
@@ -54,7 +53,7 @@ const NewToDo = inject('user')(observer((props) => {
             <DialogTitle id="form-dialog-title">Add To Do Details</DialogTitle>
             <DialogContent>
                 <DialogContentText>
-                    Write your open task and connect it to a service provider 
+                    Write your open task and connect it to a service provider
                 </DialogContentText>
                 <TextField
                     id='outlined-multiline-static'

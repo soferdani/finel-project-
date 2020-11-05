@@ -30,7 +30,7 @@ const ServiceProvMain = inject('user')(observer((props) => {
     const classes = useStyles()
     const [addDialogOpen, setAddDialogOpen] = useState(false)
     const [value, setValue] = useState('')
-    const [key, setKey] = useState('name')
+    const [key, setKey] = useState('')
     const [filterEmployee, setFilterEmployee] = useState([...user.serviceWorkers])
     const handleOpenAddDialog = () => {
         setAddDialogOpen(true)
@@ -66,6 +66,7 @@ const ServiceProvMain = inject('user')(observer((props) => {
                         value={value}
                         onChange={handleType}
                         label={`Seacrh By ${key}`}
+                        disabled={!key}
                     />
                     <datalist id="standard-basic">
                         {filterEmployee.map(e=> <option key={e.id} value={e[key]} /> )}
@@ -91,7 +92,6 @@ const ServiceProvMain = inject('user')(observer((props) => {
                         }}
                     >
                             <MenuItem value='firstName'>Name</MenuItem >
-                            <MenuItem value='type'>Type</MenuItem >
                             <MenuItem value='email'>Email</MenuItem >
                     </TextField>
                 </Grid>
