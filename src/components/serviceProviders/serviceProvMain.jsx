@@ -31,7 +31,7 @@ const ServiceProvMain = inject('user')(observer((props) => {
     const [addDialogOpen, setAddDialogOpen] = useState(false)
     const [value, setValue] = useState('')
     const [key, setKey] = useState('name')
-
+    const [filterEmployee, setFilterEmployee] = useState([...user.serviceWorkers])
     const handleOpenAddDialog = () => {
         setAddDialogOpen(true)
     }
@@ -41,13 +41,18 @@ const ServiceProvMain = inject('user')(observer((props) => {
 
     const handleType = e => {
         setValue(e.target.value)
+        if(e.target.value){
+        setFilterEmployee(user.serviceWorkers.filter(s => s[key].includes(e.target.value)))
+        }else{
+            setFilterEmployee([...user.serviceWorkers])
+        }
     }
 
     return (
 
         <Grid item
             xs={12}
-            container 
+            container
             className={classes.serviceContainer}
         >
             <Typography variant='h5' className={classes.title}>
@@ -55,15 +60,18 @@ const ServiceProvMain = inject('user')(observer((props) => {
             </Typography>
             <Grid item xs={12} container direction='row' className={classes.searchingContainer}>
                 <Grid item xs={3} className={classes.textField}>
-                    <TextField 
+                    <TextField
                         fullWidth
-                        id="standard-basic" 
-                        value={value} 
-                        onChange={handleType} 
-                        label={`Seacrh By ${key}`} 
+                        id="standard-basic"
+                        value={value}
+                        onChange={handleType}
+                        label={`Seacrh By ${key}`}
                     />
+                    <datalist id="standard-basic">
+                        {filterEmployee.map(e=> <option key={e.id} value={e[key]} /> )}
+                    </datalist>
                 </Grid>
-                <Grid item xs={2} className={classes.textField}>  
+                <Grid item xs={2} className={classes.textField}>
                     <TextField
                         className={classes.dropDown}
                         select
@@ -82,14 +90,14 @@ const ServiceProvMain = inject('user')(observer((props) => {
                             }
                         }}
                     >
-                            <MenuItem value='name'>Name</MenuItem >
+                            <MenuItem value='firstName'>Name</MenuItem >
                             <MenuItem value='type'>Type</MenuItem >
-                            <MenuItem value='country'>Country</MenuItem >
+                            <MenuItem value='email'>Email</MenuItem >
                     </TextField>
                 </Grid>
             </Grid>
 
-            <AllServiceProv />
+            <AllServiceProv filterEmployee={filterEmployee}/>
             <AddButton label={"Add Servicer"} handleOpenAddDialog={handleOpenAddDialog} />
             <UpdateServicer
                 open={addDialogOpen}

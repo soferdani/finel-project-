@@ -36,7 +36,6 @@ const UserService = function () {
 
     const getUserServiceProviders = async (managerId, typeId) => {
         const serviceWorkers = await axios.get(`http://localhost:3001/useremployee/${managerId}/${typeId}`)
-        console.log(serviceWorkers.data);
         return serviceWorkers.data
     }
 

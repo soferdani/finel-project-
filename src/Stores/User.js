@@ -125,6 +125,7 @@ export default class User {
     loadUserAllTodos = async () => {
         this.allTodos = [] //mybe not neccerry here
         const userAllTodos = await UserService().loadAllTodosForNonMengerUser(this.id)
+        console.log(userAllTodos);
         for (let todo of userAllTodos) {
             this.allTodos.push(todo)
         }
