@@ -52,7 +52,7 @@ export default class User {
             addNewTodo: action,
             addNewServiceProperty: action,
             addNewManagerEmployee: action,
-            addNewMassege: action,
+            addNewMessage: action,
             updateUserDetails: action,
             updatePropertyDetails: action,
             updateTodoDetails: action,
@@ -120,7 +120,7 @@ export default class User {
 
     loadPropertiesWorkers = async () => {
         for (let property of this.properties) {
-            let serviceList = await UserService().getPropertyServiceProviders(property.id)
+            let serviceList = await UserService().getPropertyServiceProviders(property.id, this.type.id)
             if (serviceList.length > 0) {
                 serviceList.forEach(servicer => {
                     property.serviceWorkers.push(new ServiceWorkers(servicer))
@@ -149,7 +149,7 @@ export default class User {
 
     loadUserServiceProviders = async () => {
         this.serviceWorkers = []
-        const allEmployees = await UserService().getUserServiceProviders(this.id)
+        const allEmployees = await UserService().getUserServiceProviders(this.id, this.type.id)
         for (let employee of allEmployees) {
             const serviceWorker = new ServiceWorkers(employee)
             this.serviceWorkers.push(serviceWorker)
@@ -272,9 +272,11 @@ export default class User {
             console.log('You dont have prommision');
         }
     };
-    addNewMassege = (userId, message) => {
-        const userMassges = this.serviceWorkers.find(sw => sw.id === userId)
-        userMassges.messages.push(message)
+    addNewMessage = (userId, message) => {
+        const getter = this.serviceWorkers.find(sw => sw.id === userId)
+        if(!getter.messages.some(m => m.id === message.id)){
+            getter.messages.push(message)
+        }
     };
 
     updateUserDetails = async (userDetails) => {
