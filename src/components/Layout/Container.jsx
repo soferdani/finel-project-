@@ -13,7 +13,7 @@ import Chat from '../chat/Chat'
 import SettingComponent from '../settings/SettingComponent'
 
 const useStyles = makeStyles((theme) => ({
-    container: {
+    homeContainer: {
         padding: '20px',
         paddingBottom: '0px',
         height: '88vh',

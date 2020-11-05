@@ -132,7 +132,6 @@ export default class User {
         for (let property of this.properties) {
             let todoList = await UserService().getPropertyTodo(property.id)
             todoList
-                .filter(t => this.type.id !== 1 && t.seviceProvider === this.id)
                 .forEach(todo => {
                     property.todoList.push(new Todo(todo))
                 })
@@ -258,7 +257,7 @@ export default class User {
         await UserService().addPropertyServiceWorker(propertyId, employeeId)
         const serviceWorker = this.serviceWorkers.find(w => w.id === employeeId)
         const property = this.properties.find(p => p.id === propertyId)
-        property.serviceWorkers.push(serviceWorker)
+        property.addServiceWorker(serviceWorker)
     }
 
     addNewBooking = async (bookingDetails) => {
@@ -394,6 +393,7 @@ export default class User {
     get todosCompleted() {
         let counter = 0
         for (let property of this.properties) {
+            console.log(property)
             for (let todo of property.todoList) {
                 if (todo.complete) {
                     counter++
