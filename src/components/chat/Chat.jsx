@@ -30,8 +30,7 @@ const Chat = inject('user')(observer((props) => {
     useEffect(() => {
         socket.on('send', function (msg) {
             if(msg.getter === user.id){
-                setMessages([...messages, msg])
-                console.log(msg);
+                user.addNewMessage(msg.sender, msg)
             }
         });
 
@@ -39,6 +38,7 @@ const Chat = inject('user')(observer((props) => {
 
     const handleSend = () => {
         socket.emit('send', msg)
+        user.addNewMessage(msg.getter, msg)
         setMsg({...msg, text: ''})
     }
     return (
@@ -88,6 +88,7 @@ const Chat = inject('user')(observer((props) => {
 
             <Grid item xs={12}>
             <Button onClick={handleSend}>Send</Button>
+            {user.serviceWorkers.find(s => s.id === msg.getter).messages.map(m=><div>{m.text}</div>)}
             </Grid>
 
         </Grid >
