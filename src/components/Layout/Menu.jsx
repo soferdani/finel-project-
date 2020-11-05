@@ -25,7 +25,8 @@ import {
   ExitToApp as ExitToAppIcon,
   Settings as SettingsIcon,
   Group as GroupIcon,
-  Chat
+  Chat,
+  Info as InfoIcon
 } from '@material-ui/icons'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { Link } from 'react-router-dom'
@@ -194,6 +195,16 @@ const Menu = inject('user')(observer((props) => {
                       <SettingsIcon />
                     </ListItemIcon>
                     <ListItemText primary='Settings'/>
+                </ListItem>
+          </Link>
+          <Link to='/home/aboutus'
+            onClick={() => localStorage.setItem('currentRoute', '/home/aboutus')}
+            className={classes.link}>
+                <ListItem button key='About'>
+                    <ListItemIcon>
+                      <InfoIcon />
+                    </ListItemIcon>
+                    <ListItemText primary='About Us'/>
                 </ListItem>
           </Link>
             <ListItem button key={'Log Out'} onClick={handleLogout}>
