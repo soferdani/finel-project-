@@ -22,7 +22,7 @@ export default class User {
         this.email = ''
         this.phone = ''
         this.dateJoin = ''
-        this.type = {id: null, type: null}
+        this.type = { id: null, type: null }
         this.properties = []
         this.serviceWorkers = []
 
@@ -52,6 +52,7 @@ export default class User {
             addNewTodo: action,
             addNewServiceProperty: action,
             addNewManagerEmployee: action,
+            addNewMessage: action,
             updateUserDetails: action,
             updatePropertyDetails: action,
             updateTodoDetails: action,
@@ -86,7 +87,7 @@ export default class User {
                 this.email = ''
                 this.phone = ''
                 this.dateJoin = ''
-                this.type = {id: null, type: null}
+                this.type = { id: null, type: null }
                 this.properties = []
             }
         } catch (error) {
@@ -119,7 +120,7 @@ export default class User {
 
     loadPropertiesWorkers = async () => {
         for (let property of this.properties) {
-            let serviceList = await UserService().getPropertyServiceProviders(property.id)
+            let serviceList = await UserService().getPropertyServiceProviders(property.id, this.type.id)
             if (serviceList.length > 0) {
                 serviceList.forEach(servicer => {
                     property.serviceWorkers.push(new ServiceWorkers(servicer))
@@ -149,7 +150,7 @@ export default class User {
 
     loadUserServiceProviders = async () => {
         this.serviceWorkers = []
-        const allEmployees = await UserService().getUserServiceProviders(this.id)
+        const allEmployees = await UserService().getUserServiceProviders(this.id, this.type.id)
         for (let employee of allEmployees) {
             const serviceWorker = new ServiceWorkers(employee)
             this.serviceWorkers.push(serviceWorker)
@@ -184,7 +185,7 @@ export default class User {
         this.phone = user.phone
         this.dateJoin = user.dateJoin
         this.type = {
-           type: user.type,
+            type: user.type,
             id: user.typeId
         }
     };
@@ -245,7 +246,7 @@ export default class User {
 
     addNewManagerEmployee = async (servicerDetails) => {
         if (this.type.id === 1) {
-            servicerDetails.id = await UserService().addNewServiceWorker(this.id ,servicerDetails)
+            servicerDetails.id = await UserService().addNewServiceWorker(this.id, servicerDetails)
             this.serviceWorkers.push(new ServiceWorkers(servicerDetails))
         }
         else {
@@ -269,6 +270,12 @@ export default class User {
         }
         else {
             console.log('You dont have prommision');
+        }
+    };
+    addNewMessage = (userId, message) => {
+        const getter = this.serviceWorkers.find(sw => sw.id === userId)
+        if(!getter.messages.some(m => m.id === message.id)){
+            getter.messages.push(message)
         }
     };
 
@@ -311,9 +318,9 @@ export default class User {
         await UserService().updateTodoStatus(todo.id, todo.complete)
     };
 
-    updateBooking = async ( bookingId, bookingDetails) => {
+    updateBooking = async (bookingId, bookingDetails) => {
         const booking = this.properties.find(p => p.booking.find(b => b.id === bookingId))
-        .booking.find(b => b.id === bookingId)
+            .booking.find(b => b.id === bookingId)
         if (this.type.id === 1) {
             await UserService().updateBookingDetails(bookingId, bookingDetails)
             for (let b in bookingDetails) {
@@ -366,7 +373,7 @@ export default class User {
                 if (serviceWorker !== -1) {
                     alert('This service worker is connected to one of your properties. You must detlete it first.')
                     return
-                }else{
+                } else {
                     await UserService().deleteServiceWorkerFromUser(this.id, ServiceWorkerId)
                     this.serviceWorkers = this.serviceWorkers.filter(w => w.id !== ServiceWorkerId)
                 }
@@ -380,7 +387,7 @@ export default class User {
     deleteBooking = async (BookingId) => {
         if (this.type.id === 1) {
             await UserService().deleteBooking(BookingId);
-            this.properties = this.properties.map(p=>{
+            this.properties = this.properties.map(p => {
                 p.booking = p.booking.filter(b => b.id !== BookingId)
                 return p
             })
@@ -397,10 +404,10 @@ export default class User {
             for (let todo of property.todoList) {
                 if (todo.complete) {
                     counter++
-                }                
+                }
             }
         }
-    
+
         return counter
     }
 
@@ -410,14 +417,14 @@ export default class User {
             for (let todo of property.todoList) {
                 if (!todo.complete) {
                     counter++
-                }                
+                }
             }
         }
         return counter
     }
 
     get mostBookingApartment() {
-        console.log( this.properties)
+        console.log(this.properties)
     }
 
 };

@@ -10,6 +10,7 @@ export default class ServiceWorker {
         this.dateJoin = ServiceWorker.dateJoin
         this.type = {id: ServiceWorker.typeId, type: ServiceWorker.type}
         this.img = ServiceWorker.img
+        this.messages = ServiceWorker.messages
 
         makeObservable(this, {
             id: observable,
@@ -19,7 +20,8 @@ export default class ServiceWorker {
             phone: observable,
             dateJoin: observable,
             type: observable,
-            img: observable
+            img: observable,
+            messages:observable
         })
     }
 }
