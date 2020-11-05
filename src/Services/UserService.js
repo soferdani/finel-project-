@@ -17,6 +17,13 @@ const UserService = function () {
         return todoList.data
     }
 
+
+    const loadAllTodosForNonMengerUser = async (id) => {
+        const allTodo = await axios.get(`http://localhost:3001/todo/${id}`)
+        console.log(allTodo.data);
+        return allTodo.data
+    }
+
     const getUserTypes = async (id) => {
         let userTypes
         if (id) {
@@ -67,6 +74,7 @@ const UserService = function () {
         const newType = await axios.get(`http://localhost:3001/usertype`, { type })
         return newType
     }
+
 
     const addNewProperty = async (propertyDetails) => {
         const newProperty = await axios.post(`http://localhost:3001/property`, propertyDetails)
@@ -173,7 +181,8 @@ const UserService = function () {
         deleteTodo,
         deleteServiceWorkers,
         deleteServiceWorkerFromUser,
-        deleteBooking
+        deleteBooking,
+        loadAllTodosForNonMengerUser
     }
 }
 
