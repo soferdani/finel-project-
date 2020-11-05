@@ -11,6 +11,7 @@ import ServiceProvMain from '../serviceProviders/serviceProvMain'
 import Charts from '../charts/Charts'
 import Chat from '../chat/Chat'
 import SettingComponent from '../settings/SettingComponent'
+import Todos from '../allTodos/AllTodos'
 
 const useStyles = makeStyles((theme) => ({
     homeContainer: {
@@ -104,6 +105,12 @@ const Container = inject('user')(observer((props) => {
                         path='/home/settings'
                         exact render={() =>
                             <SettingComponent />
+                        }
+                    />
+                    <Route
+                        path='/home/allTodos'
+                        exact render={() =>
+                            <Todos />
                         }
                     />
                 </Grid>

@@ -1,36 +1,37 @@
 import React, { Fragment, useState } from 'react'
 import PropTypes from 'prop-types'
 import {
-    CssBaseline,
-    Divider,
-    Drawer,
-    Hidden,
-    IconButton,
-    AppBar,
-    List,
-    ListItem,
-    ListItemIcon,
-    ListItemText,
-    Toolbar,
-    Typography,
-    Grid,
-    Paper,
-    Avatar
+  CssBaseline,
+  Divider,
+  Drawer,
+  Hidden,
+  IconButton,
+  AppBar,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Toolbar,
+  Typography,
+  Grid,
+  Paper,
+  Avatar
 } from '@material-ui/core'
 import {
-    Home as HomeIcon,
-    Event as EventIcon,
-    Menu as MenuIcon,
-    TrendingUp as TrendingUpIcon,
-    ExitToApp as ExitToAppIcon,
-    Settings as SettingsIcon,
-    Group as GroupIcon,
-    Chat
+  Home as HomeIcon,
+  Event as EventIcon,
+  Menu as MenuIcon,
+  TrendingUp as TrendingUpIcon,
+  ExitToApp as ExitToAppIcon,
+  Settings as SettingsIcon,
+  Group as GroupIcon,
+  Chat
 } from '@material-ui/icons'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { Link } from 'react-router-dom'
 import { inject, observer } from 'mobx-react'
 import logo from '../../HatchfulExport-All/logo_transparent_white.png'
+import BookIcon from '@material-ui/icons/Book';
 
 const drawerWidth = 200;
 
@@ -79,15 +80,15 @@ const useStyles = makeStyles((theme) => ({
     width: drawerWidth,
   },
   mainAppBar: {
-      display: 'grid',
-      gridTemplateColumns: '1fr 4fr',
-      alignItems: 'center',
-      width: '100%'
+    display: 'grid',
+    gridTemplateColumns: '1fr 4fr',
+    alignItems: 'center',
+    width: '100%'
   },
   welcoming: {
-      fontFamily: "'Montserrat', sans-serif",
-      justifySelf: 'end',
-      alignSelf: 'end'
+    fontFamily: "'Montserrat', sans-serif",
+    justifySelf: 'end',
+    alignSelf: 'end'
   },
   small: {
     width: theme.spacing(3),
@@ -108,11 +109,11 @@ const Menu = inject('user')(observer((props) => {
 
   const drawer = (
     <div>
-        <div className={classes.toolbar} />
-        <List>
+      <div className={classes.toolbar} />
+      <List>
         <Link to='/home/profile'
-        onClick={() => localStorage.setItem('currentRoute', '/home/profile')}
-        className={classes.link}>
+          onClick={() => localStorage.setItem('currentRoute', '/home/profile')}
+          className={classes.link}>
           <ListItem button key='img'>
             <ListItemIcon>
               <Avatar
@@ -124,29 +125,54 @@ const Menu = inject('user')(observer((props) => {
             <ListItemText primary='Profile' />
           </ListItem>
         </Link>
-            <Link to='/home/properties'
-            onClick={() => localStorage.setItem('currentRoute', '/home/properties')}
-            className={classes.link}>
-                <ListItem button key='Home'>
-                    <ListItemIcon>
-                        <HomeIcon />
-                    </ListItemIcon>
-                    <ListItemText primary='Home'/>
-                </ListItem>
-            </Link>
-            <Link to='/home/calendar'
-            onClick={() => localStorage.setItem('currentRoute', '/home/calendar')}
-            className={classes.link}>
-                <ListItem button key='Calendar'>
-                    <ListItemIcon>
-                        <EventIcon />
-                    </ListItemIcon>
-                    <ListItemText primary='Calendar'/>
-                </ListItem>
-            </Link>
+        <Link to='/home/properties'
+          onClick={() => localStorage.setItem('currentRoute', '/home/properties')}
+          className={classes.link}>
+          <ListItem button key='Home'>
+            <ListItemIcon>
+              <HomeIcon />
+            </ListItemIcon>
+            <ListItemText primary='Home' />
+          </ListItem>
+        </Link>
+        <Link to='/home/calendar'
+          onClick={() => localStorage.setItem('currentRoute', '/home/calendar')}
+          className={classes.link}>
+          <ListItem button key='Calendar'>
+            <ListItemIcon>
+              <EventIcon />
+            </ListItemIcon>
+            <ListItemText primary='Calendar' />
+          </ListItem>
+        </Link>
 
+        {user.type.id === 1
+          &&
+          <Fragment>
+            <Link to='/home/serviceproviders'
+              onClick={() => localStorage.setItem('currentRoute', '/home/serviceproviders')}
+              className={classes.link}>
+              <ListItem button key='Service-Providers'>
+                <ListItemIcon>
+                  <GroupIcon />
+                </ListItemIcon>
+                <ListItemText primary='Service Providers' />
+              </ListItem>
+            </Link>
+            <Link to='/home/charts'
+              onClick={() => localStorage.setItem('currentRoute', '/home/charts')}
+              className={classes.link}>
+              <ListItem button key='Analytics'>
+                <ListItemIcon>
+                  <TrendingUpIcon />
+                </ListItemIcon>
+                <ListItemText primary='Analytics' />
+              </ListItem>
+            </Link>
+          </Fragment>
+        }
             {user.type.id === 1 
-              && 
+              ?  
               <Fragment>
                 <Link to='/home/serviceproviders'
                   onClick={() => localStorage.setItem('currentRoute', '/home/serviceproviders')}
@@ -158,9 +184,32 @@ const Menu = inject('user')(observer((props) => {
                           <ListItemText primary='Service Providers'/>
                       </ListItem>
                   </Link>
+
               </Fragment>
+              : <Fragment>
+               <Link to='/home/todos'
+                 onClick={() => localStorage.setItem('currentRoute', '/home/allTodos')}
+                 className={classes.link}>
+                     <ListItem button key='My Todo'>
+                         <ListItemIcon>
+                             <BookIcon />
+                         </ListItemIcon>
+                         <ListItemText primary='My Todo'/>
+                     </ListItem>
+                 </Link>
+             </Fragment> 
             }
-        </List>
+        <Link to='/home/chat'
+          onClick={() => localStorage.setItem('currentRoute', '/home/chat')}
+          className={classes.link}>
+          <ListItem button key='Chat'>
+            <ListItemIcon>
+              <Chat />
+            </ListItemIcon>
+            <ListItemText primary='Chat' />
+          </ListItem>
+        </Link>
+      </List>
       <Divider />
       <List>
         <Link to='/home/settings'
@@ -201,9 +250,9 @@ const Menu = inject('user')(observer((props) => {
               <MenuIcon />
             </IconButton>
             <div className={classes.mainAppBar}>
-              <img src={logo} className={classes.logo}/>
+              <img src={logo} className={classes.logo} />
               <Typography variant="h6" noWrap className={classes.welcoming}>
-                  {`Welcome, ${user.firstName}`}
+                {`Welcome, ${user.firstName}`}
               </Typography>
             </div>
           </Toolbar>
