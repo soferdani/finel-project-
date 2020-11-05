@@ -20,7 +20,6 @@ const UserService = function () {
 
     const loadAllTodosForNonMengerUser = async (id) => {
         const allTodo = await axios.get(`http://localhost:3001/todo/${id}`)
-        console.log(allTodo.data);
         return allTodo.data
     }
 
@@ -64,7 +63,6 @@ const UserService = function () {
     }
 
     const addNewUser = async (userInfo) => {
-        console.log(userInfo);
         const id = await axios.post(`http://localhost:3001/user`, userInfo)
         return id.data[0]
     }
@@ -87,7 +85,6 @@ const UserService = function () {
 
     const addNewServiceWorker = async (managerId, serviceWorker) => {
         const newServiceWorker = await axios.post('http://localhost:3001/user', serviceWorker)
-        console.log(managerId + newServiceWorker.data[0]);
         await axios.post('http://localhost:3001/useremployee', { managerId, employeeId: newServiceWorker.data[0]})
         return newServiceWorker.data[0]
     }

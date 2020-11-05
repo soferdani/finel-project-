@@ -125,7 +125,6 @@ export default class User {
     loadUserAllTodos = async () => {
         this.allTodos = [] //mybe not neccerry here
         const userAllTodos = await UserService().loadAllTodosForNonMengerUser(this.id)
-        console.log(userAllTodos);
         for (let todo of userAllTodos) {
             this.allTodos.push(todo)
         }
@@ -382,7 +381,6 @@ export default class User {
         if (this.type.id === 1) {
             for (let property of this.properties) {
                 const serviceWorker = property.serviceWorkers.findIndex(sw => sw.id === ServiceWorkerId)
-                console.log(serviceWorker);
                 if (serviceWorker !== -1) {
                     alert('This service worker is connected to one of your properties. You must detlete it first.')
                     return
@@ -413,7 +411,6 @@ export default class User {
     get todosCompleted() {
         let counter = 0
         for (let property of this.properties) {
-            console.log(property)
             for (let todo of property.todoList) {
                 if (todo.complete) {
                     counter++

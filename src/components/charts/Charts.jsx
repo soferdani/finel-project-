@@ -1,10 +1,7 @@
 import { Grid, List, ListItem, Divider, ListItemText, TextField, makeStyles, Snackbar, Typography, Paper, Badge } from '@material-ui/core'
-import { Alert } from '@material-ui/lab';
 import { inject, observer } from 'mobx-react'
 import React, { useState, useEffect } from 'react'
-import moment from 'moment'
 import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer } from 'recharts';
-import Card from '@material-ui/core/Card';
 import TodosChart from './PieChart';
 
 const useStyles = makeStyles((theme) => ({
@@ -36,7 +33,7 @@ const Charts = inject('user')(observer((props) => {
             // user.mostBookingApartment()
         }
         feachDataFromDB()
-    }, []) 
+    }, [])
 
 
     return (
@@ -50,10 +47,10 @@ const Charts = inject('user')(observer((props) => {
                         <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
                         <Bar dataKey="numberOfBooking" fill="#8884d8" barSize={30} />
                     </BarChart>
-                </ResponsiveContainer>  
+                </ResponsiveContainer>
             </Grid>
             <Grid items xs={6}>
-                <TodosChart />      
+                <TodosChart />
             </Grid>
         </Grid>
     )

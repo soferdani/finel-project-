@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { Button, CircularProgress, Grid, InputBase, makeStyles, Paper, Typography } from '@material-ui/core'
+import { Button, Grid, InputBase, makeStyles, Paper, Typography } from '@material-ui/core'
 import EmailIcon from '@material-ui/icons/Email'
 import LockIcon from '@material-ui/icons/Lock'
 import { Auth } from 'aws-amplify'
-import ErrorNotice from "../misc/ErrorNotice"
 import logo from '../../HatchfulExport-All/logo_transparent2.png'
 import { inject, observer } from "mobx-react"
 import Loader from "../Layout/Loader";
@@ -77,7 +76,7 @@ const Login = inject('user')(observer((props) => {
 
     return (
         <div id='login-signup-card'>
-            {isLoading 
+            {isLoading
                 ?   <Loader />
                 :   <Grid item xs={12} md={4} container className={classes.paperLoginContainer}>
                         <Paper elevation={3} className={classes.paperCard}>
@@ -92,7 +91,7 @@ const Login = inject('user')(observer((props) => {
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={10} className={classes.inputContainer}>
-                                    <Paper component="form" className={classes.inputPaper} > 
+                                    <Paper component="form" className={classes.inputPaper} >
                                         <EmailIcon className={classes.icon} />
                                         <InputBase
                                             className={classes.margin}
@@ -102,12 +101,12 @@ const Login = inject('user')(observer((props) => {
                                             type='email'
                                             value={email}
                                             onChange={(e) => setEmail(e.target.value)}
-                                        /> 
-                                    </Paper> 
+                                        />
+                                    </Paper>
                                 </Grid>
 
                                 <Grid item xs={10} className={classes.inputContainer}>
-                                    <Paper component="form" className={classes.inputPaper} > 
+                                    <Paper component="form" className={classes.inputPaper} >
                                         <LockIcon className={classes.icon} />
                                         <InputBase
                                             className={classes.margin}
@@ -117,21 +116,21 @@ const Login = inject('user')(observer((props) => {
                                             type='password'
                                             value={password}
                                             onChange={(e) => setPassword(e.target.value)}
-                                        /> 
-                                    </Paper> 
+                                        />
+                                    </Paper>
                                 </Grid>
 
                             </Grid>
                             <Typography variant='subtitle1'>
                                 Not a user? <Link to='/signup'>Sign Up</Link>
                             </Typography>
-                            <Button 
-                                onClick={submit} 
-                                variant='contained' 
+                            <Button
+                                onClick={submit}
+                                variant='contained'
                                 className={classes.button}
                             >
                                 SEND
-                            </Button>              
+                            </Button>
                         </Paper>
                 </Grid>
             }

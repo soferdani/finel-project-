@@ -1,12 +1,6 @@
 import { Grid, makeStyles, Typography } from '@material-ui/core'
 import { inject, observer } from 'mobx-react'
 import React, { useState } from 'react'
-// import Table from '@material-ui/core/Table';
-// import TableBody from '@material-ui/core/TableBody';
-// import TableCell from '@material-ui/core/TableCell';
-// import TableHead from '@material-ui/core/TableHead';
-// import TableRow from '@material-ui/core/TableRow';
-// import DeleteIcon from '@material-ui/icons/Delete'
 import ServiceProvidersRow from '../Home/PropertyDetails/Tabs/ServiceProviders/ServiceProviderRow'
 
 const useStyles = makeStyles((theme) => ({

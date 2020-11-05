@@ -16,7 +16,6 @@ const useStyles = makeStyles((theme) => ({
     }
 }))
 
-// console.log("im gettrr");
 
 const Todos = inject('user')(observer((props) => {
     const { user } = props
@@ -28,7 +27,6 @@ const Todos = inject('user')(observer((props) => {
     useEffect(() => {
         const feachDataFromDB = async () => {
             await user.loadUserAllTodos()
-            console.log(user.allTodos);
         }
         feachDataFromDB()
     }, [])
