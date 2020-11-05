@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 const Chat = inject('user')(observer((props) => {
     const { user } = props
     const classes = useStyles()
-    const [messages, setMessages] = useState([])
+    // const [messages, setMessages] = useState([])
     const [msg, setMsg] = useState({
         text: '',
         sender: user.id,
@@ -88,7 +88,8 @@ const Chat = inject('user')(observer((props) => {
 
             <Grid item xs={12}>
             <Button onClick={handleSend}>Send</Button>
-            {user.serviceWorkers.find(s => s.id === msg.getter).messages.map(m=><div>{m.text}</div>)}
+            {msg.getter &&
+            user.serviceWorkers.find(s => s.id === msg.getter).messages.map(m=><div>{m.text}</div>)}
             </Grid>
 
         </Grid >
