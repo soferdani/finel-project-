@@ -8,12 +8,17 @@ const ENDPOINT = "http://localhost:3001";
 
 const useStyles = makeStyles((theme) => ({
     container: {
-        maxWidth: '90%',
+        maxWidth: '1000%',
         height: '100%',
-        [theme.breakpoints.up('sm')]: {
+        [theme.breakpoints.up('md')]: {
           marginLeft: 40,
-          maxWidth: '90%',
+          maxWidth: '100%',
           height: 550
+        },
+        [theme.breakpoints.up('xl')]: {
+            marginLeft: 40,
+            maxWidth: '100%',
+            height: 700
         }
     },
     cardMessage: {
@@ -22,9 +27,14 @@ const useStyles = makeStyles((theme) => ({
         height: '100%'
     },
     messages: {
-        height: 450,
+        [theme.breakpoints.up('md')]: {
+            height: 450,      
+        },
+        [theme.breakpoints.up('xl')]: {
+            height: 600,      
+        },
         padding: '10px',
-        overflow:'auto'
+        overflowY:'scroll'
     },
     writeMessage: {
         marginTop: '20px'
@@ -63,20 +73,24 @@ const Chat = inject('user')(observer((props) => {
         getter: '',
         date: Date.now()
     })
+
     const socket = socketIOClient(ENDPOINT);
     useEffect(() => {
         socket.on('send', function (msg) {
             if(msg.getter === user.id){
                 user.addNewMessage(msg.sender, msg)
             }
-        });
-
+        })
+        const elem = document.getElementById('messagnger')
+        elem.scrollTop = elem.scrollHeight;
     })
 
     const handleSend = async () => {
         await socket.emit('send', msg)
         await user.addNewMessage(msg.getter, msg)
         await setMsg({...msg, text: ''})
+        const elem = document.getElementById('messagnger')
+        elem.scrollTop = elem.scrollHeight;
     }
 
     return (
@@ -111,7 +125,7 @@ const Chat = inject('user')(observer((props) => {
             </Grid>
             <Grid item xs={12}>
                 <Card className={classes.cardMessage}>
-                    <Paper className={classes.messages} >
+                    <Paper className={classes.messages} id='messagnger'>
                         {msg.getter &&
                             user.serviceWorkers
                                 .find(s => s.id === msg.getter)
@@ -130,7 +144,7 @@ const Chat = inject('user')(observer((props) => {
                                                             : classes.Else}
                                                         `}
                                                 >
-                                                    {m.text} <span className={classes.date}>{moment(m.date).format("MMM Do YY")}</span>
+                                                    {m.text} <span className={classes.date}>{moment(m.date).format("DD/MM/YY h:mm")}</span>
                                                 </div>
                                         </Grid>
                                     )
