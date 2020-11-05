@@ -145,32 +145,6 @@ const Menu = inject('user')(observer((props) => {
             <ListItemText primary='Calendar' />
           </ListItem>
         </Link>
-
-        {user.type.id === 1
-          &&
-          <Fragment>
-            <Link to='/home/serviceproviders'
-              onClick={() => localStorage.setItem('currentRoute', '/home/serviceproviders')}
-              className={classes.link}>
-              <ListItem button key='Service-Providers'>
-                <ListItemIcon>
-                  <GroupIcon />
-                </ListItemIcon>
-                <ListItemText primary='Service Providers' />
-              </ListItem>
-            </Link>
-            <Link to='/home/charts'
-              onClick={() => localStorage.setItem('currentRoute', '/home/charts')}
-              className={classes.link}>
-              <ListItem button key='Analytics'>
-                <ListItemIcon>
-                  <TrendingUpIcon />
-                </ListItemIcon>
-                <ListItemText primary='Analytics' />
-              </ListItem>
-            </Link>
-          </Fragment>
-        }
             {user.type.id === 1 
               ?  
               <Fragment>
@@ -184,7 +158,9 @@ const Menu = inject('user')(observer((props) => {
                           <ListItemText primary='Service Providers'/>
                       </ListItem>
                   </Link>
-              </Fragment> : <Fragment>
+
+              </Fragment>
+              : <Fragment>
                <Link to='/home/todos'
                  onClick={() => localStorage.setItem('currentRoute', '/home/allTodos')}
                  className={classes.link}>
@@ -211,22 +187,22 @@ const Menu = inject('user')(observer((props) => {
       <Divider />
       <List>
         <Link to='/home/settings'
-          onClick={() => localStorage.setItem('currentRoute', '/home/settings')}
-          className={classes.link}>
-          <ListItem button key='Analytics'>
-            <ListItemIcon>
-              <SettingsIcon />
-            </ListItemIcon>
-            <ListItemText primary='Settings' />
-          </ListItem>
-        </Link>
-        <ListItem button key={'Log Out'} onClick={handleLogout}>
-          <ListItemIcon>
-            <ExitToAppIcon />
-          </ListItemIcon>
-          <ListItemText primary={'Log Out'} />
-        </ListItem>
-      </List>
+            onClick={() => localStorage.setItem('currentRoute', '/home/settings')}
+            className={classes.link}>
+                <ListItem button key='Settings'>
+                    <ListItemIcon>
+                      <SettingsIcon />
+                    </ListItemIcon>
+                    <ListItemText primary='Settings'/>
+                </ListItem>
+          </Link>
+            <ListItem button key={'Log Out'} onClick={handleLogout}>
+                <ListItemIcon>
+                    <ExitToAppIcon />
+                </ListItemIcon>
+                <ListItemText primary={'Log Out'} />
+            </ListItem>
+        </List>
     </div>
   )
 

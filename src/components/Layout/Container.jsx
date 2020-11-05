@@ -14,13 +14,13 @@ import SettingComponent from '../settings/SettingComponent'
 import Todos from '../allTodos/AllTodos'
 
 const useStyles = makeStyles((theme) => ({
-    container: {
+    homeContainer: {
         padding: '20px',
         paddingBottom: '0px',
         height: '88vh',
         marginBottom: '10px',
         [theme.breakpoints.up('md')]: {
-            marginLeft: 350,
+            marginLeft: 160,
             paddingTop: '40px',
             padding: '30px',
             height: '90vh'

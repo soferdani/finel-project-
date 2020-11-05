@@ -75,10 +75,10 @@ export default class User {
             if (this.isAuthenticated && email) {
                 await this.loadUserDetails(email)
                 await this.loadUserProperties()
+                await this.loadUserServiceProviders()
+                await this.loadProperteisBooking()
                 await this.loadPropertiesWorkers()
                 await this.loadProperteisTodos()
-                await this.loadProperteisBooking()
-                await this.loadUserServiceProviders()
             }
             else {
                 this.isAuthenticated = false
@@ -143,9 +143,10 @@ export default class User {
     loadProperteisTodos = async () => {
         for (let property of this.properties) {
             let todoList = await UserService().getPropertyTodo(property.id)
-            todoList.forEach(todo => {
-                property.todoList.push(new Todo(todo))
-            })
+            todoList
+                .forEach(todo => {
+                    property.todoList.push(new Todo(todo))
+                })
         }
     };
 
@@ -182,7 +183,6 @@ export default class User {
     }
 
     getMostBookingForUser = async () => {
-        // console.log(this.id);
         const BookingSourceList = await UserService().getMostBookingAppetenceForUser(this.id)
         return BookingSourceList;
     }
@@ -269,7 +269,7 @@ export default class User {
         await UserService().addPropertyServiceWorker(propertyId, employeeId)
         const serviceWorker = this.serviceWorkers.find(w => w.id === employeeId)
         const property = this.properties.find(p => p.id === propertyId)
-        property.serviceWorkers.push(serviceWorker)
+        property.addServiceWorker(serviceWorker)
     }
 
     addNewBooking = async (bookingDetails) => {
@@ -411,6 +411,7 @@ export default class User {
     get todosCompleted() {
         let counter = 0
         for (let property of this.properties) {
+            console.log(property)
             for (let todo of property.todoList) {
                 if (todo.complete) {
                     counter++
