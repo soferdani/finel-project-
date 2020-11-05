@@ -25,6 +25,7 @@ export default class User {
         this.type = {id: null, type: null}
         this.properties = []
         this.serviceWorkers = []
+        this.allTodos = []
 
         makeObservable(this, {
             isAuthenticated: observable,
@@ -60,6 +61,7 @@ export default class User {
             deleteTodo: action,
             deleteServiceWorkerFromProperty: action,
             deleteServiceWorkerFromUser: action,
+            loadUserAllTodos: action,
             todosCompleted: computed,
             todosNotCompleted: computed,
             mostBookingApartment: computed
@@ -116,6 +118,15 @@ export default class User {
             this.properties.push(new Property(property))
         }
     };
+
+
+    loadUserAllTodos = async () => {
+        this.allTodos = [] //mybe not neccerry here
+        const userAllTodos = await UserService().loadAllTodosForNonMengerUser(this.id)
+        for (let todo of userAllTodos) {
+            this.allTodos.push(todo)
+        }
+    }
 
     loadPropertiesWorkers = async () => {
         for (let property of this.properties) {

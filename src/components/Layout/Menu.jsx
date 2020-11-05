@@ -31,6 +31,7 @@ import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { Link } from 'react-router-dom'
 import { inject, observer } from 'mobx-react'
 import logo from '../../HatchfulExport-All/logo_transparent_white.png'
+import BookIcon from '@material-ui/icons/Book';
 
 const drawerWidth = 200;
 
@@ -146,7 +147,7 @@ const Menu = inject('user')(observer((props) => {
             </Link>
 
             {user.type.id === 1 
-              && 
+              ?  
               <Fragment>
                 <Link to='/home/serviceproviders'
                   onClick={() => localStorage.setItem('currentRoute', '/home/serviceproviders')}
@@ -168,9 +169,20 @@ const Menu = inject('user')(observer((props) => {
                           <ListItemText primary='Analytics'/>
                       </ListItem>
                   </Link> 
-              </Fragment>
+              </Fragment> : <Fragment>
+               <Link to='/home/todos'
+                 onClick={() => localStorage.setItem('currentRoute', '/home/allTodos')}
+                 className={classes.link}>
+                     <ListItem button key='My Todo'>
+                         <ListItemIcon>
+                             <BookIcon />
+                         </ListItemIcon>
+                         <ListItemText primary='My Todo'/>
+                     </ListItem>
+                 </Link>
+             </Fragment> 
             }
-        </List>
+      </List>
       <Divider />
       <List>
         <Link to='/home/settings'
