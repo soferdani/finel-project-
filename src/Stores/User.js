@@ -9,6 +9,7 @@ import Property from '../Stores/Property'
 import ServiceWorkers from '../Stores/ServiceWorkers'
 import Booking from '../Stores/Booking'
 import UserService from '../Services/UserService'
+import moment from 'moment'
 
 
 export default class User {
@@ -286,7 +287,7 @@ export default class User {
     addNewMessage = (userId, message) => {
         const getter = this.serviceWorkers.find(sw => sw.id === userId)
         if(!getter.messages.some(m => m.id === message.id)){
-            getter.messages.push(message)
+            getter.messages.push({...message, date: moment().format()})
         }
     };
 
